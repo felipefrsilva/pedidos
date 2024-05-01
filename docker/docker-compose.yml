@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  pedido:
+    container_name: pedido
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    entrypoint: ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000", "-jar", "app.jar"]
