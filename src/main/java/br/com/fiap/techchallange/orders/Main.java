@@ -12,12 +12,14 @@ import java.math.BigDecimal;
 public class Main {
 
     public static void main(String[] args) {
-        Order order = FactoryOrder.getOrder();
-        MonetaryValue value = new MonetaryValue(new BigDecimal(35.00));
+        Order order = FactoryOrder.CreateOrder();
+        MonetaryValue value = new MonetaryValue(new BigDecimal("35.00"));
         Product product = new Product("123456","MC Lanche Feliz", "Hamburguer com queijo, salada especial e queijo", value, Category.Snack.getValue());
 
         Item item = new Item(product, 3);
         order.addItem(item);
-        System.out.printf("Valor do Pedido: R$ %.2f%n", order.getValorTotal());
+        System.out.printf("Item adicionado no Pedido. Valor do Pedido: R$ %.2f%n", order.getAmount());
+        order.removeItem(item);
+        System.out.printf("Item removido do Pedido. Valor do Pedido: R$ %.2f%n", order.getAmount());
     }
 }
