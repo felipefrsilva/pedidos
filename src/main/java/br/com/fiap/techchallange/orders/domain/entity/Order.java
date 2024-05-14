@@ -8,9 +8,13 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class Order {
 
+    @Getter
+    String id;
+    Integer orderId;
     List<Item> items;
     StatusOrder status;
     @Getter
@@ -18,6 +22,7 @@ public class Order {
     Payment payment;
 
     public Order(){
+        this.id = UUID.randomUUID().toString();
         this.items = new ArrayList<Item>();
         this.payment = FactoryPayment.getPayment();
         this.status = StatusOrder.OPEN;

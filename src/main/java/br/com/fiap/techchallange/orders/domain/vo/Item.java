@@ -41,7 +41,7 @@ public class Item {
     }
 
     private void setAmount() {
-        this.amount = product.getMonetaryValue() * quantity ;
+        this.amount = product.getMonetaryValue() / this.quantity ;
     }
 
     private void checkValue(Object object, String nameVariable){

@@ -1,12 +1,17 @@
 package br.com.fiap.techchallange.orders.domain.entity;
 
 import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
+import lombok.Getter;
 
 public class Product {
+    @Getter
     String sku;
+    @Getter
     String name;
+    @Getter
     String description;
     MonetaryValue monetaryValue;
+    @Getter
     String category;
 
     public Product(String sku, String name, String description, MonetaryValue monetaryValue, String category) {
@@ -17,26 +22,14 @@ public class Product {
         this.setCategory(category);
     }
 
-    public String getSku() {
-        return sku;
-    }
-
     private void setSku(String sku) {
         checkValue(sku, "sku");
         this.sku = sku;
     }
 
-    public String getName() {
-        return name;
-    }
-
     private void setName(String name) {
         checkValue(name, "name");
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     private void setDescription(String description) {
@@ -52,10 +45,6 @@ public class Product {
         this.monetaryValue = monetaryValue;
     }
 
-    public String getCategory() {
-        return this.category;
-    }
-
     private void setCategory(String category) {
         checkValue(category, "category");
         this.category = category;
@@ -68,4 +57,14 @@ public class Product {
             );
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "sku='" + sku + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", monetaryValue=" + monetaryValue.getValue() +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }
