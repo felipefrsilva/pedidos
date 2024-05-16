@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.application;
+package br.com.fiap.techchallange.orders.domain.service;
 
 import br.com.fiap.techchallange.infrastructure.factory.FactoryProductRepository;
 import br.com.fiap.techchallange.infrastructure.ports.out.repository.IProductRepository;
@@ -6,11 +6,11 @@ import br.com.fiap.techchallange.orders.domain.entity.Product;
 
 import java.util.List;
 
-public class ProductApplication {
+public class ServiceProductManagement {
 
     IProductRepository repository;
 
-    public ProductApplication() {
+    public ServiceProductManagement() {
         this.repository = FactoryProductRepository.create();
     }
 
@@ -23,7 +23,10 @@ public class ProductApplication {
         return this.repository.getProductBySku(sku);
     }
 
-    public Product getProductByName(String name) {
-        return this.repository.getProductByName(name);
+    public Product createProduct(Product product) {
+        return this.repository.createProduct(product);
     }
+    public Product updateProduct(Product product) {return  null;}
+    public void deleteProductBySku(String sku) {return;}
+
 }

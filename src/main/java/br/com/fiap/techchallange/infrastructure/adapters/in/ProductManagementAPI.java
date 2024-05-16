@@ -1,12 +1,9 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in;
 
-import br.com.fiap.techchallange.application.ProductApplication;
+import br.com.fiap.techchallange.orders.domain.service.ServiceProductManagement;
 import br.com.fiap.techchallange.infrastructure.ports.in.http.ProductManagement;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,33 +11,39 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductManagementAPI implements ProductManagement {
 
-    private final ProductApplication productApplication;
+    private final ServiceProductManagement productService;
 
     public ProductManagementAPI(){
-        productApplication =  new ProductApplication();
+        productService =  new ServiceProductManagement();
     }
 
     @Override
-    @GetMapping
+    @GetMapping("/product/list")
     public List<Product> getProducts() {
-        return productApplication.getProducts();
-    }
-
-    @GetMapping("/teste")
-    public String Hello(){
-        return "Hello World";
+        return productService.getProducts();
     }
 
     @Override
-    @GetMapping("/sku/{sku}")
+    @GetMapping("/product/{sku}")
     public Product getProductBySku(@PathVariable String sku) {
         System.out.println("sku");
-        return productApplication.getProductBySku(sku);
+        return productService.getProductBySku(sku);
     }
 
     @Override
-    @GetMapping("/name/{name}")
-    public Product getProductByName(@PathVariable String name) {
-        return productApplication.getProductByName(name);
+    @PostMapping("/product/create")
+    public Product createProduct(Product product) {
+        return this.productService.createProduct(product);
+    }
+
+    @Override
+    @PostMapping("/product/{sku}/edit")
+    public Product updateProduct(Product product) {
+        return null;
+    }
+
+    @Override
+    @PostMapping("/product/{sku}/remove")
+    public void deleteProductBySku(String sku) {
     }
 }
