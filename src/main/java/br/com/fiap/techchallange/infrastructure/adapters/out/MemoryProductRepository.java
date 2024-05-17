@@ -51,9 +51,9 @@ public class MemoryProductRepository implements IProductRepository {
     }
 
     @Override
-    public Product updateProduct(Product newProduct) {
+    public Product updateProduct(String sku, Product newProduct) {
         for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getSku().equals(newProduct.getSku())) {
+            if (products.get(i).getSku().equals(sku)) {
                 products.set(i, newProduct);
                 return newProduct;
             }

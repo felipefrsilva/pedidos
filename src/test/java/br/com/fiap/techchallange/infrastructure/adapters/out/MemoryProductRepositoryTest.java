@@ -2,7 +2,6 @@ package br.com.fiap.techchallange.infrastructure.adapters.out;
 
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -72,7 +71,7 @@ class MemoryProductRepositoryTest {
     void updateProduct() {
         MonetaryValue productPrice = new MonetaryValue(new BigDecimal("1.78"));
         Product _product = new Product("T002", "Test ice cream", "My new description", productPrice, "test");
-        Product product = this.memoryProductRepository.updateProduct(_product);
+        Product product = this.memoryProductRepository.updateProduct(_product.getSku(), _product);
         assertNotNull(product);
         assertEquals("T002", product.getSku());
         assertEquals("My new description", product.getDescription());
