@@ -1,6 +1,7 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in;
 
 import br.com.fiap.techchallange.application.ProductApplication;
+import br.com.fiap.techchallange.infrastructure.adapters.out.exception.MemorySkuAlreadyExists;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,12 @@ public class ProductManagementHTTP {
 
     @PostMapping("/product/create")
     public Product createProduct(@RequestBody ProductRequest productRequest) {
-        return this.productApplication.createProduct(productRequest);
+        try {
+            return this.productApplication.createProduct(productRequest);
+        } catch (MemorySkuAlreadyExists e) {
+            throw new RuntimeException("Product Already Exists");
+        }
+
     }
 
     @PutMapping("/product/{sku}/update")

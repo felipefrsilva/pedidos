@@ -14,6 +14,7 @@ public class Product {
     @Getter
     String category;
 
+    // TODO: Add image property
     public Product(String sku, String name, String description, MonetaryValue monetaryValue, String category) {
         this.setSku(sku);
         this.setName(name);

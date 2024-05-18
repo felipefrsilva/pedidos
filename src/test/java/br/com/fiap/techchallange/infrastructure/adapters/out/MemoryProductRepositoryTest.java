@@ -1,5 +1,6 @@
 package br.com.fiap.techchallange.infrastructure.adapters.out;
 
+import br.com.fiap.techchallange.infrastructure.adapters.out.exception.MemorySkuAlreadyExists;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +43,7 @@ class MemoryProductRepositoryTest {
     }
 
     @Test
-    void createProduct() {
+    void createProductReturnsCreatedProduct() throws MemorySkuAlreadyExists {
         MonetaryValue productPrice = new MonetaryValue(new BigDecimal("1.78"));
         Product product = new Product("T003", "Test ice cream", "My test item", productPrice, "test");
 
@@ -52,15 +53,26 @@ class MemoryProductRepositoryTest {
         assertEquals("T003", addedProduct.getSku());
     }
 
+
     @Test
-    void getProducts() {
+    void createProductWithExistingSKU() {
+        MonetaryValue productPrice = new MonetaryValue(new BigDecimal("1.78"));
+        Product product = new Product("T002", "Test ice tea", "My wrong item", productPrice, "test");
+
+        assertThrows(MemorySkuAlreadyExists.class, () -> {
+            this.memoryProductRepository.createProduct(product);
+        });
+    }
+
+    @Test
+    void getProductsReturnProductList() {
         List<Product> productList = this.memoryProductRepository.getProducts();
         assertNotNull(productList);
         assertEquals(2, productList.size());
     }
 
     @Test
-    void getProductBySku() {
+    void getProductBySkuReturnsRequestedProduct() {
         Product product = this.memoryProductRepository.getProductBySku("T001");
         assertNotNull(product);
         assertEquals("T001", product.getSku());
@@ -68,7 +80,7 @@ class MemoryProductRepositoryTest {
 
 
     @Test
-    void updateProduct() {
+    void updateProductModifiesProductAttributes() {
         MonetaryValue productPrice = new MonetaryValue(new BigDecimal("1.78"));
         Product _product = new Product("T002", "Test ice cream", "My new description", productPrice, "test");
         Product product = this.memoryProductRepository.updateProduct(_product.getSku(), _product);
@@ -78,7 +90,7 @@ class MemoryProductRepositoryTest {
     }
 
     @Test
-    void deleteProduct() {
+    void deleteProductRemovesProductFromList() {
         this.memoryProductRepository.deleteProduct("T001");
         assertNull(this.memoryProductRepository.getProductBySku("T001"));
     }

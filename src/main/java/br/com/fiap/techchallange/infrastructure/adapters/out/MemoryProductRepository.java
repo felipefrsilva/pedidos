@@ -1,5 +1,6 @@
 package br.com.fiap.techchallange.infrastructure.adapters.out;
 
+import br.com.fiap.techchallange.infrastructure.adapters.out.exception.MemorySkuAlreadyExists;
 import br.com.fiap.techchallange.infrastructure.ports.out.repository.IProductRepository;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 import br.com.fiap.techchallange.orders.domain.vo.Category;
@@ -45,7 +46,10 @@ public class MemoryProductRepository implements IProductRepository {
     }
 
     @Override
-    public Product createProduct(Product product) {
+    public Product createProduct(Product product) throws MemorySkuAlreadyExists {
+        if(this.getProductBySku(product.getSku()) != null) {
+            throw new MemorySkuAlreadyExists(product.getSku());
+        };
         this.products.add(product);
         return product;
     }
