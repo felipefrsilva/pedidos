@@ -46,10 +46,7 @@ public class MemoryProductRepository implements IProductRepository {
     }
 
     @Override
-    public Product createProduct(Product product) throws MemorySkuAlreadyExists {
-        if(this.getProductBySku(product.getSku()) != null) {
-            throw new MemorySkuAlreadyExists(product.getSku());
-        };
+    public Product createProduct(Product product){
         this.products.add(product);
         return product;
     }

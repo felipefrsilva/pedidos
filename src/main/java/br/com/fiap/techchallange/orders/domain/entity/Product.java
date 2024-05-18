@@ -10,6 +10,7 @@ public class Product {
     String name;
     @Getter
     String description;
+    @Getter
     MonetaryValue monetaryValue;
     @Getter
     String category;

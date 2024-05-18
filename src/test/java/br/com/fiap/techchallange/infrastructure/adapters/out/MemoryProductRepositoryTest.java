@@ -43,7 +43,7 @@ class MemoryProductRepositoryTest {
     }
 
     @Test
-    void createProductReturnsCreatedProduct() throws MemorySkuAlreadyExists {
+    void createProductReturnsCreatedProduct() {
         MonetaryValue productPrice = new MonetaryValue(new BigDecimal("1.78"));
         Product product = new Product("T003", "Test ice cream", "My test item", productPrice, "test");
 
