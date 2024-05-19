@@ -5,7 +5,9 @@ import br.com.fiap.techchallange.infrastructure.ports.in.http.IProductManagement
 import br.com.fiap.techchallange.infrastructure.ports.out.repository.IProductRepository;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 
+
 import java.util.List;
+
 
 // TODO: Validate if it's the application that must implement the ports
 public class ProductApplication implements IProductManagement {

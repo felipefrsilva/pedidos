@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping(path="/mysql/product")
 public class _ProductController {
+    private final _ProductRepository repository;
+
     @Autowired
-    private _ProductRepository repository;
+    public _ProductController(_ProductRepository repository) {
+        this.repository = repository;
+    }
 
     @PostMapping(path="/add")
     public @ResponseBody String addNewProduct(@RequestParam String name, @RequestParam String description) {

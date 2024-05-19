@@ -1,6 +1,7 @@
 package br.com.fiap.techchallange.infrastructure.factory;
 
 import br.com.fiap.techchallange.infrastructure.adapters.out.MemoryProductRepository;
+import br.com.fiap.techchallange.infrastructure.adapters.out.mysql.MySQLProductAdapter;
 import br.com.fiap.techchallange.infrastructure.ports.out.repository.IProductRepository;
 
 public class FactoryProductRepository {
@@ -12,8 +13,8 @@ public class FactoryProductRepository {
         switch (num) {
             case 1:
                 repository = new MemoryProductRepository();
+//                repository = new MySQLProductAdapter();
                 break;
-
             default:
                 System.out.println("Database not configuraded");
         }
