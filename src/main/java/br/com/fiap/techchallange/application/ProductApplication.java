@@ -1,6 +1,5 @@
 package br.com.fiap.techchallange.application;
 
-import br.com.fiap.techchallange.infrastructure.adapters.out.exception.MemorySkuAlreadyExists;
 import br.com.fiap.techchallange.infrastructure.factory.FactoryProductRepository;
 import br.com.fiap.techchallange.infrastructure.ports.in.http.IProductManagement;
 import br.com.fiap.techchallange.infrastructure.ports.out.repository.IProductRepository;

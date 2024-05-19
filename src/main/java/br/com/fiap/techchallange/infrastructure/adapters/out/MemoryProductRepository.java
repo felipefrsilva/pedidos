@@ -1,12 +1,8 @@
 package br.com.fiap.techchallange.infrastructure.adapters.out;
 
-import br.com.fiap.techchallange.infrastructure.adapters.out.exception.MemorySkuAlreadyExists;
 import br.com.fiap.techchallange.infrastructure.ports.out.repository.IProductRepository;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
-import br.com.fiap.techchallange.orders.domain.vo.Category;
-import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 

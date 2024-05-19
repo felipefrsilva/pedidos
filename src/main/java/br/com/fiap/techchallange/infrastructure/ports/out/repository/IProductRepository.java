@@ -1,6 +1,5 @@
 package br.com.fiap.techchallange.infrastructure.ports.out.repository;
 
-import br.com.fiap.techchallange.infrastructure.adapters.out.exception.MemorySkuAlreadyExists;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 
 import java.util.List;

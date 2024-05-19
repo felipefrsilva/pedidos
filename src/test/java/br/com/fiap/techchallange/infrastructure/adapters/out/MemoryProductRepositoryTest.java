@@ -1,6 +1,5 @@
 package br.com.fiap.techchallange.infrastructure.adapters.out;
 
-import br.com.fiap.techchallange.infrastructure.adapters.out.exception.MemorySkuAlreadyExists;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,17 +50,6 @@ class MemoryProductRepositoryTest {
 
         assertNotNull(addedProduct);
         assertEquals("T003", addedProduct.getSku());
-    }
-
-
-    @Test
-    void createProductWithExistingSKU() {
-        MonetaryValue productPrice = new MonetaryValue(new BigDecimal("1.78"));
-        Product product = new Product("T002", "Test ice tea", "My wrong item", productPrice, "test");
-
-        assertThrows(MemorySkuAlreadyExists.class, () -> {
-            this.memoryProductRepository.createProduct(product);
-        });
     }
 
     @Test
