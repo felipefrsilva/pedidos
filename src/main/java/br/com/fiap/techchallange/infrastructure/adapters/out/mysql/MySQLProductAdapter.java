@@ -5,22 +5,20 @@ import br.com.fiap.techchallange.infrastructure.ports.out.repository.IProductRep
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 import java.util.List;
 
 @Component
-//@Controller("mysql")
 public class MySQLProductAdapter implements IProductRepository {
 
-    private final MySQLProductCrudRepository crudRepository;
-
     @Autowired
-    public MySQLProductAdapter(MySQLProductCrudRepository crudRepository) {
-        this.crudRepository = crudRepository;
-    }
+    private MySQLProductCrudRepository crudRepository;
+
+//    @Autowired
+//    public MySQLProductAdapter(MySQLProductCrudRepository crudRepository) {
+//        this.crudRepository = crudRepository;
+//    }
 
     @Override
     public List<Product> getProducts() {
@@ -31,7 +29,7 @@ public class MySQLProductAdapter implements IProductRepository {
     }
 
     @Override
-    public Product getProductBySku(@PathVariable String sku) {
+    public Product getProductBySku(String sku) {
         MySQLProductEntity mySQLProductEntity = this.crudRepository.findBySku(sku);
         return mySQLProductEntity.toDomainEntity();
     }

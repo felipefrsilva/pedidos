@@ -12,8 +12,8 @@ public class FactoryProductRepository {
 
         switch (num) {
             case 1:
-                repository = new MemoryProductRepository();
-//                repository = new MySQLProductAdapter();
+//                repository = new MemoryProductRepository();
+                repository = new MySQLProductAdapter();
                 break;
             default:
                 System.out.println("Database not configuraded");

@@ -10,3 +10,5 @@ public interface MySQLProductCrudRepository extends CrudRepository<MySQLProductE
     @Query("from product a where a.sku=:sku")
     public MySQLProductEntity findBySku(String sku);
 }
+
+
