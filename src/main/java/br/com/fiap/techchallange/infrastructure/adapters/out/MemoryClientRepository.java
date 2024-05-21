@@ -13,8 +13,7 @@ public class MemoryClientRepository implements IClientRepository {
     @Override
     public Client addClient(String cpf, String name, String email) {
         CPFVo cpfVo = new CPFVo(cpf);
-        this.client.cpfVo = cpfVo;
-        return new Client();
+        return new Client(cpfVo, name, email);
     }
 
     @Override
