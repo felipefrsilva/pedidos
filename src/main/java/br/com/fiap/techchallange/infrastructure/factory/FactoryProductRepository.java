@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.infrastructure.factory;
 
-import br.com.fiap.techchallange.infrastructure.adapters.out.MemoryProductRepository;
-import br.com.fiap.techchallange.infrastructure.ports.out.repository.IProductRepository;
+import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
+import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryProductRepository;
 
 public class FactoryProductRepository {
 
@@ -13,7 +13,6 @@ public class FactoryProductRepository {
             case 1:
                 repository = new MemoryProductRepository();
                 break;
-
             default:
                 System.out.println("Database not configuraded");
         }

@@ -5,8 +5,15 @@ import br.com.fiap.techchallange.application.OrderApplication;
 import br.com.fiap.techchallange.application.dto.ItemOrderDTO;
 import br.com.fiap.techchallange.application.dto.OrderDTO;
 import br.com.fiap.techchallange.application.ports.in.http.IOrderManagement;
+import br.com.fiap.techchallange.application.ports.out.api.IGatewayPayment;
+import br.com.fiap.techchallange.application.ports.out.repository.IOrderRepository;
+import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
+import br.com.fiap.techchallange.infrastructure.factory.FactoryGatewayPayment;
+import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderRepository;
+import br.com.fiap.techchallange.infrastructure.factory.FactoryProductRepository;
 import com.google.zxing.WriterException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -18,13 +25,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/ordersmanagement/order")
-@Component
 public class OrderManagementHTTP implements IOrderManagement {
 
     OrderApplication orderApplication;
 
     public OrderManagementHTTP(){
-        orderApplication = new OrderApplication();
+        orderApplication = new OrderApplication(FactoryOrderRepository.create(), FactoryProductRepository.create(), FactoryGatewayPayment.create());
     }
 
     @PostMapping("/initializeservice")

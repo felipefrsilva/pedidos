@@ -1,7 +1,8 @@
 package br.com.fiap.techchallange.infrastructure.adapters.out;
 
-import br.com.fiap.techchallange.orders.domain.entity.Product;
-import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
+import br.com.fiap.techchallange.domain.entity.Product;
+import br.com.fiap.techchallange.domain.vo.MonetaryValue;
+import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,7 @@ class MemoryProductRepositoryTest {
                         "T001"
                         , "Test Burger"
                         , "My test item"
-                        , new MonetaryValue(new BigDecimal("1.78"))
+                        , new MonetaryValue(new BigDecimal("1.78")).getValue()
                         , "test"
                 )
         );
@@ -33,7 +34,7 @@ class MemoryProductRepositoryTest {
                         "T002"
                         , "Test Drink"
                         , "My test item"
-                        , new MonetaryValue(new BigDecimal("1.78"))
+                        , new MonetaryValue(new BigDecimal("1.78")).getValue()
                         , "test"
                 )
         );
@@ -44,7 +45,7 @@ class MemoryProductRepositoryTest {
     @Test
     void createProductReturnsCreatedProduct() {
         MonetaryValue productPrice = new MonetaryValue(new BigDecimal("1.78"));
-        Product product = new Product("T003", "Test ice cream", "My test item", productPrice, "test");
+        Product product = new Product("T003", "Test ice cream", "My test item", productPrice.getValue(), "test");
 
         Product addedProduct = this.memoryProductRepository.createProduct(product);
 
@@ -70,7 +71,7 @@ class MemoryProductRepositoryTest {
     @Test
     void updateProductModifiesProductAttributes() {
         MonetaryValue productPrice = new MonetaryValue(new BigDecimal("1.78"));
-        Product _product = new Product("T002", "Test ice cream", "My new description", productPrice, "test");
+        Product _product = new Product("T002", "Test ice cream", "My new description", productPrice.getValue(), "test");
         Product product = this.memoryProductRepository.updateProduct(_product.getSku(), _product);
         assertNotNull(product);
         assertEquals("T002", product.getSku());

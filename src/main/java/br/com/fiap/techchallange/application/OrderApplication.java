@@ -24,10 +24,14 @@ public class OrderApplication {
     IProductRepository repositoryProduct;
     IGatewayPayment gatewayPayment;
 
+    public OrderApplication(IOrderRepository repositoryOrder, IProductRepository repositoryProduct, IGatewayPayment gatewayPayment){
+        this.repositoryOrder = repositoryOrder;
+        this.repositoryProduct = repositoryProduct;
+        this.gatewayPayment = gatewayPayment;
+    }
+
     public OrderApplication(){
-        repositoryOrder = FactoryOrderRepository.create();
-        repositoryProduct = FactoryProductRepository.create();
-        gatewayPayment = FactoryGatewayPayment.create();
+
     }
 
     public String initializeService(){

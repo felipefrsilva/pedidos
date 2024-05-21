@@ -1,6 +1,5 @@
 package br.com.fiap.techchallange.domain.entity;
 
-import br.com.fiap.techchallange.domain.entity.Payment;
 import br.com.fiap.techchallange.domain.enums.MethodPayment;
 import org.junit.jupiter.api.Test;
 
