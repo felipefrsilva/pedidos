@@ -1,12 +1,12 @@
-package br.com.fiap.techchallange.infrastructure.adapters.in;
+package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 
-public record ProductDeserializer(String sku, String name, String description, float monetaryValue, String category) {
-    public ProductDeserializer(
+public record ProductRequestDTO(String sku, String name, String description, float monetaryValue, String category) {
+    public ProductRequestDTO(
             @JsonProperty("sku") String sku,
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
@@ -20,7 +20,7 @@ public record ProductDeserializer(String sku, String name, String description, f
         this.category = category;
     }
 
-    public ProductDeserializer(@NotNull Product product) {
+    public ProductRequestDTO(@NotNull Product product) {
         this(product.getSku(), product.getName(), product.getDescription(), product.getMonetaryValue(), product.getCategory());
     }
 }
