@@ -4,8 +4,10 @@ import br.com.fiap.techchallange.orders.domain.entity.Product;
 
 import java.util.List;
 
-public interface ProductManagement {
+public interface IProductManagement {
     public List<Product> getProducts();
     public Product getProductBySku(String sku);
-    public Product getProductByName(String name);
+    public Product createProduct(Product product);
+    public Product updateProduct(String sku, Product product);
+    public void deleteProduct(String sku);
 }

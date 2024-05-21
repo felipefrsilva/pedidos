@@ -23,7 +23,15 @@ public class ProductApplication {
         return this.repository.getProductBySku(sku);
     }
 
-    public Product getProductByName(String name) {
-        return this.repository.getProductByName(name);
+    public Product createProduct(Product product)  {
+        return this.repository.createProduct(product);
+    }
+
+    public Product updateProduct(String sku, Product product) {
+        return this.repository.updateProduct(sku, product);
+    }
+
+    public void deleteProduct(String sku) {
+        this.repository.deleteProduct(sku);
     }
 }

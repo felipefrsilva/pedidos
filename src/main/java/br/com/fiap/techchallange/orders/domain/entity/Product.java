@@ -10,10 +10,12 @@ public class Product {
     String name;
     @Getter
     String description;
+    @Getter
     MonetaryValue monetaryValue;
     @Getter
     String category;
 
+    // TODO: Add image property
     public Product(String sku, String name, String description, MonetaryValue monetaryValue, String category) {
         this.setSku(sku);
         this.setName(name);

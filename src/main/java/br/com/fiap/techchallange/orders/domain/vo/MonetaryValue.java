@@ -13,7 +13,7 @@ public class MonetaryValue {
 
     public MonetaryValue(BigDecimal amount) {
         this.setValue(amount);
-        this.setCurrency("Real");
+        this.setCurrency("BRL");
     }
 
     public float getValue() {

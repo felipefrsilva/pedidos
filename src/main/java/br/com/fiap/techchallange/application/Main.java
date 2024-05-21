@@ -6,7 +6,7 @@ import br.com.fiap.techchallange.orders.domain.entity.Order;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 import br.com.fiap.techchallange.orders.domain.factory.FactoryOrder;
 import br.com.fiap.techchallange.orders.domain.vo.Item;
-;
+
 
 public class Main {
 

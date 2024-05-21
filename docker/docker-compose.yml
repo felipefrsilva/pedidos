@@ -10,3 +10,28 @@ services:
       - "8080:8080"
       - "8000:8000"
     entrypoint: ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000", "-jar", "app.jar"]
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_username
+      MYSQL_PASSWORD: your_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  swagger:
+    image: swaggerapi/swagger-ui
+    container_name: swagger
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./docs/swagger:/usr/share/nginx/html/docs
+
+volumes:
+  mysql_data:
+  swagger-docs:

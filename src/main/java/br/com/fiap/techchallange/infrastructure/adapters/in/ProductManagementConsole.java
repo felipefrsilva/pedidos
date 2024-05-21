@@ -1,13 +1,13 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in;
 
 import br.com.fiap.techchallange.application.ProductApplication;
-import br.com.fiap.techchallange.infrastructure.ports.in.http.ProductManagement;
+import br.com.fiap.techchallange.infrastructure.ports.in.http.IProductManagement;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class ProductManagementConsole implements ProductManagement {
+public class ProductManagementConsole implements IProductManagement {
 
     private final ProductApplication productApplication;
 
@@ -43,10 +43,6 @@ public class ProductManagementConsole implements ProductManagement {
                     String sku = scanner.next();
                     System.out.println(main.getProductBySku(sku));
                     break;
-                case 3:
-                    String name = scanner.next();
-                    System.out.println(main.getProductByName(name));
-                    break;
                 case 0:
                     System.out.println("Saindo do programa...");
                     break;
@@ -72,7 +68,17 @@ public class ProductManagementConsole implements ProductManagement {
     }
 
     @Override
-    public Product getProductByName(String name) {
-        return productApplication.getProductByName(name);
+    public Product createProduct(Product product) {
+        return productApplication.createProduct(product);
+    }
+
+    @Override
+    public Product updateProduct(String sku, Product product) {
+        return productApplication.updateProduct(sku, product);
+    }
+
+    @Override
+    public void deleteProduct(String sku) {
+        productApplication.deleteProduct(sku);
     }
 }
