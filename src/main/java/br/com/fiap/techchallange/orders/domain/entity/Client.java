@@ -1,24 +1,22 @@
 package br.com.fiap.techchallange.orders.domain.entity;
 
-import br.com.fiap.techchallange.orders.domain.vo.CPFVo;
+import br.com.fiap.techchallange.orders.domain.vo.CPF;
+import lombok.Getter;
 
 public class Client {
-    public CPFVo cpfVo;
+    public CPF cpf;
+    @Getter
     private String name;
     private String email;
 
-    public Client(CPFVo cpf, String name, String email) {
-        this.cpfVo = cpf;
+    public Client(CPF cpf, String name, String email) {
+        this.cpf = cpf;
         this.name = name;
         this.email = email;
     }
 
-    public CPFVo getCpfVo() {
-        return cpfVo;
-    }
-
-    public String getName() {
-        return name;
+    public String getCpfVo() {
+        return cpf.getCpfValue();
     }
 
     public String getEmail() {

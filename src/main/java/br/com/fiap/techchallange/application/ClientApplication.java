@@ -4,6 +4,8 @@ import br.com.fiap.techchallange.infrastructure.factory.FactoryClientRepository;
 import br.com.fiap.techchallange.infrastructure.ports.out.repository.IClientRepository;
 import br.com.fiap.techchallange.orders.domain.entity.Client;
 
+import java.util.List;
+
 public class ClientApplication {
     IClientRepository repository;
 
@@ -13,6 +15,10 @@ public class ClientApplication {
 
     public Client addCLient(String cpf, String name, String email) {
         return this.repository.addClient(cpf, name, email);
+    }
+
+    public List<Client> getClients() {
+        return this.repository.getClients();
     }
 
 }
