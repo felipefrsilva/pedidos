@@ -4,25 +4,34 @@ services:
   pedido:
     container_name: pedido
     build:
-      context: ../
+      context: .
       dockerfile: docker/Dockerfile
+    depends_on:
+      - mysqldb
     ports:
       - "8080:8080"
       - "8000:8000"
+    networks:
+      - mysql-network
     entrypoint: ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000", "-jar", "app.jar"]
 
-  mysql:
-    image: mysql:latest
+  mysqldb:
+    image: mysql:8.0.33
     container_name: mysql
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: your_root_password
-      MYSQL_DATABASE: your_database_name
-      MYSQL_USER: your_username
-      MYSQL_PASSWORD: your_password
+      - MYSQL_DATABASE=pedido_database
+      - MYSQL_ROOT_PASSWORD=password
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
+    networks:
+      - mysql-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      retries: 10
+      interval: 3s
+      timeout: 30s
 
   swagger:
     image: swaggerapi/swagger-ui
@@ -33,5 +42,9 @@ services:
       - ./docs/swagger:/usr/share/nginx/html/docs
 
 volumes:
-  mysql_data:
+  mysql-data:
   swagger-docs:
+
+networks:
+  mysql-network:
+    name: mysql-network
