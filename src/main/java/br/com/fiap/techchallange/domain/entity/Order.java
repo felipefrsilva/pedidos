@@ -1,6 +1,5 @@
 package br.com.fiap.techchallange.domain.entity;
 
-import br.com.fiap.techchallange.application.dto.ItemDTO;
 import br.com.fiap.techchallange.domain.enums.StatusOrder;
 import br.com.fiap.techchallange.domain.factory.FactoryPayment;
 import br.com.fiap.techchallange.domain.vo.Item;
@@ -11,9 +10,9 @@ import java.util.*;
 public class Order {
 
     String id;
-    Integer orderId;
+    Integer numberOrder;
     Map<String,Item> items;
-    StatusOrder status;
+    String status;
     float amount;
     Payment payment;
 
@@ -21,12 +20,25 @@ public class Order {
         this.id = UUID.randomUUID().toString();
         this.items = new HashMap<String, Item>();
         this.payment = FactoryPayment.createPayment(this.id);
-        this.status = StatusOrder.OPEN;
+        this.status = StatusOrder.OPEN.getValue();
         this.amount  = 0;
     }
 
+    public Order(String id,
+                 HashMap<String,
+                 Item> items,
+                 Payment payment,
+                 String status,
+                 float amount){
+        this.id = id;
+        this.setItems(items);
+        this.payment = payment;
+        this.status = status;
+        this.amount = amount;
+    }
+
     public void addProduct(Product product, Integer qtd){
-        if (status.equals(StatusOrder.OPEN)) {
+        if (status.equals(StatusOrder.OPEN.getValue())) {
             int valueOld = 0;
 
             if( items.get(product.getSku()) != null){
@@ -44,7 +56,7 @@ public class Order {
     }
 
     public void removeProduct(String sku) {
-        if (status.equals(StatusOrder.OPEN)) {
+        if (status.equals(StatusOrder.OPEN.getValue())) {
             items.remove(sku);
             this.calculateAmount();
         }else{
@@ -60,7 +72,7 @@ public class Order {
     }
 
     public void addReadingCodePayment(String code){
-        if (status.equals(StatusOrder.OPEN)) {
+        if (status.equals(StatusOrder.OPEN.getValue())) {
             payment.addReadingCode(code);
         }else{
             handlerError("Payment");
@@ -68,9 +80,9 @@ public class Order {
     }
 
     public void processingPayment(String code){
-        if (status.equals(StatusOrder.OPEN)) {
+        if (status.equals(StatusOrder.OPEN.getValue())) {
             payment.addProcessingCode(code);
-            this.status = StatusOrder.RECEIVED;
+            this.status = StatusOrder.RECEIVED.getValue();
         }else{
             handlerError("Payment");
         }
@@ -112,6 +124,11 @@ public class Order {
     }
 
     public String getStatus() {
-        return status.getValue();
+        return status;
+    }
+
+    private void setItems(Map<String,Item> items){
+        this.items = items;
+        this.calculateAmount();
     }
 }

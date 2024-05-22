@@ -3,11 +3,24 @@ package br.com.fiap.techchallange.infrastructure.factory;
 import br.com.fiap.techchallange.application.ports.out.repository.IOrderRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryOrderRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLOrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FactoryOrderRepository{
 
-    public static IOrderRepository create(){
-        int num = 1;
+    private final ApplicationContext applicationContext;
+
+    @Autowired
+    public FactoryOrderRepository(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    public IOrderRepository create(){
+        int num = 2;
         IOrderRepository repository = null;
 
         switch (num) {
@@ -15,7 +28,7 @@ public class FactoryOrderRepository{
                 repository = MemoryOrderRepository.getInstance();
                     break;
             case 2:
-                repository = SpringContext.getBean(MySQLOrderRepository.class);
+                repository = applicationContext.getBean(MySQLOrderRepository.class);
                 break;
             default:
                 System.out.println("Database not configuraded");
@@ -23,4 +36,5 @@ public class FactoryOrderRepository{
 
         return repository;
     }
+
 }

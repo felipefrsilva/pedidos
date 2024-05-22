@@ -8,10 +8,8 @@ import br.com.fiap.techchallange.application.ports.out.repository.IOrderReposito
 import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
 import br.com.fiap.techchallange.domain.entity.Order;
 import br.com.fiap.techchallange.domain.entity.Product;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryGatewayPayment;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderRepository;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryProductRepository;
 import com.google.zxing.WriterException;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,13 +23,9 @@ public class OrderApplication {
     IGatewayPayment gatewayPayment;
 
     public OrderApplication(IOrderRepository repositoryOrder, IProductRepository repositoryProduct, IGatewayPayment gatewayPayment){
-        this.repositoryOrder = repositoryOrder;
-        this.repositoryProduct = repositoryProduct;
-        this.gatewayPayment = gatewayPayment;
-    }
-
-    public OrderApplication(){
-
+       this.repositoryOrder = repositoryOrder;
+       this.repositoryProduct = repositoryProduct;
+       this.gatewayPayment = gatewayPayment;
     }
 
     public String initializeService(){

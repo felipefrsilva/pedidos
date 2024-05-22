@@ -3,6 +3,8 @@ package br.com.fiap.techchallange.infrastructure.adapters.in;
 import br.com.fiap.techchallange.application.OrderApplication;
 import br.com.fiap.techchallange.application.dto.CodeProcessingDTO;
 import br.com.fiap.techchallange.application.ports.in.http.IWebHook;
+import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderApplication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -16,10 +18,13 @@ import java.util.Map;
 @Component
 public class WebHookMock implements IWebHook {
 
-    private final OrderApplication orderApplication;
+    private OrderApplication orderApplication;
+    FactoryOrderApplication factory;
 
-    public WebHookMock() {
-        this.orderApplication = new OrderApplication();
+    @Autowired
+    public void setFactory(FactoryOrderApplication factory) {
+        this.factory = factory;
+        this.orderApplication = factory.createOrderApplication();
     }
 
     @PostMapping("/ordersmanagement/order/processingPayment")
