@@ -6,6 +6,8 @@ services:
     build:
       context: ../
       dockerfile: docker/Dockerfile
+    depends_on:
+      - mysql  
     ports:
       - "8080:8080"
       - "8000:8000"
@@ -21,6 +23,7 @@ services:
       MYSQL_DATABASE: your_database_name
       MYSQL_USER: your_username
       MYSQL_PASSWORD: your_password
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
     volumes:
       - mysql_data:/var/lib/mysql
 
