@@ -4,6 +4,7 @@ import br.com.fiap.techchallange.application.ProductApplication;
 import br.com.fiap.techchallange.infrastructure.ports.in.http.IProductManagement;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
 import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,12 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductManagementHTTP implements IProductManagement {
 
-    private final ProductApplication productApplication;
+    @Autowired
+    private ProductApplication productApplication;
 
     public ProductManagementHTTP() {
         this.productApplication = new ProductApplication();
         System.out.println("ProductManagementHTTP initialized");
-
     }
 
     @GetMapping("/product/list")
