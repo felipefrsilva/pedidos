@@ -2,15 +2,8 @@ package br.com.fiap.techchallange.infrastructure.factory;
 
 import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryProductRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLOrderRepository;
-import org.springframework.stereotype.Component;
 
-@Component
-public class FactoryProductRepository {
-
-    public FactoryProductRepository(){
-
-    }
+public class FactoryPaymentRepository {
 
     public static IProductRepository create(){
         int num = 1;
@@ -21,7 +14,6 @@ public class FactoryProductRepository {
                 repository = new MemoryProductRepository();
                 break;
             default:
-
                 System.out.println("Database not configuraded");
         }
 
