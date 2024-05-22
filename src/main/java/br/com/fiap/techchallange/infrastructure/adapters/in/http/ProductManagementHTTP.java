@@ -1,9 +1,9 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
 import br.com.fiap.techchallange.application.ProductApplication;
-import br.com.fiap.techchallange.infrastructure.ports.in.http.IProductManagement;
-import br.com.fiap.techchallange.orders.domain.entity.Product;
-import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
+import br.com.fiap.techchallange.application.ports.in.http.IProductManagement;
+import br.com.fiap.techchallange.domain.entity.Product;
+import br.com.fiap.techchallange.domain.vo.MonetaryValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductManagementHTTP implements IProductManagement {
 
-    @Autowired
     private ProductApplication productApplication;
 
     public ProductManagementHTTP() {
@@ -46,7 +45,7 @@ public class ProductManagementHTTP implements IProductManagement {
     public ResponseEntity<ProductRequestDTO> createProductHTTP(@RequestBody ProductRequestDTO productDeserializer) {
         MonetaryValue monetaryValue = new MonetaryValue(BigDecimal.valueOf(productDeserializer.monetaryValue()));
         Product newProduct = new Product(
-                productDeserializer.sku(), productDeserializer.name(), productDeserializer.description(), monetaryValue, productDeserializer.category()
+                productDeserializer.sku(), productDeserializer.name(), productDeserializer.description(), monetaryValue.getValue(), productDeserializer.category()
         );
         this.createProduct(newProduct);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductRequestDTO(newProduct));
@@ -57,7 +56,7 @@ public class ProductManagementHTTP implements IProductManagement {
     public ResponseEntity<ProductRequestDTO> updateProductHTTP(@PathVariable String sku, @RequestBody ProductRequestDTO productDeserializer) {
         MonetaryValue monetaryValue = new MonetaryValue(BigDecimal.valueOf(productDeserializer.monetaryValue()));
         Product newProduct = new Product(
-                productDeserializer.sku(), productDeserializer.name(), productDeserializer.description(), monetaryValue, productDeserializer.category()
+                productDeserializer.sku(), productDeserializer.name(), productDeserializer.description(), monetaryValue.getValue(), productDeserializer.category()
         );
         this.updateProduct(sku, newProduct);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ProductRequestDTO(newProduct));
@@ -79,13 +78,13 @@ public class ProductManagementHTTP implements IProductManagement {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return this.productApplication.createProduct(product);
+    public void createProduct(Product product) {
+        this.productApplication.createProduct(product);
     }
 
     @Override
-    public Product updateProduct(String sku, Product product) {
-        return this.productApplication.updateProduct(sku, product);
+    public void updateProduct(String sku, Product product) {
+        this.productApplication.updateProduct(sku, product);
     }
 
     @Override

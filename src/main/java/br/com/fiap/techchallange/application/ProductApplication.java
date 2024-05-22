@@ -26,11 +26,11 @@ public class ProductApplication {
         repository.deleteProduct(sku);
     }
 
-    public Product createProduct(Product product) {
-        return repository.createProduct(product);
+    public void createProduct(Product product) {
+        repository.createProduct(product);
     }
 
-    public Product updateProduct(String sku, Product product) {
-        return repository.updateProduct(sku, product);
+    public void updateProduct(String sku, Product product) {
+        repository.updateProduct(sku, product);
     }
 }

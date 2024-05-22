@@ -66,4 +66,19 @@ public class ProductManagementConsole implements IProductManagement {
     public Product getProductBySku(String sku) {
         return productApplication.getProductBySku(sku);
     }
+
+    @Override
+    public void createProduct(Product product) {
+
+    }
+
+    @Override
+    public void updateProduct(String sku, Product product) {
+
+    }
+
+    @Override
+    public void deleteProduct(String sku) {
+
+    }
 }

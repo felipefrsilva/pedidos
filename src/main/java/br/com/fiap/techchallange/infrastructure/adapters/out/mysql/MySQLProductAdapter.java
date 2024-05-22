@@ -1,8 +1,8 @@
 package br.com.fiap.techchallange.infrastructure.adapters.out.mysql;
 
 
-import br.com.fiap.techchallange.infrastructure.ports.out.repository.IProductRepository;
-import br.com.fiap.techchallange.orders.domain.entity.Product;
+import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
+import br.com.fiap.techchallange.domain.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,20 +35,13 @@ public class MySQLProductAdapter implements IProductRepository {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        MySQLProductEntity mySQLProductEntity = new MySQLProductEntity();
-        mySQLProductEntity.setSku(product.getSku());
-        mySQLProductEntity.setName(product.getName());
-        mySQLProductEntity.setDescription(product.getDescription());
-        mySQLProductEntity.setMonetaryValue(product.getMonetaryValue());
-        mySQLProductEntity.setCategory(product.getCategory());
-        this.crudRepository.save(mySQLProductEntity);
-        return product;
+    public void createProduct(Product product) {
+
     }
 
     @Override
-    public Product updateProduct(String sku, Product product) {
-        return null;
+    public void updateProduct(String sku, Product product) {
+
     }
 
     @Override

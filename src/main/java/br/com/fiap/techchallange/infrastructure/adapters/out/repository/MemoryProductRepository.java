@@ -44,13 +44,13 @@ public class MemoryProductRepository implements IProductRepository {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return null;
+    public void createProduct(Product product) {
+
     }
 
     @Override
-    public Product updateProduct(String sku, Product product) {
-        return null;
+    public void updateProduct(String sku, Product product) {
+
     }
 
     @Override
