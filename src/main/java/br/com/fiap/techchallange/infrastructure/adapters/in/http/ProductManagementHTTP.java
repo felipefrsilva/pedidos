@@ -17,8 +17,10 @@ public class ProductManagementHTTP implements IProductManagement {
 
     private final ProductApplication productApplication;
 
-    public ProductManagementHTTP(){
-        productApplication =  new ProductApplication();
+    public ProductManagementHTTP() {
+        this.productApplication = new ProductApplication();
+        System.out.println("ProductManagementHTTP initialized");
+
     }
 
     @GetMapping("/product/list")
