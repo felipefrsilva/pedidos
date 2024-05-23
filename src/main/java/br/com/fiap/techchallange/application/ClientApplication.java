@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.application;
 
 import br.com.fiap.techchallange.infrastructure.factory.FactoryClientRepository;
-import br.com.fiap.techchallange.infrastructure.ports.out.repository.IClientRepository;
+import br.com.fiap.techchallange.application.ports.out.repository.IClientRepository;
 import br.com.fiap.techchallange.domain.entity.Client;
 
 public class ClientApplication {

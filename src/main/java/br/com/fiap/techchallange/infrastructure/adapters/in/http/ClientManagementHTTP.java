@@ -3,8 +3,6 @@ package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 import br.com.fiap.techchallange.application.ClientApplication;
 import br.com.fiap.techchallange.infrastructure.ports.in.http.ClientManagement;
 import br.com.fiap.techchallange.domain.entity.Client;
-import br.com.fiap.techchallange.orders.domain.entity.Product;
-import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,11 +37,5 @@ public class ClientManagementHTTP implements ClientManagement {
     public Client getClient(String cpf) {
         return this.clientApplication.getClient(cpf);
     }
-
-//    @Override
-//    @GetMapping("/client/all")
-//    public List<Client> getClients() {
-//        return clientApplication.getClients();
-//    }
 
 }

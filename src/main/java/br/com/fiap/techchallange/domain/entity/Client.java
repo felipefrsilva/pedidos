@@ -17,6 +17,10 @@ public class Client {
         return cpf.getCpfValue();
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getEmail() {
         return email;
     }

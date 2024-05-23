@@ -1,8 +1,7 @@
 package br.com.fiap.techchallange.infrastructure.adapters.out;
 
-import br.com.fiap.techchallange.infrastructure.ports.out.repository.IClientRepository;
+import br.com.fiap.techchallange.application.ports.out.repository.IClientRepository;
 import br.com.fiap.techchallange.domain.entity.Client;
-import br.com.fiap.techchallange.orders.domain.entity.Product;
 import br.com.fiap.techchallange.domain.vo.CPF;
 
 import java.util.ArrayList;
@@ -36,6 +35,7 @@ public class MemoryClientRepository implements IClientRepository {
                 return value;
             }
         }
+
         return null;
     }
 
