@@ -7,6 +7,6 @@ import java.util.List;
 public interface IClientRepository {
 
     public Client getClient(String cpf);
-    public Client addClient(String cpf, String name, String email);
-    public List<Client> getClients();
+    public void addClient(String cpf, String name, String email);
+//    public List<Client> getClients();
 }

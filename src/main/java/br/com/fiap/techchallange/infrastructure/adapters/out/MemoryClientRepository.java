@@ -23,9 +23,9 @@ public class MemoryClientRepository implements IClientRepository {
         clients.add(new Client((new CPF("12349078911")), "Gira Fales", "girafales@chaves.com"));
     }
     @Override
-    public Client addClient(String cpf, String name, String email) {
+    public void addClient(String cpf, String name, String email) {
         CPF cpfVo = new CPF(cpf);
-        return new Client(cpfVo, name, email);
+        this.clients.add(new Client(cpfVo, name, email));
     }
 
     @Override
@@ -37,11 +37,6 @@ public class MemoryClientRepository implements IClientRepository {
             }
         }
         return null;
-    }
-
-    @Override
-    public List<Client> getClients() {
-        return this.clients;
     }
 
 }
