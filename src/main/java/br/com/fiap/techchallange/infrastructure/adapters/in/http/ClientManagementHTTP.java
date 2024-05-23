@@ -2,17 +2,14 @@ package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
 import br.com.fiap.techchallange.application.ClientApplication;
 import br.com.fiap.techchallange.infrastructure.ports.in.http.ClientManagement;
-import br.com.fiap.techchallange.orders.domain.entity.Client;
+import br.com.fiap.techchallange.domain.entity.Client;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
-import br.com.fiap.techchallange.orders.domain.vo.CPF;
 import br.com.fiap.techchallange.orders.domain.vo.MonetaryValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController

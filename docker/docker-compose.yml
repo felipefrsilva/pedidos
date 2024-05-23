@@ -7,7 +7,7 @@ services:
       context: ../
       dockerfile: docker/Dockerfile
     depends_on:
-      - mysql  
+      - mysql
     ports:
       - "8080:8080"
       - "8000:8000"
@@ -19,11 +19,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: your_root_password
-      MYSQL_DATABASE: your_database_name
-      MYSQL_USER: your_username
-      MYSQL_PASSWORD: your_password
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: techchallange
+      MYSQL_DATABASE: RestauranteFiap
+      MYSQL_USER: root
+      MYSQL_PASSWORD: techchallange
     volumes:
       - mysql_data:/var/lib/mysql
 

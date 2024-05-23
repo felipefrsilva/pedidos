@@ -1,8 +1,8 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in;
 
 import br.com.fiap.techchallange.application.ProductApplication;
-import br.com.fiap.techchallange.infrastructure.ports.in.http.IProductManagement;
-import br.com.fiap.techchallange.orders.domain.entity.Product;
+import br.com.fiap.techchallange.application.ports.in.http.IProductManagement;
+import br.com.fiap.techchallange.domain.entity.Product;
 
 import java.util.List;
 import java.util.Scanner;
@@ -68,17 +68,17 @@ public class ProductManagementConsole implements IProductManagement {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return productApplication.createProduct(product);
+    public void createProduct(Product product) {
+
     }
 
     @Override
-    public Product updateProduct(String sku, Product product) {
-        return productApplication.updateProduct(sku, product);
+    public void updateProduct(String sku, Product product) {
+
     }
 
     @Override
     public void deleteProduct(String sku) {
-        productApplication.deleteProduct(sku);
+
     }
 }

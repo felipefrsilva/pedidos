@@ -1,9 +1,9 @@
 package br.com.fiap.techchallange.infrastructure.adapters.out;
 
 import br.com.fiap.techchallange.infrastructure.ports.out.repository.IClientRepository;
-import br.com.fiap.techchallange.orders.domain.entity.Client;
+import br.com.fiap.techchallange.domain.entity.Client;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
-import br.com.fiap.techchallange.orders.domain.vo.CPF;
+import br.com.fiap.techchallange.domain.vo.CPF;
 
 import java.util.ArrayList;
 import java.util.List;

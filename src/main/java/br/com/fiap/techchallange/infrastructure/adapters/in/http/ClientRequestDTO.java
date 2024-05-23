@@ -1,8 +1,7 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
-import br.com.fiap.techchallange.orders.domain.entity.Client;
+import br.com.fiap.techchallange.domain.entity.Client;
 import br.com.fiap.techchallange.orders.domain.entity.Product;
-import br.com.fiap.techchallange.orders.domain.vo.CPF;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
