@@ -38,3 +38,10 @@ CREATE TABLE IF NOT EXISTS dbtechchallange.payment (
     PRIMARY KEY (`id`),
     FOREIGN KEY (`order_id`) REFERENCES `order`(`id`)
 );
+
+CREATE TABLE IF NOT EXISTS dbtechchallange.client (
+    `cpf` VARCHAR(20) NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    PRIMARY KEY (`cpf`)
+);
