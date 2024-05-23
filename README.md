@@ -50,7 +50,7 @@ A docuemntação da API disponível em:
 ```localhost:8080/api/swagger-ui.html```
 
 <h3>Requisitos</h3>
-Acesse os requisitos do negócio (situação problema) através deste link.
+Acesse os requisitos do negócio (situação problema) através deste <a href="https://miro.com/app/board/uXjVKVOgiO0=/">link.</a>
 Lá, você encontrará um conjunto de artefatos que detalham o negócio, utilizando as práticas de DDD.
 
 <h2 id="colab">🤝 Colaboradores</h2>
