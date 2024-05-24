@@ -8,29 +8,30 @@ import java.util.List;
 
 public class ProductApplication {
 
-    IProductRepository repository;
+    IProductRepository productRepository;
 
-    public ProductApplication() {
-        this.repository = FactoryProductRepository.create();
+    public ProductApplication(IProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     public List<Product> getProducts() {
-        return this.repository.getProducts();
+        List<Product> productList = this.productRepository.getProducts();
+        return productList;
     }
 
     public Product getProductBySku(String sku) {
-        return this.repository.getProductBySku(sku);
+        return this.productRepository.getProductBySku(sku);
     }
 
     public void deleteProduct(String sku) {
-        repository.deleteProduct(sku);
+        productRepository.deleteProduct(sku);
     }
 
     public void createProduct(Product product) {
-        repository.createProduct(product);
+        productRepository.createProduct(product);
     }
 
     public void updateProduct(String sku, Product product) {
-        repository.updateProduct(sku, product);
+        productRepository.updateProduct(sku, product);
     }
 }

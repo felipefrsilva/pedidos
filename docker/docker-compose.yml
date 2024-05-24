@@ -21,7 +21,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: techchallange
       MYSQL_DATABASE: RestauranteFiap
-      MYSQL_USER: root
+      MYSQL_USER: testuser
       MYSQL_PASSWORD: techchallange
     volumes:
       - mysql_data:/var/lib/mysql
