@@ -1,8 +1,12 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
 import br.com.fiap.techchallange.application.ClientApplication;
+import br.com.fiap.techchallange.application.dto.ClientDTO;
+import br.com.fiap.techchallange.infrastructure.factory.FactoryClientApplication;
+import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderApplication;
 import br.com.fiap.techchallange.infrastructure.ports.in.http.ClientManagement;
 import br.com.fiap.techchallange.domain.entity.Client;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +17,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/clients")
 public class ClientManagementHTTP implements ClientManagement {
-    private final ClientApplication clientApplication;
+    private ClientApplication clientApplication;
+    FactoryClientApplication factory;
 
-    public ClientManagementHTTP() {
-         clientApplication = new ClientApplication();
+    @Autowired
+    public void setFactory(FactoryClientApplication factory) {
+        this.factory = factory;
+        this.clientApplication = factory.createClientApplication();
     }
 
     @PostMapping("/client/add")
@@ -34,7 +41,7 @@ public class ClientManagementHTTP implements ClientManagement {
     }
 
     @Override
-    public Client getClient(String cpf) {
+    public ClientDTO getClient(String cpf) {
         return this.clientApplication.getClient(cpf);
     }
 

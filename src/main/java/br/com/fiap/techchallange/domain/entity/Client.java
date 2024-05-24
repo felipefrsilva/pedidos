@@ -13,7 +13,7 @@ public class Client {
         this.email = email;
     }
 
-    public String getCpfVo() {
+    public String getCPF() {
         return cpf.getCpfValue();
     }
 

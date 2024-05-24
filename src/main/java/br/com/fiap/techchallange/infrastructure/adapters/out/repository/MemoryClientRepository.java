@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.infrastructure.adapters.out;
+package br.com.fiap.techchallange.infrastructure.adapters.out.repository;
 
 import br.com.fiap.techchallange.application.ports.out.repository.IClientRepository;
 import br.com.fiap.techchallange.domain.entity.Client;
@@ -10,6 +10,7 @@ import java.util.List;
 public class MemoryClientRepository implements IClientRepository {
 
     private Client client;
+    private static MemoryClientRepository instance;
 
     private final List<Client> clients;
     public MemoryClientRepository() {
@@ -21,6 +22,13 @@ public class MemoryClientRepository implements IClientRepository {
         clients.add(new Client((new CPF("89345678910")), "Pé Lé", "peleoficial@gmail.com"));
         clients.add(new Client((new CPF("12349078911")), "Gira Fales", "girafales@chaves.com"));
     }
+    public static synchronized MemoryClientRepository getInstance() {
+        if (instance == null) {
+            instance = new MemoryClientRepository();
+        }
+        return instance;
+    }
+
     @Override
     public void addClient(String cpf, String name, String email) {
         CPF cpfVo = new CPF(cpf);
