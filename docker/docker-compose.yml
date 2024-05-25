@@ -36,15 +36,5 @@ services:
       # Initialization SQL script for setting up the tables.
       # If you need to reinit the database:
       # docker compose down -v && docker compose up
-
-  swagger:
-    image: swaggerapi/swagger-ui
-    container_name: swagger
-    ports:
-      - "8081:8080"
-    volumes:
-      - ./docs/swagger:/usr/share/nginx/html/docs
-
 volumes:
   mysql_data:
-  swagger-docs:

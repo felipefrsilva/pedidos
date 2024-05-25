@@ -66,19 +66,19 @@ public class ProductManagementHTTP implements IProductManagement {
 
     }
 
-    @PutMapping("{sku}/update")
-    public ResponseEntity<ProductRequestDTO> updateProductHTTP(@PathVariable String sku, @RequestBody ProductRequestDTO productDTO) {
+    @PutMapping("/update")
+    public ResponseEntity<ProductRequestDTO> updateProductHTTP(@RequestBody ProductRequestDTO productDTO) {
 
         // Product does not exits
-        if (this.getProductBySku(sku) == null) {
+        if (this.getProductBySku(productDTO.sku()) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
         MonetaryValue monetaryValue = new MonetaryValue(BigDecimal.valueOf(productDTO.monetaryValue()));
         Product newProduct =new Product(
-                    sku, productDTO.name(), productDTO.description(), monetaryValue.getValue(), productDTO.category()
+                    productDTO.sku(), productDTO.name(), productDTO.description(), monetaryValue.getValue(), productDTO.category()
             );
-        this.updateProduct(sku, newProduct);
+        this.updateProduct(productDTO.sku(), newProduct);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ProductRequestDTO(newProduct));
     }
 
