@@ -25,6 +25,11 @@ public class ProductManagementHTTP implements IProductManagement {
         this.productApplication = factoryProductApplication.createProductApplication();
     }
 
+    @ExceptionHandler
+    public ResponseEntity<String> handleException(Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    }
+
     @GetMapping("/list")
     public ResponseEntity<List<ProductRequestDTO>> getProductsHTTP() {
         List<Product> productList = this.getProducts();
@@ -36,6 +41,8 @@ public class ProductManagementHTTP implements IProductManagement {
     @GetMapping("/{sku}")
     public ResponseEntity<ProductRequestDTO> getProductBySkuHTTP(@PathVariable String sku) {
         Product product = this.getProductBySku(sku);
+
+        // Product does not exists
         if (product == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -45,6 +52,11 @@ public class ProductManagementHTTP implements IProductManagement {
 
     @PostMapping("/create")
     public ResponseEntity<ProductRequestDTO> createProductHTTP(@RequestBody ProductRequestDTO productDTO) {
+
+        // Product already exists
+        if (this.getProductBySku(productDTO.sku()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        };
         MonetaryValue monetaryValue = new MonetaryValue(BigDecimal.valueOf(productDTO.monetaryValue()));
         Product newProduct = new Product(
                 productDTO.sku(), productDTO.name(), productDTO.description(), monetaryValue.getValue(), productDTO.category()
@@ -54,19 +66,30 @@ public class ProductManagementHTTP implements IProductManagement {
 
     }
 
-    @PutMapping("/{sku}/update")
+    @PutMapping("{sku}/update")
     public ResponseEntity<ProductRequestDTO> updateProductHTTP(@PathVariable String sku, @RequestBody ProductRequestDTO productDTO) {
+
+        // Product does not exits
+        if (this.getProductBySku(sku) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        };
+
         MonetaryValue monetaryValue = new MonetaryValue(BigDecimal.valueOf(productDTO.monetaryValue()));
-        Product newProduct = new Product(
-                productDTO.sku(), productDTO.name(), productDTO.description(), monetaryValue.getValue(), productDTO.category()
-        );
+        Product newProduct =new Product(
+                    sku, productDTO.name(), productDTO.description(), monetaryValue.getValue(), productDTO.category()
+            );
         this.updateProduct(sku, newProduct);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ProductRequestDTO(newProduct));
     }
 
     @PostMapping("/{sku}/remove")
-    public void deleteProductBySkuHTTP(@PathVariable String sku) {
+    public ResponseEntity deleteProductBySkuHTTP(@PathVariable String sku) {
+        // Product does not exits
+        if (this.getProductBySku(sku) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        };
         this.deleteProduct(sku);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
     @Override

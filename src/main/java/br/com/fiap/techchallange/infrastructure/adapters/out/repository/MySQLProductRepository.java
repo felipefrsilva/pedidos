@@ -59,13 +59,22 @@ public class MySQLProductRepository implements IProductRepository {
                 );
             }
         };
-        return namedParameterJdbcTemplate.queryForObject(sql, params, productRowMapper);
+
+        try {
+            Product product = namedParameterJdbcTemplate.queryForObject(sql, params, productRowMapper);
+            return product;
+        } catch (Exception e) {
+            System.out.println("Product " + sku + " not found");
+            return null;
+        }
     }
 
     @Transactional
     @Override
     public void createProduct(Product product) {
-        String sql = "INSERT INTO RestauranteFiap.product (sku, name, description, monetaryValue, category) VALUES (:sku, :name, :description, :monetaryValue, :category)";
+        String sql = "" +
+                " INSERT IGNORE INTO RestauranteFiap.product (sku, name, description, monetaryValue, category)" +
+                " VALUES (:sku, :name, :description, :monetaryValue, :category)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("sku", product.getSku());
         params.addValue("name", product.getName());
@@ -78,15 +87,17 @@ public class MySQLProductRepository implements IProductRepository {
     @Transactional
     @Override
     public void updateProduct(String sku, Product product) {
-        String sql = "UPDATE RestauranteFiap.product SET name=:name, description=:description, monetaryValue=:monetaryValue, category=:category WHERE sku=:sku";
+        String sql = "" +
+                " UPDATE RestauranteFiap.product" +
+                " SET name=:name, description=:description, monetaryValue=:monetaryValue, category=:category" +
+                " WHERE sku=:sku";
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("sku", product.getSku());
+        params.addValue("sku", sku);
         params.addValue("name", product.getName());
         params.addValue("description", product.getDescription());
         params.addValue("monetaryValue", product.getMonetaryValue());
         params.addValue("category", product.getCategory());
         namedParameterJdbcTemplate.update(sql, params);
-
     }
 
     @Transactional
