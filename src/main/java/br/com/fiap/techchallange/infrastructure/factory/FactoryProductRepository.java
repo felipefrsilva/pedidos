@@ -2,7 +2,6 @@ package br.com.fiap.techchallange.infrastructure.factory;
 
 import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryProductRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLOrderRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FactoryProductRepository {
-
+    // This component allows communication between adapters within the Application Service
     private final ApplicationContext applicationContext;
 
     @Autowired
@@ -28,10 +27,11 @@ public class FactoryProductRepository {
                 repository = new MemoryProductRepository();
                 break;
             case 2:
+                // Manually retrieving the bean for Spring's autowiring
                 repository = applicationContext.getBean(MySQLProductRepository.class);
                 break;
             default:
-                System.out.println("Database not configurated");
+                System.out.println("Database not configured");
         }
 
         return repository;

@@ -1,6 +1,5 @@
-package br.com.fiap.techchallange.orders;
+package br.com.fiap.techchallange;
 
-import br.com.fiap.techchallange.MainApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

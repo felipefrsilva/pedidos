@@ -4,8 +4,8 @@ import br.com.fiap.techchallange.application.ProductApplication;
 import br.com.fiap.techchallange.application.ports.in.http.IProductManagement;
 import br.com.fiap.techchallange.domain.entity.Product;
 import br.com.fiap.techchallange.domain.vo.MonetaryValue;
-import br.com.fiap.techchallange.infrastructure.factory.FacotryProductApplication;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryProductRepository;
+import br.com.fiap.techchallange.infrastructure.factory.FactoryProductApplication;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +21,12 @@ public class ProductManagementHTTP implements IProductManagement {
     private ProductApplication productApplication;
 
     @Autowired
-    public void setFactory(FacotryProductApplication factoryProductApplication) {
+    public void setFactory(@NotNull FactoryProductApplication factoryProductApplication) {
         this.productApplication = factoryProductApplication.createProductApplication();
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleException(Exception e) {
+    public ResponseEntity<String> handleException(@NotNull Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 
@@ -56,7 +56,7 @@ public class ProductManagementHTTP implements IProductManagement {
         // Product already exists
         if (this.getProductBySku(productDTO.sku()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-        };
+        }
         MonetaryValue monetaryValue = new MonetaryValue(BigDecimal.valueOf(productDTO.monetaryValue()));
         Product newProduct = new Product(
                 productDTO.sku(), productDTO.name(), productDTO.description(), monetaryValue.getValue(), productDTO.category()
@@ -72,7 +72,7 @@ public class ProductManagementHTTP implements IProductManagement {
         // Product does not exits
         if (this.getProductBySku(sku) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        };
+        }
 
         MonetaryValue monetaryValue = new MonetaryValue(BigDecimal.valueOf(productDTO.monetaryValue()));
         Product newProduct =new Product(
@@ -83,11 +83,11 @@ public class ProductManagementHTTP implements IProductManagement {
     }
 
     @PostMapping("/{sku}/remove")
-    public ResponseEntity deleteProductBySkuHTTP(@PathVariable String sku) {
+    public ResponseEntity<Object> deleteProductBySkuHTTP(@PathVariable String sku) {
         // Product does not exits
         if (this.getProductBySku(sku) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        };
+        }
         this.deleteProduct(sku);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }

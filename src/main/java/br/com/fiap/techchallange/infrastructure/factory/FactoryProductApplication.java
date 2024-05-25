@@ -8,11 +8,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FacotryProductApplication {
+public class FactoryProductApplication {
     private final ApplicationContext applicationContext;
 
     @Autowired
-    public FacotryProductApplication(ApplicationContext applicationContext) {
+    public FactoryProductApplication(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -28,10 +28,11 @@ public class FacotryProductApplication {
             case 1:
                 break;
             case 2:
+                // Manually retrieving the bean for Spring's autowiring
                 repository = applicationContext.getBean(MySQLProductRepository.class);
                 break;
             default:
-                System.out.println("Database not configurated");
+                System.out.println("Database not configured");
         }
         return repository;
     }

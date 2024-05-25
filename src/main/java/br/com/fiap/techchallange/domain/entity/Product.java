@@ -46,7 +46,7 @@ public class Product {
     }
 
     private void checkValue(String string, String nameVariable){
-        if(string == null || string == "")
+        if(string == null || string.isEmpty())
             throw new IllegalArgumentException(
                     nameVariable + " cannot be empty"
             );

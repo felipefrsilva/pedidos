@@ -1,6 +1,5 @@
 package br.com.fiap.techchallange.application;
 
-import br.com.fiap.techchallange.infrastructure.factory.FactoryProductRepository;
 import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
 import br.com.fiap.techchallange.domain.entity.Product;
 
@@ -8,7 +7,7 @@ import java.util.List;
 
 public class ProductApplication {
 
-    IProductRepository productRepository;
+    final IProductRepository productRepository;
 
     public ProductApplication(IProductRepository productRepository) {
         this.productRepository = productRepository;
