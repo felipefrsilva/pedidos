@@ -8,6 +8,11 @@ services:
       dockerfile: docker/Dockerfile
     depends_on:
       - mysql
+    # Healthcheck so the container is only started when the database is ready
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "mysql"]
+      timeout: 20s
+      retries: 10
     environment:
       SPRING_PROFILES_ACTIVE: prd
     ports:
@@ -27,6 +32,10 @@ services:
       MYSQL_PASSWORD: techchallange
     volumes:
       - mysql_data:/var/lib/mysql
+      - ../db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      # Initialization SQL script for setting up the tables.
+      # If you need to reinit the database:
+      # docker compose down -v && docker compose up
 
   swagger:
     image: swaggerapi/swagger-ui

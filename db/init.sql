@@ -8,12 +8,12 @@ CREATE TABLE IF NOT EXISTS RestauranteFiap.order (
 );
 
 CREATE TABLE IF NOT EXISTS RestauranteFiap.product (
-                                                       `sku` VARCHAR(255) NOT NULL,
-                                                       `name` VARCHAR(100) NOT NULL,
-                                                       `description` VARCHAR(255) NOT NULL,
-                                                       `category` VARCHAR(100) NOT NULL,
-                                                       `monetaryValue` DECIMAL(10, 2) NOT NULL,
-                                                       PRIMARY KEY (`sku`)
+   `sku` VARCHAR(255) NOT NULL,
+   `name` VARCHAR(100) NOT NULL,
+   `description` VARCHAR(255) NOT NULL,
+   `category` VARCHAR(100) NOT NULL,
+   `monetaryValue` DECIMAL(10, 2) NOT NULL,
+   PRIMARY KEY (`sku`)
 );
 
 CREATE TABLE IF NOT EXISTS RestauranteFiap.item (
