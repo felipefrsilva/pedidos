@@ -1,6 +1,8 @@
 package br.com.fiap.techchallange.application.dto;
 
-public class ItemOrderDTO {
+import java.io.Serializable;
+
+public class ItemOrderDTO implements Serializable {
 
     private String idOrder;
     private ItemDTO item;

@@ -1,39 +1,39 @@
-version: "3.9"
+version: '3.8'
 
 services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dbtechchallange
+      MYSQL_USER: turmafiap
+      MYSQL_PASSWORD: Tech@Challange#
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 60s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend
+
   pedido:
-    container_name: pedido
+    container_name: applicationOrder
     build:
       context: ../
       dockerfile: docker/Dockerfile
     depends_on:
-      - mysql
+      db:
+        condition: service_healthy
     ports:
       - "8080:8080"
-      - "8000:8000"
-    entrypoint: ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000", "-jar", "app.jar"]
+    command: ["dockerize", "-wait", "tcp://dbmysql:3306", "-timeout", "30s", "java", "-jar", "pedidos-0.0.1-SNAPSHOT.jar"]
+    networks:
+      - backend
 
-  mysql:
-    image: mysql:latest
-    container_name: mysql
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: techchallange
-      MYSQL_DATABASE: RestauranteFiap
-      MYSQL_USER: root
-      MYSQL_PASSWORD: techchallange
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-  swagger:
-    image: swaggerapi/swagger-ui
-    container_name: swagger
-    ports:
-      - "8081:8080"
-    volumes:
-      - ./docs/swagger:/usr/share/nginx/html/docs
-
-volumes:
-  mysql_data:
-  swagger-docs:
+networks:
+  backend:
+    driver: bridge

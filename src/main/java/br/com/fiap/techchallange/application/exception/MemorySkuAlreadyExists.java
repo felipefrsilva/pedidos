@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.infrastructure.adapters.out.exception;
+package br.com.fiap.techchallange.application.exception;
 // TODO: Validate if this is correct
 public class MemorySkuAlreadyExists extends Exception{
 

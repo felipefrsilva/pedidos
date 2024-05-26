@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.application;
+package br.com.fiap.techchallange.application.usecases;
 
 import br.com.fiap.techchallange.infrastructure.factory.FactoryProductRepository;
 import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;

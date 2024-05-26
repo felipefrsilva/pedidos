@@ -1,6 +1,8 @@
 package br.com.fiap.techchallange.domain.vo;
 
-public class ReadingCodePayment {
+import java.io.Serializable;
+
+public class ReadingCodePayment implements Serializable {
 
     private String code;
 

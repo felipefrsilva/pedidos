@@ -1,6 +1,8 @@
 package br.com.fiap.techchallange.domain.vo;
 
-public class CPF {
+import java.io.Serializable;
+
+public class CPF implements Serializable {
 
     public String number;
 

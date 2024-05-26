@@ -1,10 +1,12 @@
 package br.com.fiap.techchallange.application.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderDTO {
+public class OrderDTO implements Serializable {
 
     private String id;
+    private Integer numberOrder;
     private List<ItemDTO> items;
     private String status;
     private float amount = 0.0f;
@@ -22,16 +24,15 @@ public class OrderDTO {
         this.setAmount(amount);
     }
 
-    public OrderDTO(String idOrder, List<ItemDTO> itemsDTO, String status, float amount, String readingCode, String processingCode) {
+    public OrderDTO(String idOrder, Integer numberOrder, List<ItemDTO> itemsDTO, String status, float amount, String readingCode, String processingCode) {
         this.setId(idOrder);
+        this.setNumberOrder(numberOrder);
         this.setItems(itemsDTO);
         this.status = status;
         this.setAmount(amount);
         this.setReadingCode(readingCode);
         this.setProcessingCode(processingCode);
     }
-
-
 
     public String getId() {
         return id;
@@ -79,5 +80,13 @@ public class OrderDTO {
 
     private void setProcessingCode(String processingCode) {
         this.processingCode = processingCode;
+    }
+
+    public Integer getNumberOrder() {
+        return numberOrder;
+    }
+
+    private void setNumberOrder(Integer numberOrder) {
+        this.numberOrder = numberOrder;
     }
 }

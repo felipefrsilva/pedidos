@@ -1,6 +1,8 @@
 package br.com.fiap.techchallange.domain.vo;
 
-public class FullName {
+import java.io.Serializable;
+
+public class FullName implements Serializable {
 
     private String fullName;
 

@@ -12,4 +12,13 @@ public enum GatewayPayment {
     public String getValue(){
         return value;
     }
+
+    public static GatewayPayment fromValue(String value) {
+        for (GatewayPayment status : GatewayPayment.values()) {
+            if (status.getValue().equals(value)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Valor inválido: " + value);
+    }
 }

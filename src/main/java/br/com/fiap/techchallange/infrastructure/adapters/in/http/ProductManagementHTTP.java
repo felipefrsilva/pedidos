@@ -1,10 +1,9 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
-import br.com.fiap.techchallange.application.ProductApplication;
+import br.com.fiap.techchallange.application.usecases.ProductApplication;
 import br.com.fiap.techchallange.application.ports.in.http.IProductManagement;
 import br.com.fiap.techchallange.domain.entity.Product;
 import br.com.fiap.techchallange.domain.vo.MonetaryValue;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,17 +12,16 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("v1/products")
 public class ProductManagementHTTP implements IProductManagement {
 
     private ProductApplication productApplication;
 
     public ProductManagementHTTP() {
         this.productApplication = new ProductApplication();
-        System.out.println("ProductManagementHTTP initialized");
     }
 
-    @GetMapping("/product/list")
+    @GetMapping("/list")
     public ResponseEntity<List<ProductRequestDTO>> getProductsHTTP() {
         List<Product> productList = this.getProducts();
         List<ProductRequestDTO> response;
@@ -31,7 +29,7 @@ public class ProductManagementHTTP implements IProductManagement {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/product/{sku}")
+    @GetMapping("/{sku}")
     public ResponseEntity<ProductRequestDTO> getProductBySkuHTTP(@PathVariable String sku) {
         Product product = this.getProductBySku(sku);
         if (product == null) {

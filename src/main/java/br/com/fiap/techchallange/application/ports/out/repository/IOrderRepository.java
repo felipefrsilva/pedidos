@@ -4,7 +4,10 @@ import br.com.fiap.techchallange.domain.entity.Order;
 
 public interface IOrderRepository {
 
-    Order getOrder(String id);
-    void addOrder(Order order);
+    Order get(String id);
+    void create(Order order);
     void update(Order order);
+    void addProduct(Order order, String sku, Integer qtd);
+    void updatePayment(Order order);
+    void removeProduct(Order order, String sku);
 }

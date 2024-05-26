@@ -1,39 +1,39 @@
-package br.com.fiap.techchallange.infrastructure.adapters.in;
+package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
-
-import br.com.fiap.techchallange.application.OrderApplication;
 import br.com.fiap.techchallange.application.dto.ItemOrderDTO;
 import br.com.fiap.techchallange.application.dto.OrderDTO;
-import br.com.fiap.techchallange.application.ports.in.http.IOrderManagement;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryGatewayPayment;
+import br.com.fiap.techchallange.application.ports.in.http.IServiceOrder;
+import br.com.fiap.techchallange.application.usecases.ServiceOrderApplication;
+import br.com.fiap.techchallange.domain.exceptions.ChangeNotAllowedOrderException;
+import br.com.fiap.techchallange.infrastructure.exceptions.ErrorReturn;
 import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderApplication;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderRepository;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryProductRepository;
-import com.google.zxing.WriterException;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/ordersmanagement/order")
-public class OrderManagementHTTP implements IOrderManagement {
+@RequestMapping("/v1/service/orders")
+@Tag(name = "Service Order", description = "Endpoints de inicialização do pedido e escolha dos produtos")
+public class ServiceOrder implements IServiceOrder {
 
-    OrderApplication orderApplication;
+    ServiceOrderApplication serviceOrder;
     FactoryOrderApplication factory;
 
     @Autowired
     public void setFactory(FactoryOrderApplication factory) {
         this.factory = factory;
-        this.orderApplication = factory.createOrderApplication();
+        this.serviceOrder = factory.createOrderApplication();
     }
 
-    @PostMapping("/initializeservice")
+    @Operation(summary = "Cria o pedido para atendimento do cliente, e que irá acompanha-lo até a entrega do produto")
+    @PostMapping("/create")
     public ResponseEntity<Map<String, String>> initializeServiceResponse(){
         String idOrder = initializeService();
         Map<String, String> response = new HashMap<>();
@@ -41,7 +41,8 @@ public class OrderManagementHTTP implements IOrderManagement {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/id/{idOrder}")
+    @Operation(summary = "Consulta o status do pedido")
+    @GetMapping("/{idOrder}")
     public ResponseEntity<Map<String, OrderDTO>> getOrderResponse(@PathVariable String idOrder){
         OrderDTO order = getOrder(idOrder);
         Map<String, OrderDTO> response = new HashMap<>();
@@ -49,7 +50,8 @@ public class OrderManagementHTTP implements IOrderManagement {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/addProduct")
+    @Operation(summary = "Adiciona produtos no pedido")
+    @PostMapping("/product")
     public ResponseEntity<Map<String, String>> addProductToOrderResponse(@RequestBody ItemOrderDTO itemOrder){
         addProductToOrder(itemOrder.getIdOrder(), itemOrder.getItem().getSku(), itemOrder.getItem().getQtd());
         Map<String, String> response = new HashMap<>();
@@ -57,7 +59,8 @@ public class OrderManagementHTTP implements IOrderManagement {
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/removeProduct")
+    @Operation(summary = "Remove produtos do pedido")
+    @DeleteMapping("/product")
     public ResponseEntity<Map<String, String>> removeProductToOrderResponse(@RequestBody ItemOrderDTO itemOrder){
         removeProductToOrder(itemOrder.getIdOrder(), itemOrder.getItem().getSku());
         Map<String, String> response = new HashMap<>();
@@ -65,43 +68,30 @@ public class OrderManagementHTTP implements IOrderManagement {
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/finalizeservice")
-    public ResponseEntity<Map<String, String>> finalizeServiceResponse(@RequestBody OrderDTO order) {
-        try {
-            finalizeService(order.getId());
-        }catch (WriterException | IOException e){
-            Map<String, String> response = new HashMap<>();
-            response.put("status", "Ocorreu um erro na finalização do pedido. Erro=" + e.toString());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-
-        Map<String, String> response = new HashMap<>();
-        response.put("status", "Código de leitura gerado para pagamento.");
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    @ExceptionHandler(ChangeNotAllowedOrderException.class)
+    public ResponseEntity<ErrorReturn> handleChangeNotAllowedOrderException(ChangeNotAllowedOrderException ex) {
+        ErrorReturn error = new ErrorReturn(3256, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @Override
     public String initializeService() {
-        return orderApplication.initializeService();
+        return serviceOrder.initializeService();
     }
 
     @Override
     public void addProductToOrder(String idOrder, String sku, Integer qtd) {
-        orderApplication.addProductToOrder(idOrder, sku,qtd);
+        serviceOrder.addProductToOrder(idOrder, sku,qtd);
     }
 
     @Override
     public void removeProductToOrder(String idOrder, String sku) {
-        orderApplication.removeProductToOrder(idOrder, sku);
+        serviceOrder.removeProductToOrder(idOrder, sku);
     }
 
-    @Override
-    public void finalizeService(String idOrder) throws IOException, WriterException {
-            orderApplication.finalizeService(idOrder);
-    }
 
     @Override
     public OrderDTO getOrder(String idOrder) {
-        return orderApplication.getOrder(idOrder);
+        return serviceOrder.getOrder(idOrder);
     }
 }

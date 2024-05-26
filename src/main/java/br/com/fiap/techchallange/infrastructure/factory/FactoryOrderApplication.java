@@ -1,10 +1,12 @@
 package br.com.fiap.techchallange.infrastructure.factory;
 
-import br.com.fiap.techchallange.application.OrderApplication;
+import br.com.fiap.techchallange.application.usecases.ServiceOrderApplication;
 import br.com.fiap.techchallange.application.ports.out.api.IGatewayPayment;
+import br.com.fiap.techchallange.application.ports.out.api.IGenerateNumberOrder;
 import br.com.fiap.techchallange.application.ports.out.repository.IOrderRepository;
 import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.http.GatewayPaymentMock;
+import br.com.fiap.techchallange.infrastructure.adapters.out.http.GenerateNumberOrderMock;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryOrderRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryProductRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLOrderRepository;
@@ -22,8 +24,26 @@ public class FactoryOrderApplication {
         this.applicationContext = applicationContext;
     }
 
-    public OrderApplication createOrderApplication(){
-        return new OrderApplication(this.getOrderRepository(),this.getProductRepository(),this.getGatewayPayment());
+    public ServiceOrderApplication createOrderApplication(){
+        return new ServiceOrderApplication(this.getOrderRepository(),
+                                    this.getProductRepository(),
+                                    this.getGatewayPayment(),
+                                    this.getGenerateNumberOrder());
+    }
+
+    private IGenerateNumberOrder getGenerateNumberOrder() {
+        int num = 1;
+        IGenerateNumberOrder generateNumberOrder = null;
+
+        switch (num) {
+            case 1:
+                generateNumberOrder = new GenerateNumberOrderMock();
+                break;
+            default:
+                System.out.println("Database not configuraded");
+        }
+
+        return generateNumberOrder;
     }
 
     private IOrderRepository getOrderRepository(){

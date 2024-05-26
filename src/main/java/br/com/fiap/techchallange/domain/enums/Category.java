@@ -12,4 +12,13 @@ public enum Category {
     public String getValue(){
         return value;
     }
+
+    public static Category fromValue(String value) {
+        for (Category status : Category.values()) {
+            if (status.getValue().equals(value)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Valor inválido: " + value);
+    }
 }

@@ -1,6 +1,6 @@
-package br.com.fiap.techchallange.infrastructure.adapters.in;
+package br.com.fiap.techchallange.infrastructure.adapters.in.console;
 
-import br.com.fiap.techchallange.application.ProductApplication;
+import br.com.fiap.techchallange.application.usecases.ProductApplication;
 import br.com.fiap.techchallange.application.ports.in.http.IProductManagement;
 import br.com.fiap.techchallange.domain.entity.Product;
 

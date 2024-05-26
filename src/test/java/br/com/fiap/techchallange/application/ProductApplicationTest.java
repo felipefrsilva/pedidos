@@ -1,6 +1,7 @@
 package br.com.fiap.techchallange.application;
 
 import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
+import br.com.fiap.techchallange.application.usecases.ProductApplication;
 import br.com.fiap.techchallange.domain.entity.Product;
 import br.com.fiap.techchallange.domain.vo.MonetaryValue;
 import org.junit.jupiter.api.BeforeEach;

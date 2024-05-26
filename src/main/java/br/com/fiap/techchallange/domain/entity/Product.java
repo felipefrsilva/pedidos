@@ -2,10 +2,11 @@ package br.com.fiap.techchallange.domain.entity;
 
 import br.com.fiap.techchallange.domain.vo.MonetaryValue;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 
-public class Product {
+public class Product implements Serializable {
 
     String sku;
     String name;

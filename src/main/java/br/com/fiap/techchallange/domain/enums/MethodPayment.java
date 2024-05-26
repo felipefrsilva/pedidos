@@ -12,4 +12,13 @@ public enum MethodPayment{
     public String getValue(){
         return value;
     }
+
+    public static MethodPayment fromValue(String value) {
+        for (MethodPayment status : MethodPayment.values()) {
+            if (status.getValue().equals(value)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Valor inválido: " + value);
+    }
 }

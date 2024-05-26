@@ -1,8 +1,9 @@
 package br.com.fiap.techchallange.domain.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class MonetaryValue {
+public class MonetaryValue implements Serializable {
     private BigDecimal value;
     private String currency;
 

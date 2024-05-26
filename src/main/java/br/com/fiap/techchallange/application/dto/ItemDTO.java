@@ -1,6 +1,8 @@
 package br.com.fiap.techchallange.application.dto;
 
-public class ItemDTO {
+import java.io.Serializable;
+
+public class ItemDTO implements Serializable {
 
     private String sku;
     private float amount;

@@ -1,6 +1,8 @@
 package br.com.fiap.techchallange.application.dto;
 
-public class CodeProcessingDTO {
+import java.io.Serializable;
+
+public class CodeProcessingDTO implements Serializable {
     private String idOrder;
     private String code;
 

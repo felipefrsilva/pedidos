@@ -1,6 +1,8 @@
 package br.com.fiap.techchallange.domain.vo;
 
-public class ProcessingCodePayment {
+import java.io.Serializable;
+
+public class ProcessingCodePayment implements Serializable {
 
     private String code;
 

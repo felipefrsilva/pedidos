@@ -2,7 +2,9 @@ package br.com.fiap.techchallange.domain.vo;
 
 import br.com.fiap.techchallange.domain.entity.Product;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     Product product;
     Integer quantity;
@@ -50,4 +52,5 @@ public class Item {
     private void setAmount() {
         this.amount = product.getMonetaryValue() * this.quantity ;
     }
+
 }

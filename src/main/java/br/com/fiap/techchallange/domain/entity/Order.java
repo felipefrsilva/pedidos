@@ -1,13 +1,15 @@
 package br.com.fiap.techchallange.domain.entity;
 
 import br.com.fiap.techchallange.domain.enums.StatusOrder;
+import br.com.fiap.techchallange.domain.exceptions.ChangeNotAllowedOrderException;
 import br.com.fiap.techchallange.domain.factory.FactoryPayment;
 import br.com.fiap.techchallange.domain.vo.Item;
 
 
+import java.io.*;
 import java.util.*;
 
-public class Order {
+public class Order implements Serializable {
 
     String id;
     Integer numberOrder;
@@ -15,26 +17,40 @@ public class Order {
     String status;
     float amount;
     Payment payment;
+    Map<String, Integer> sequenceStatus;
 
     public Order(){
         this.id = UUID.randomUUID().toString();
+        this.numberOrder = 0;
         this.items = new HashMap<String, Item>();
         this.payment = FactoryPayment.createPayment(this.id);
         this.status = StatusOrder.OPEN.getValue();
         this.amount  = 0;
+        this.sequenceStatus = new HashMap<>();
+        loadSequenceStatus();
     }
 
     public Order(String id,
-                 HashMap<String,
-                 Item> items,
+                 Integer numberOrder,
+                 HashMap<String, Item> items,
                  Payment payment,
-                 String status,
-                 float amount){
+                 String status){
         this.id = id;
+        this.numberOrder = numberOrder;
         this.setItems(items);
         this.payment = payment;
         this.status = status;
-        this.amount = amount;
+        this.calculateAmount();
+        this.sequenceStatus = new HashMap<>();
+        loadSequenceStatus();
+    }
+
+    private void loadSequenceStatus(){
+        sequenceStatus.put(StatusOrder.OPEN.getValue(), 1);
+        sequenceStatus.put(StatusOrder.RECEIVED.getValue(), 2);
+        sequenceStatus.put(StatusOrder.INPREPARATION.getValue(), 3);
+        sequenceStatus.put(StatusOrder.READY.getValue(), 4);
+        sequenceStatus.put(StatusOrder.FINISHED.getValue(), 5);
     }
 
     public void addProduct(Product product, Integer qtd){
@@ -51,7 +67,7 @@ public class Order {
             this.calculateAmount();
 
         }else{
-            handlerError("Add Item");
+            throw new ChangeNotAllowedOrderException("Não é permitido adicionar produtos com o pagamento realizado.");
         }
     }
 
@@ -60,7 +76,7 @@ public class Order {
             items.remove(sku);
             this.calculateAmount();
         }else{
-            handlerError("Remove Item");
+            throw new ChangeNotAllowedOrderException("Não é permitido remover produtos com o pagamento realizado.");
         }
     }
 
@@ -75,7 +91,7 @@ public class Order {
         if (status.equals(StatusOrder.OPEN.getValue())) {
             payment.addReadingCode(code);
         }else{
-            handlerError("Payment");
+            throw new ChangeNotAllowedOrderException("Não é permitido adicionar o código de leitura com o pagamento realizado.");
         }
     }
 
@@ -84,14 +100,27 @@ public class Order {
             payment.addProcessingCode(code);
             this.status = StatusOrder.RECEIVED.getValue();
         }else{
-            handlerError("Payment");
+            throw new ChangeNotAllowedOrderException("Não é permitido adicionar o código de processamento com o pagamento realizado.");
         }
     }
 
-    private void handlerError(String operation){
-        throw new IllegalStateException(
-                operation + " cannot be processing, order status different of OPEN."
-        );
+    public void updateStatus(StatusOrder statusOrder) {
+
+        if(statusOrder.equals(StatusOrder.OPEN) || statusOrder.equals(StatusOrder.RECEIVED)){
+            throw new ChangeNotAllowedOrderException("Alteração de status não permitido");
+        }
+
+        if(sequenceStatus.get(status) > sequenceStatus.get(statusOrder.getValue())){
+            throw new ChangeNotAllowedOrderException("Sequencia do status do pedido violado");
+        }
+
+        this.status = statusOrder.getValue();
+    }
+
+    public void setNumberOrder(Integer numberOrder){
+        if (status.equals(StatusOrder.RECEIVED.getValue()) && this.numberOrder == 0) {
+            this.numberOrder = numberOrder;
+        }
     }
 
     public String getId() {
@@ -131,4 +160,69 @@ public class Order {
         this.items = items;
         this.calculateAmount();
     }
+
+    public Integer getNumberOrder() {
+        return this.numberOrder;
+    }
+
+    public Payment getPayment(){
+        return copyPayment(this.payment);
+    }
+
+    public Map<String,Item> getItems(){
+        Map<String,Item> copyItems = new HashMap<>();
+
+        for (Map.Entry<String, Item> item : items.entrySet()) {
+            copyItems.put(item.getKey(), copyItem(item.getValue()));
+        }
+
+        return copyItems;
+    }
+
+    public Item getItem(String sku){
+
+        for (Map.Entry<String, Item> item : items.entrySet()) {
+            if(item.getValue().getSKU().equals(sku)){
+                return copyItem(item.getValue());
+            }
+        }
+
+        return null;
+    }
+
+    private Payment copyPayment(Payment original) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(original);
+            oos.flush();
+            oos.close();
+            bos.close();
+
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bis);
+            return (Payment) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new IllegalStateException("Not found class Item for orderId " + this.id + " " + e.getMessage());
+        }
+    }
+
+    private Item copyItem(Item original) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(original);
+            oos.flush();
+            oos.close();
+            bos.close();
+
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bis);
+            return (Item) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new IllegalStateException("Not found class payment for orderId "  + this.id);
+        }
+    }
+
+
 }

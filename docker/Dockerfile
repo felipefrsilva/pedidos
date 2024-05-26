@@ -16,5 +16,3 @@ COPY --from=builder /tmp/app/target/*.jar app.jar
 RUN chmod +x app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
