@@ -4,10 +4,10 @@ public class CPF {
     private String cpfValue;
 
     public CPF(String cpfValue) throws IllegalArgumentException {
-        this.validaCPF(cpfValue);
+        this.checkCPFValue(cpfValue);
     }
 
-    public void validaCPF(String cpfValue) throws IllegalArgumentException{
+    public void checkCPFValue(String cpfValue) throws IllegalArgumentException{
         if (cpfValue != null) {
             if (cpfValue.equals("00000000000") || cpfValue.equals("11111111111") ||
                     cpfValue.equals("22222222222") || cpfValue.equals("33333333333") ||
@@ -27,7 +27,7 @@ public class CPF {
         }
 
         if (cpfValue == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("CPF é inválido!");
         } else {
             this.cpfValue = cpfValue;
         }

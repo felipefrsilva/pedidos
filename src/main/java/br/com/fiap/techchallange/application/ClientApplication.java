@@ -4,9 +4,12 @@ import br.com.fiap.techchallange.application.dto.ClientDTO;
 import br.com.fiap.techchallange.application.ports.out.repository.IClientRepository;
 import br.com.fiap.techchallange.domain.entity.Client;
 import br.com.fiap.techchallange.domain.vo.CPF;
+import br.com.fiap.techchallange.domain.vo.Email;
+import br.com.fiap.techchallange.domain.vo.Name;
 import org.springframework.dao.DataAccessException;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.InputMismatchException;
 
 public class ClientApplication {
     IClientRepository repository;
@@ -15,9 +18,11 @@ public class ClientApplication {
         this.repository = repository;
     }
 
-    public void addCLient(String cpf, String name, String email) throws DataAccessException, DataAccessException{
+    public void addCLient(String cpf, String name, String email) throws DataAccessException, IllegalArgumentException {
         CPF cpfVO = new CPF(cpf);
-        this.repository.addClient(cpfVO.getCpfValue(), name, email);
+        Name nameVO = new Name(name);
+        Email emailVO = new Email(email);
+        this.repository.addClient(cpfVO.getCpfValue(), nameVO.getNameValue(), emailVO.getEmailValue());
     }
 
     public ClientDTO getClient(String cpf) {

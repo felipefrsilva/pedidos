@@ -30,19 +30,17 @@ public class ClientManagementHTTP implements ClientManagement {
 
     @PostMapping("/client/add")
     public ResponseEntity<Map<String, String>> addClientHTTP(@RequestBody ClientRequestDTO clientDeserializer) throws DataAccessException {
+        Map<String, String> response = new HashMap<>();
         try {
             this.addClient(clientDeserializer.cpf(), clientDeserializer.name(), clientDeserializer.email());
         } catch (DataAccessException e) {
-            Map<String, String> response = new HashMap<>();
             response.put("status", "CPF já cadastrado na base de dados!");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         } catch (IllegalArgumentException e) {
-            Map<String, String> response = new HashMap<>();
-            response.put("status", "CPF inválido!");
+            response.put("status", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
-        Map<String, String> response = new HashMap<>();
         response.put("status", "Cliente cadastrado com sucesso!");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
