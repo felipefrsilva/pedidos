@@ -7,10 +7,12 @@ import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderApplication;
 import br.com.fiap.techchallange.infrastructure.ports.in.http.ClientManagement;
 import br.com.fiap.techchallange.domain.entity.Client;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +29,18 @@ public class ClientManagementHTTP implements ClientManagement {
     }
 
     @PostMapping("/client/add")
-    public ResponseEntity<Map<String, String>> addClientHTTP(@RequestBody ClientRequestDTO clientDeserializer) {
-        this.addClient(clientDeserializer.cpf(), clientDeserializer.name(), clientDeserializer.email());
+    public ResponseEntity<Map<String, String>> addClientHTTP(@RequestBody ClientRequestDTO clientDeserializer) throws DataAccessException {
+        try {
+            this.addClient(clientDeserializer.cpf(), clientDeserializer.name(), clientDeserializer.email());
+        } catch (DataAccessException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "CPF já cadastrado na base de dados!");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "CPF inválido!");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
 
         Map<String, String> response = new HashMap<>();
         response.put("status", "Cliente cadastrado com sucesso!");
@@ -36,13 +48,18 @@ public class ClientManagementHTTP implements ClientManagement {
     }
 
     @Override
-    public void addClient(String cpf, String name, String email) {
+    public void addClient(String cpf, String name, String email) throws DataAccessException, IllegalArgumentException {
         this.clientApplication.addCLient(cpf, name, email);
     }
 
     @Override
+    @GetMapping("/client")
     public ClientDTO getClient(String cpf) {
-        return this.clientApplication.getClient(cpf);
+        try {
+            return this.clientApplication.getClient(cpf);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
 }

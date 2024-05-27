@@ -2,7 +2,7 @@ package br.com.fiap.techchallange.infrastructure.factory;
 
 import br.com.fiap.techchallange.application.ClientApplication;
 import br.com.fiap.techchallange.application.ports.out.repository.IClientRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryClientRepository;
+//import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryClientRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -28,7 +28,7 @@ public class FactoryClientApplication {
 
         switch (num) {
             case 1:
-                repository = MemoryClientRepository.getInstance();
+                // repository = MemoryClientRepository.getInstance();
                 break;
             case 2:
                 repository = applicationContext.getBean(MySQLClientRepository.class);
