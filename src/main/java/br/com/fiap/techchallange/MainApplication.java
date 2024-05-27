@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 		                       "br.com.fiap.techchallange.infrastructure.config"} )
 public class MainApplication {
 	public static void main(String[] args) {
+		System.out.println("Environment: " + System.getenv("SPRING_PROFILES_ACTIVE"));
 		SpringApplication.run(MainApplication.class, args);
 	}
 }

@@ -1,28 +1,39 @@
 package br.com.fiap.techchallange.domain.vo;
 
-import java.io.Serializable;
+public class CPF {
+    private String cpfValue;
 
-public class CPF implements Serializable {
-
-    public String number;
-
-    public CPF(String number) {
-        this.setNumber(number);
+    public CPF(String cpfValue) throws IllegalArgumentException {
+        this.checkCPFValue(cpfValue);
     }
 
-    private void setNumber(String number) {
+    public void checkCPFValue(String cpfValue) throws IllegalArgumentException{
+        if (cpfValue != null) {
+            if (cpfValue.equals("00000000000") || cpfValue.equals("11111111111") ||
+                    cpfValue.equals("22222222222") || cpfValue.equals("33333333333") ||
+                    cpfValue.equals("44444444444") || cpfValue.equals("55555555555") ||
+                    cpfValue.equals("66666666666") || cpfValue.equals("77777777777") ||
+                    cpfValue.equals("88888888888") || cpfValue.equals("99999999999") ||
+                    (cpfValue.length() != 11)) {
 
-        if(number == null)
-            throw new IllegalArgumentException(
-                    "CPF cannot be empty"
-            );
+                cpfValue = null;
+            }
+            else if (!cpfValue.matches("\\d{11}")) {
+                cpfValue = null;
+            }
+            else if (cpfValue.matches(".*[a-z].*")) {
+                cpfValue = null;
+            }
+        }
 
-        // Incluir a lógica para validar se o CPF é Valido
-
-        this.number = number;
+        if (cpfValue == null) {
+            throw new IllegalArgumentException("CPF é inválido!");
+        } else {
+            this.cpfValue = cpfValue;
+        }
     }
 
-    public String getNumber() {
-        return number;
+    public String getCpfValue() {
+        return cpfValue;
     }
 }

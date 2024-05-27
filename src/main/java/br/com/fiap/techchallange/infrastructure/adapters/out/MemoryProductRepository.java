@@ -1,17 +1,16 @@
-package br.com.fiap.techchallange.infrastructure.adapters.out.repository;
+package br.com.fiap.techchallange.infrastructure.adapters.out;
 
-import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
 import br.com.fiap.techchallange.domain.entity.Product;
 import br.com.fiap.techchallange.domain.enums.Category;
 import br.com.fiap.techchallange.domain.vo.MonetaryValue;
-
+import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MemoryProductRepository implements IProductRepository {
 
-    List<Product> products;
+    private final List<Product> products;
 
     public MemoryProductRepository(){
         products = new ArrayList<Product>();
@@ -24,7 +23,8 @@ public class MemoryProductRepository implements IProductRepository {
         products.add(new Product("123456F", "Sorvete de Casquinha", "Sorvete de Casquinha com creme de nata e chocolate", new MonetaryValue(new BigDecimal("8.00")).getValue(), Category.Dessert.getValue()));
     }
 
-    public MemoryProductRepository(List<Product> productList) {
+    public MemoryProductRepository(List<Product> products) {
+        this.products = products;
     }
 
 
@@ -44,17 +44,21 @@ public class MemoryProductRepository implements IProductRepository {
     }
 
     @Override
-    public void createProduct(Product product) {
-
+    public void createProduct(Product product){
+        this.products.add(product);
     }
 
     @Override
-    public void updateProduct(String sku, Product product) {
-
+    public void updateProduct(String sku, Product newProduct) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getSku().equals(sku)) {
+                products.set(i, newProduct);
+            }
+        }
     }
 
     @Override
     public void deleteProduct(String sku) {
-
+        products.remove(this.getProductBySku(sku));
     }
 }
