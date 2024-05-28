@@ -1,5 +1,6 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
+import br.com.fiap.techchallange.application.dto.OrderIdDTO;
 import br.com.fiap.techchallange.application.dto.TrackerOrderDTO;
 import br.com.fiap.techchallange.application.ports.in.http.ITrackOrder;
 import br.com.fiap.techchallange.application.usecases.TrackerOrderApplication;
@@ -41,7 +42,7 @@ public class TrackerOrder implements ITrackOrder {
 
     @Operation(summary = "Coloca o pedido no status de preparação do produto")
     @PutMapping("/preparefood")
-    public ResponseEntity<Map<String, String>> prepareFoodResponse(@RequestBody TrackerOrderDTO trackerOrder){
+    public ResponseEntity<Map<String, String>> prepareFoodResponse(@RequestBody OrderIdDTO trackerOrder){
         prepareFood(trackerOrder.getOrderId());
         Map<String, String> response = new HashMap<>();
         response.put("status", "Pedido em preparação");
@@ -50,7 +51,7 @@ public class TrackerOrder implements ITrackOrder {
 
     @Operation(summary = "Coloca o pedido no status de preparação finalizada do produto")
     @PutMapping("/finishpreparation")
-    public ResponseEntity<Map<String, String>> finishpreParationResponse(@RequestBody TrackerOrderDTO trackerOrder){
+    public ResponseEntity<Map<String, String>> finishpreParationResponse(@RequestBody OrderIdDTO trackerOrder){
         finishPreparation(trackerOrder.getOrderId());
         Map<String, String> response = new HashMap<>();
         response.put("status", "Pedido pronto para entrega");
@@ -59,7 +60,7 @@ public class TrackerOrder implements ITrackOrder {
 
     @Operation(summary = "Coloca o pedido no status de finalizado após entregar o produto para o cliente")
     @PutMapping("/deliverFood")
-    public ResponseEntity<Map<String, String>> deliverFoodResponse(@RequestBody TrackerOrderDTO trackerOrder){
+    public ResponseEntity<Map<String, String>> deliverFoodResponse(@RequestBody OrderIdDTO trackerOrder){
         deliverFood(trackerOrder.getOrderId());
         Map<String, String> response = new HashMap<>();
         response.put("status", "Pedido Finalizado");
