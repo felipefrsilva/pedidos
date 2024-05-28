@@ -40,7 +40,7 @@ public class TrackerOrder implements ITrackOrder {
     }
 
     @Operation(summary = "Coloca o pedido no status de preparação do produto")
-    @PostMapping("/preparefood")
+    @PutMapping("/preparefood")
     public ResponseEntity<Map<String, String>> prepareFoodResponse(@RequestBody TrackerOrderDTO trackerOrder){
         prepareFood(trackerOrder.getOrderId());
         Map<String, String> response = new HashMap<>();
@@ -49,7 +49,7 @@ public class TrackerOrder implements ITrackOrder {
     }
 
     @Operation(summary = "Coloca o pedido no status de preparação finalizada do produto")
-    @PostMapping("/finishpreparation")
+    @PutMapping("/finishpreparation")
     public ResponseEntity<Map<String, String>> finishpreParationResponse(@RequestBody TrackerOrderDTO trackerOrder){
         finishPreparation(trackerOrder.getOrderId());
         Map<String, String> response = new HashMap<>();
@@ -58,7 +58,7 @@ public class TrackerOrder implements ITrackOrder {
     }
 
     @Operation(summary = "Coloca o pedido no status de finalizado após entregar o produto para o cliente")
-    @PostMapping("/deliverFood")
+    @PutMapping("/deliverFood")
     public ResponseEntity<Map<String, String>> deliverFoodResponse(@RequestBody TrackerOrderDTO trackerOrder){
         deliverFood(trackerOrder.getOrderId());
         Map<String, String> response = new HashMap<>();
