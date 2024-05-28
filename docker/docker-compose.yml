@@ -28,6 +28,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prd
     ports:
       - "8080:8080"
     command: ["dockerize", "-wait", "tcp://dbmysql:3306", "-timeout", "30s", "java", "-jar", "pedidos-0.0.1-SNAPSHOT.jar"]
