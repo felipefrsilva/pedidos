@@ -1,7 +1,8 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
-import br.com.fiap.techchallange.application.dto.ItemOrderDTO;
+import br.com.fiap.techchallange.application.dto.addOrderDTO;
 import br.com.fiap.techchallange.application.dto.OrderDTO;
+import br.com.fiap.techchallange.application.dto.removeOrderDTO;
 import br.com.fiap.techchallange.application.ports.in.http.IServiceOrder;
 import br.com.fiap.techchallange.application.usecases.ServiceOrderApplication;
 import br.com.fiap.techchallange.domain.exceptions.ChangeNotAllowedOrderException;
@@ -32,7 +33,7 @@ public class ServiceOrder implements IServiceOrder {
         this.serviceOrder = factory.createOrderApplication();
     }
 
-    @Operation(summary = "Cria o pedido para atendimento do cliente, e que irá acompanha-lo até a entrega do produto")
+    @Operation(summary = "Cria o pedido para atendimento do cliente, que irá acompanha-lo até a entrega do produto")
     @PostMapping("/create")
     public ResponseEntity<Map<String, String>> initializeServiceResponse(){
         String idOrder = initializeService();
@@ -51,9 +52,9 @@ public class ServiceOrder implements IServiceOrder {
     }
 
     @Operation(summary = "Adiciona produtos no pedido")
-    @PostMapping("/product")
-    public ResponseEntity<Map<String, String>> addProductToOrderResponse(@RequestBody ItemOrderDTO itemOrder){
-        addProductToOrder(itemOrder.getIdOrder(), itemOrder.getItem().getSku(), itemOrder.getItem().getQtd());
+    @PutMapping("/product")
+    public ResponseEntity<Map<String, String>> addProductToOrderResponse(@RequestBody addOrderDTO itemOrder){
+        addProductToOrder(itemOrder.getIdOrder(), itemOrder.getSku(), itemOrder.getQtd());
         Map<String, String> response = new HashMap<>();
         response.put("status", "Produto adicionado no pedido");
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
@@ -61,8 +62,8 @@ public class ServiceOrder implements IServiceOrder {
 
     @Operation(summary = "Remove produtos do pedido")
     @DeleteMapping("/product")
-    public ResponseEntity<Map<String, String>> removeProductToOrderResponse(@RequestBody ItemOrderDTO itemOrder){
-        removeProductToOrder(itemOrder.getIdOrder(), itemOrder.getItem().getSku());
+    public ResponseEntity<Map<String, String>> removeProductToOrderResponse(@RequestBody removeOrderDTO removeOrder){
+        removeProductToOrder(removeOrder.getIdOrder(), removeOrder.getSku());
         Map<String, String> response = new HashMap<>();
         response.put("status", "Produto removido do pedido");
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
