@@ -10,6 +10,7 @@ import br.com.fiap.techchallange.infrastructure.adapters.out.http.GenerateNumber
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryOrderRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryProductRepository;
 import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLOrderRepository;
+import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -80,12 +81,16 @@ public class FactoryOrderApplication {
     }
 
     private IProductRepository getProductRepository(){
-        int num = 1;
+        int num = 2;
         IProductRepository repository = null;
 
         switch (num) {
             case 1:
                 repository = new MemoryProductRepository();
+                break;
+            case 2:
+                // Manually retrieving the bean for Spring's autowiring
+                repository = applicationContext.getBean(MySQLProductRepository.class);
                 break;
             default:
 
