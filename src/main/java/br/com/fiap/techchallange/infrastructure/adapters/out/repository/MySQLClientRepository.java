@@ -27,7 +27,7 @@ public class MySQLClientRepository implements IClientRepository {
     }
 
     public Client getClient(String cpf) {
-        String sql = "SELECT * FROM RestauranteFiap.client where cpf = :cpf";
+        String sql = "SELECT * FROM dbtechchallange.client where cpf = :cpf";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("cpf", cpf);
         return namedParameterJdbcTemplate.queryForObject(sql, params, new RowMapper<Client>() {
@@ -42,7 +42,7 @@ public class MySQLClientRepository implements IClientRepository {
 
     @Override
     public void addClient(String cpf, String name, String email) throws DataAccessException {
-        String sql = "INSERT into RestauranteFiap.client (cpf, name, email) VALUES (:cpf, :name, :email)";
+        String sql = "INSERT into dbtechchallange.client (cpf, name, email) VALUES (:cpf, :name, :email)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("cpf", cpf);
         params.addValue("name", name);

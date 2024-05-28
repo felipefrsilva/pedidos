@@ -74,7 +74,7 @@ public class MySQLProductRepository implements IProductRepository {
     public void createProduct(Product product) {
         String sql = "" +
                 " INSERT IGNORE INTO dbtechchallange.product (sku, name, description, price, category)" +
-                " VALUES (:sku, :name, :description, :monetaryValue, :category)";
+                " VALUES (:sku, :name, :description, :price, :category)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("sku", product.getSku());
         params.addValue("name", product.getName());
