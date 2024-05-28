@@ -69,6 +69,26 @@ public class MySQLProductRepository implements IProductRepository {
         }
     }
 
+    @Override
+    public List<Product> getProductsByCategory(String category) {
+        String sql = "SELECT * FROM dbtechchallange.product WHERE category = :category";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("category", category);
+        RowMapper<Product> productRowMapper = new RowMapper<Product>() {
+            @Override
+            public Product mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
+                return new Product(
+                        rs.getString("sku"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getFloat("price"),
+                        rs.getString("category")
+                );
+            }
+        };
+        return namedParameterJdbcTemplate.query(sql, params, productRowMapper);
+    }
+
     @Transactional
     @Override
     public void createProduct(Product product) {

@@ -44,6 +44,11 @@ public class MemoryProductRepository implements IProductRepository {
     }
 
     @Override
+    public List<Product> getProductsByCategory(String category) {
+        return List.of();
+    }
+
+    @Override
     public void createProduct(Product product) {
 
     }

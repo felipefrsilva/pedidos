@@ -8,6 +8,7 @@ public interface IProductRepository {
 
     public List<Product> getProducts();
     public Product getProductBySku(String sku);
+    public List<Product> getProductsByCategory(String category);
     public void createProduct(Product product);
     public void updateProduct(String sku, Product product);
     public void deleteProduct(String sku);

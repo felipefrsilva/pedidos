@@ -44,6 +44,17 @@ public class MemoryProductRepository implements IProductRepository {
     }
 
     @Override
+    public List<Product> getProductsByCategory(String category) {
+        List<Product> productList = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getSku().equals(category)) {
+                productList.add(product);
+            }
+        }
+        return productList;
+    }
+
+    @Override
     public void createProduct(Product product){
         this.products.add(product);
     }

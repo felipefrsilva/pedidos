@@ -18,6 +18,10 @@ public class ProductApplication {
         return productList;
     }
 
+    public List<Product> getProductsByCategory(String category) {
+        return this.productRepository.getProductsByCategory(category);
+    }
+
     public Product getProductBySku(String sku) {
         return this.productRepository.getProductBySku(sku);
     }
