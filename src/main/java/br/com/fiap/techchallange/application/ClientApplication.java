@@ -7,9 +7,7 @@ import br.com.fiap.techchallange.domain.vo.CPF;
 import br.com.fiap.techchallange.domain.vo.Email;
 import br.com.fiap.techchallange.domain.vo.Name;
 import org.springframework.dao.DataAccessException;
-
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.InputMismatchException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 public class ClientApplication {
     IClientRepository repository;
@@ -25,7 +23,7 @@ public class ClientApplication {
         this.repository.addClient(cpfVO.getCpfValue(), nameVO.getNameValue(), emailVO.getEmailValue());
     }
 
-    public ClientDTO getClient(String cpf) {
+    public ClientDTO getClient(String cpf) throws EmptyResultDataAccessException {
         // Get Client from DataBase
         Client client = this.repository.getClient(cpf);
 

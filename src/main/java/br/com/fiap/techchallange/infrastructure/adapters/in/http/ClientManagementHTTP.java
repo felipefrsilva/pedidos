@@ -1,23 +1,23 @@
 package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
 import br.com.fiap.techchallange.application.ClientApplication;
-import br.com.fiap.techchallange.application.dto.ClientDTO;
 import br.com.fiap.techchallange.infrastructure.factory.FactoryClientApplication;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderApplication;
 import br.com.fiap.techchallange.infrastructure.ports.in.http.ClientManagement;
-import br.com.fiap.techchallange.domain.entity.Client;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/v1/clients")
+@Tag(name = "Service Client", description = "Endpoints de registro e busca de clientes por CPF")
 public class ClientManagementHTTP implements ClientManagement {
     private ClientApplication clientApplication;
     FactoryClientApplication factory;
@@ -28,7 +28,8 @@ public class ClientManagementHTTP implements ClientManagement {
         this.clientApplication = factory.createClientApplication();
     }
 
-    @PostMapping("/client/add")
+    @Operation(summary = "Cria o usuário na base de dados. CPF deve ser apenas números!")
+    @PostMapping("/create")
     public ResponseEntity<Map<String, String>> addClientHTTP(@RequestBody ClientRequestDTO clientDeserializer) throws DataAccessException {
         Map<String, String> response = new HashMap<>();
         try {
@@ -51,12 +52,15 @@ public class ClientManagementHTTP implements ClientManagement {
     }
 
     @Override
-    @GetMapping("/client")
-    public ClientDTO getClient(String cpf) {
+    @Operation(summary = "Busca o usuário pelo CPF na base de dados. Deve conter apenas números!")
+    @GetMapping("/{cpf}")
+    public ResponseEntity getClient(@PathVariable String cpf) throws EmptyResultDataAccessException {
+        Map<String, String> response = new HashMap<>();
         try {
-            return this.clientApplication.getClient(cpf);
-        } catch (Exception e) {
-            throw e;
+            return new ResponseEntity<>(this.clientApplication.getClient(cpf), HttpStatus.OK);
+        } catch (EmptyResultDataAccessException e) {
+            response.put("status", "Cliente não encontrado na base de dados");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 
