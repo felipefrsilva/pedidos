@@ -1,5 +1,6 @@
 package br.com.fiap.techchallange.domain.entity;
 
+import br.com.fiap.techchallange.domain.enums.Category;
 import br.com.fiap.techchallange.domain.vo.MonetaryValue;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ public class Product implements Serializable {
     String name;
     String description;
     MonetaryValue monetaryValue;
-    String category;
+    Category category;
 
     public Product(String sku, String name, String description, Float monetaryValue, String category) {
         this.setSku(sku);
@@ -43,7 +44,8 @@ public class Product implements Serializable {
 
     private void setCategory(String category) {
         checkValue(category, "category");
-        this.category = category;
+        Category.fromValue(category);
+        this.category = Category.fromValue(category);
     }
 
     private void checkValue(String string, String nameVariable){
@@ -70,7 +72,7 @@ public class Product implements Serializable {
     }
 
     public String getCategory() {
-        return category;
+        return category.getValue();
     }
 
 

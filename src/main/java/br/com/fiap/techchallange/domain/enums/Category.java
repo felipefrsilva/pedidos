@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.domain.enums;
 
 public enum Category {
-    Meal("Meal"), Sides("Sides"), Drink("Dink"), Dessert("Dessert");
+    Meal("Lanche"), Sides("Acompanhamento"), Drink("Bebida"), Dessert("Sobremesa");
 
     private final String value;
 
