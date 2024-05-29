@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/service/orders")
-@Tag(name = "Service Order", description = "Endpoints de inicialização do pedido e escolha dos produtos")
+@Tag(name = "3. Service Order", description = "Endpoints de inicialização do pedido e escolha dos produtos")
 public class ServiceOrder implements IServiceOrder {
 
     ServiceOrderApplication serviceOrder;

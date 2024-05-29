@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/tracker/orders")
-@Tag(name = "Tracker Order", description = "Endpoints de acompanhamento da preparação do produto.")
+@Tag(name = "5. Tracker Order", description = "Endpoints de acompanhamento da preparação do produto.")
 public class TrackerOrder implements ITrackOrder {
 
     TrackerOrderApplication trackerOrder;

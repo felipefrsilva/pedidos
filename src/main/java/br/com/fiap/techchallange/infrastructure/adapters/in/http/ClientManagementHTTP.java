@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/clients")
-@Tag(name = "Service Client", description = "Endpoints de registro e busca de clientes por CPF")
+@Tag(name = "2. Service Client", description = "Endpoints de registro e busca de clientes por CPF")
 public class ClientManagementHTTP implements ClientManagement {
     private ClientApplication clientApplication;
     FactoryClientApplication factory;

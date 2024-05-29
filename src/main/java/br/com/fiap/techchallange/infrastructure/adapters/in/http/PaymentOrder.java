@@ -22,7 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/payments")
-@Tag(name = "Payment Order", description = "Endpoints para pagamento do pedido.")
+@Tag(name = "4. Payment Order", description = "Endpoints para pagamento do pedido.")
 public class PaymentOrder implements IPaymentOrder {
 
     ServiceOrderApplication serviceOrder;
