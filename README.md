@@ -38,20 +38,30 @@ Como clonar o nosso projeto:
 git clone git@github.com:felipefrsilva/pedidos.git
 ```
 
-Como rodar o nosso projeto:
+Para rodar o projeto, verfique as versões do Docker e Docker Compose >= :
+- Docker version 26.1.3
+- Docker Compose version v2.27.0
+
 
 ```bash
-docker-compose up -d
+cd docker
+docker compose up -d
 ```
-Após finalizar o processo de configuração e a subida do container, acesse o endereço abaixo para visualizar a documentação da API:
-```localhost:8080/api```
+Após finalizar o processo de configuração e a subida do container, acesse o endereço abaixo para visualizar a documentação da API.
 <h3>Swagger</h3>
 A docuemntação da API disponível em:
-```localhost:8080/api/swagger-ui.html```
+```localhost:8080/swagger-ui.html```
+
+<h3>Ordem de execução</h3>
+- Product Menagement - Gerenciamento de produtos.
+- Service Client - Gerenciamento de clientes.
+- Service Order - Inicialização do pedido e escolha de produtos.
+- Payment Order - Pagamento do pedido.
+- Tracker Order - Acompanhamento da preparação do pedido.
 
 <h3>Requisitos</h3>
-Acesse os requisitos do negócio (situação problema) através deste <a href="https://miro.com/app/board/uXjVKVOgiO0=/">link.</a>
-Lá, você encontrará um conjunto de artefatos que detalham o negócio, utilizando as práticas de DDD.
+Acesse os requisitos do negócio (situação problema) através deste <a href="https://miro.com/app/board/uXjVMK9tIRA=/?share_link_id=369503759541">link</a>(MIRO).
+Lá, você encontrará um conjunto de artefatos que detalham o negócio, utilizando as práticas de DDD e o Event Storm.
 
 <h2 id="colab">🤝 Colaboradores</h2>
 
