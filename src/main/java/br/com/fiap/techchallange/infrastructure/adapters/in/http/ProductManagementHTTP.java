@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("v1/products")
-@Tag(name="2. Product Management", description = "Endpoints para gerenciamento de produtos")
+@Tag(name="1. Product Management", description = "Endpoints para gerenciamento de produtos")
 public class ProductManagementHTTP implements IProductManagement {
 
     private ProductApplication productApplication;
