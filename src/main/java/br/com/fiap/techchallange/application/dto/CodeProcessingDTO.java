@@ -8,7 +8,7 @@ public class CodeProcessingDTO implements Serializable {
 
     @Schema(name = "idOrder", example = "defa318d-d6e4-4184-8c15-9c50c446584f", required = true)
     private String idOrder;
-    @Schema(name = "code", example = "VMQ4DIQwETXXP4KcIfsozqEK8NiTRhavZgtUJGQ/FCtuc9CfJPfHRIYdAh9CQJqrQa5KY", required = true)
+    @Schema(name = "code", example = "VMQ4DIQwETXXP4KcIfsozqEK8NiTRhavZgtUJGQ/FCtuc9C", required = true)
     private String code;
 
     public CodeProcessingDTO(String idOrder, String code) {

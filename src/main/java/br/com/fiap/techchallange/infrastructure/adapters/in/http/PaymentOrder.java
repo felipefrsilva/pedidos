@@ -2,6 +2,7 @@ package br.com.fiap.techchallange.infrastructure.adapters.in.http;
 
 import br.com.fiap.techchallange.application.dto.CodeProcessingDTO;
 import br.com.fiap.techchallange.application.dto.OrderDTO;
+import br.com.fiap.techchallange.application.dto.OrderIdDTO;
 import br.com.fiap.techchallange.application.ports.in.http.IPaymentOrder;
 import br.com.fiap.techchallange.application.usecases.ServiceOrderApplication;
 import br.com.fiap.techchallange.domain.exceptions.ChangeNotAllowedOrderException;
@@ -35,9 +36,9 @@ public class PaymentOrder implements IPaymentOrder {
 
     @PostMapping("/initialize")
     @Operation(summary = "Inicializa o processo de pagamento obtendo o código de leitura para pagamento")
-    public ResponseEntity<Map<String, String>> finalizeServiceResponse(@RequestBody OrderDTO order) {
+    public ResponseEntity<Map<String, String>> finalizeServiceResponse(@RequestBody OrderIdDTO order) {
         try {
-            initializePayment(order.getId());
+            initializePayment(order.getOrderId());
         }catch (WriterException | IOException e){
             Map<String, String> response = new HashMap<>();
             response.put("status", "Ocorreu um erro na finalização do pedido. Erro=" + e.toString());
