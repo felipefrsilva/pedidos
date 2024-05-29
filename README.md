@@ -50,7 +50,9 @@ docker compose up -d
 Após finalizar o processo de configuração e a subida do container, acesse o endereço abaixo para visualizar a documentação da API.
 <h3>Swagger</h3>
 A docuemntação da API disponível em:
-```localhost:8080/swagger-ui.html```
+```bash
+localhost:8080/swagger-ui.html
+```
 
 <h3>Ordem de execução</h3>
 - Product Menagement - Gerenciamento de produtos.
