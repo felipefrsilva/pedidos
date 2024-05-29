@@ -56,6 +56,7 @@ localhost:8080/swagger-ui.html
 ```
 
 <h3>Ordem de execução</h3>
+
 - Product Menagement - Gerenciamento de produtos.
 - Service Client - Gerenciamento de clientes.
 - Service Order - Inicialização do pedido e escolha de produtos.
