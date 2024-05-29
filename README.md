@@ -42,14 +42,15 @@ Para rodar o projeto, verfique as versões do Docker e Docker Compose >= :
 - Docker version 26.1.3
 - Docker Compose version v2.27.0
 
-
 ```bash
 cd docker
 docker compose up -d
 ```
+
 Após finalizar o processo de configuração e a subida do container, acesse o endereço abaixo para visualizar a documentação da API.
 <h3>Swagger</h3>
 A docuemntação da API disponível em:
+
 ```bash
 localhost:8080/swagger-ui.html
 ```
