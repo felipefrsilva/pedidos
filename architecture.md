@@ -4,20 +4,12 @@
 ## Controllers
 ## Gateways (repositories)
 ## Presenters
-
 # Frameworks and Drivers
 ## Web
-    src/main/java/br/com/fiap/techchallange/infrastructure/adapters/out/http/*
 ## Database
-    src/main/java/br/com/fiap/techchallange/infrastructure/adapters/out/repository/*
 ## External Interfaces
 ## Devices
 ## UI
-
-
-DTOs
-Port Interfaces
-
 
 Estrutura de pastas do prof:
     - adapters:
