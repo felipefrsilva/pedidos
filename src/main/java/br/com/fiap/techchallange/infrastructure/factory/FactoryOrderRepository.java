@@ -1,12 +1,10 @@
 package br.com.fiap.techchallange.infrastructure.factory;
 
-import br.com.fiap.techchallange.application.ports.out.repository.IOrderRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryOrderRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLOrderRepository;
+import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
+import br.com.fiap.techchallange.infrastructure.bd.MemoryOrderRepository;
+import br.com.fiap.techchallange.infrastructure.bd.MySQLOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component

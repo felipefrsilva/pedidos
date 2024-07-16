@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.infrastructure.factory;
 
-import br.com.fiap.techchallange.application.ports.out.api.IGatewayPayment;
-import br.com.fiap.techchallange.infrastructure.adapters.out.http.GatewayPaymentMock;
+import br.com.fiap.techchallange.adapters.gateways.service.IGatewayPayment;
+import br.com.fiap.techchallange.infrastructure.service.GatewayPaymentMock;
 import org.springframework.stereotype.Component;
 
 @Component

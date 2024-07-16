@@ -1,16 +1,16 @@
 package br.com.fiap.techchallange.infrastructure.factory;
 
-import br.com.fiap.techchallange.application.usecases.ServiceOrderApplication;
-import br.com.fiap.techchallange.application.ports.out.api.IGatewayPayment;
-import br.com.fiap.techchallange.application.ports.out.api.IGenerateNumberOrder;
-import br.com.fiap.techchallange.application.ports.out.repository.IOrderRepository;
-import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.http.GatewayPaymentMock;
-import br.com.fiap.techchallange.infrastructure.adapters.out.http.GenerateNumberOrderMock;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryOrderRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryProductRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLOrderRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLProductRepository;
+import br.com.fiap.techchallange.core.usecase.ServiceOrderApplication;
+import br.com.fiap.techchallange.adapters.gateways.service.IGatewayPayment;
+import br.com.fiap.techchallange.adapters.gateways.service.IGenerateNumberOrder;
+import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
+import br.com.fiap.techchallange.adapters.gateways.repository.IProductRepository;
+import br.com.fiap.techchallange.infrastructure.service.GatewayPaymentMock;
+import br.com.fiap.techchallange.infrastructure.service.GenerateNumberOrderMock;
+import br.com.fiap.techchallange.infrastructure.bd.MemoryOrderRepository;
+import br.com.fiap.techchallange.infrastructure.bd.MemoryProductRepository;
+import br.com.fiap.techchallange.infrastructure.bd.MySQLOrderRepository;
+import br.com.fiap.techchallange.infrastructure.bd.MySQLProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,9 @@
 package br.com.fiap.techchallange.infrastructure.factory;
 
-import br.com.fiap.techchallange.application.usecases.ProductApplication;
-import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MySQLProductRepository;
+
+import br.com.fiap.techchallange.adapters.gateways.repository.IProductRepository;
+import br.com.fiap.techchallange.infrastructure.bd.MySQLProductRepository;
+import br.com.fiap.techchallange.core.usecase.ProductApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

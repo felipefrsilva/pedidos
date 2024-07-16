@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.infrastructure.factory;
 
-import br.com.fiap.techchallange.application.ports.out.repository.IProductRepository;
-import br.com.fiap.techchallange.infrastructure.adapters.out.repository.MemoryProductRepository;
+import br.com.fiap.techchallange.adapters.gateways.repository.IProductRepository;
+import br.com.fiap.techchallange.infrastructure.bd.MemoryProductRepository;
 
 public class FactoryPaymentRepository {
 
