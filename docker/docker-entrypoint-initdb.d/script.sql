@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS dbtechchallange.product (
     PRIMARY KEY (`sku`)
 );
 
-CREATE TABLE IF NOT EXISTS dbtechchallange.client (
+CREATE TABLE IF NOT EXISTS dbtechchallange.customer (
     `cpf` VARCHAR(20) NOT NULL,
     `name` VARCHAR(100) NOT NULL,
     `email` VARCHAR(100) NOT NULL,

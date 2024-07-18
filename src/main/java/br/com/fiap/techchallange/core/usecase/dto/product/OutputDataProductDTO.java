@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.core.usecase.dto.ordercreation;
+package br.com.fiap.techchallange.core.usecase.dto.product;
 
 public class OutputDataProductDTO {
 

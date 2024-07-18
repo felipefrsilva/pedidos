@@ -149,6 +149,37 @@ public class MySQLOrderRepository implements IOrderRepository {
         this.update(order);
     }
 
+    @Override
+    public Order getByOrderNumber(int order_number) {
+        String sql = "SELECT * FROM dbtechchallange.order WHERE number_order = :order_number";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("ordemId", order_number);
+
+        return namedParameterJdbcTemplate.queryForObject(sql, params, new RowMapper<Order>() {
+            @Override
+            public Order mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
+
+                return new Order(rs.getString("id"),
+                        rs.getInt("number_order"),
+                        rs.getString("status"));
+            }
+        });
+    }
+
+    @Override
+    public void updateStatusByOrderNumber(int number, String status) {
+        StringBuilder sql = new StringBuilder("UPDATE dbtechchallange.order SET ");
+        Map<String, Object> params = new HashMap<>();
+
+        sql.append("status = :status ");
+        params.put("status", status);
+
+        sql.append("WHERE id = :id");
+        params.put("number_order", number);
+
+        namedParameterJdbcTemplate.update(sql.toString(), params);
+    }
+
     @Transactional
     @Override
     public Order get(String ordemId) {

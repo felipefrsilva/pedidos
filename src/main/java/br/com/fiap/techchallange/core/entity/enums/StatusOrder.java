@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.core.entity.enums;
 
 public enum StatusOrder {
-    OPEN("Aberto"), RECEIVED("Recebido"), INPREPARATION("Em Preparação"), READY("Pronto"), FINISHED("Finalizado");
+    OPEN("Aberto"), RECEIVED("Recebido"), INPREPARATION("Em Preparação"), FINISHED("Finalizado"), FOODDONE("COMIDA PRONTA");
 
     private final String value;
 

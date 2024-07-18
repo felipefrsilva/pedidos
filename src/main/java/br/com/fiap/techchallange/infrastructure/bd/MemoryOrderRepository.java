@@ -56,4 +56,14 @@ public class MemoryOrderRepository implements IOrderRepository {
     public void removeProduct(Order order, String sku) {
         orders.put(order.getId(), order);
     }
+
+    @Override
+    public Order getByOrderNumber(int number) {
+        return null;
+    }
+
+    @Override
+    public void updateStatusByOrderNumber(int number, String status) {
+        return null;
+    }
 }

@@ -1,10 +1,10 @@
-package br.com.fiap.techchallange.core.usecase.dto.managementcustomer;
+package br.com.fiap.techchallange.core.usecase.dto.customer;
 
 public class OutputDataCustomerDTO {
     private String cpf, name, email;
 
     public OutputDataCustomerDTO(String cpf, String name, String email){
-        setCpf(cpf);
+        setCpf(cpf.replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4"));
         setEmail(email);
         setName(name);
     }

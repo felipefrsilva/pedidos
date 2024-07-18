@@ -1,6 +1,6 @@
 package br.com.fiap.techchallange.core.usecase.outputboundary.presenters;
 
-import br.com.fiap.techchallange.core.usecase.dto.managementcustomer.OutputDataCustomerDTO;
+import br.com.fiap.techchallange.core.usecase.dto.customer.OutputDataCustomerDTO;
 
 public interface ICustomerPresenter {
     CustomerResponseModel present(OutputDataCustomerDTO customerDTO);

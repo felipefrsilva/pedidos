@@ -15,17 +15,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class MySQLClientRepository implements ICustomerRepository {
+public class MySQLCustomerRepository implements ICustomerRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    public MySQLClientRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public MySQLCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public Customer getCustomer(String cpf) throws EmptyResultDataAccessException {
-        String sql = "SELECT * FROM dbtechchallange.client where cpf = :cpf";
+        String sql = "SELECT * FROM dbtechchallange.customer where cpf = :cpf";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("cpf", cpf);
         try {
@@ -44,7 +44,7 @@ public class MySQLClientRepository implements ICustomerRepository {
 
     @Override
     public void register(Customer customer) throws DataAccessException {
-        String sql = "INSERT into dbtechchallange.client (cpf, name, email) VALUES (:cpf, :name, :email)";
+        String sql = "INSERT into dbtechchallange.customer (cpf, name, email) VALUES (:cpf, :name, :email)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("cpf", customer.getCPF());
         params.addValue("name", customer.getName());
@@ -59,11 +59,29 @@ public class MySQLClientRepository implements ICustomerRepository {
 
     @Override
     public void changing(Customer customer) {
+        String sql = "UPDATE dbtechchallange.customer set name= :name, email= :email where cpf = :cpf";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("cpf", customer.getCPF());
+        params.addValue("name", customer.getName());
+        params.addValue("email", customer.getEmail());
 
+        try {
+            namedParameterJdbcTemplate.update(sql, params);
+        } catch (DataAccessException e) {
+            throw e;
+        }
     }
 
     @Override
     public void remove(String cpf) {
+        String sql = "DELETE from dbtechchallange.customer where cpf = :cpf";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("cpf", cpf);
 
+        try {
+            namedParameterJdbcTemplate.update(sql, params);
+        } catch (DataAccessException e) {
+            throw e;
+        }
     }
 }

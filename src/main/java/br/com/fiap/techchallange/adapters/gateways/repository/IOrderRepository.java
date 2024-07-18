@@ -10,4 +10,6 @@ public interface IOrderRepository {
     void updatePayment(Order order);
     void addProduct(Order order, String sku, Integer qtd);
     void removeProduct(Order order, String sku);
+    Order getByOrderNumber(int number);
+    void updateStatusByOrderNumber(int number, String status);
 }

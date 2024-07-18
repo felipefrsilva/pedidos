@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.core.usecase.dto.managementcustomer;
+package br.com.fiap.techchallange.core.usecase.dto.customer;
 
 public class InputDataCustomerDTO {
     private String cpf, name, email;
@@ -18,7 +18,7 @@ public class InputDataCustomerDTO {
     }
 
     private void setCpf(String cpf) {
-        this.cpf = cpf;
+        this.cpf = cpf.replaceAll("[.-]", "");;
     }
 
     public String getName() {

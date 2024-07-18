@@ -1,6 +1,6 @@
 package br.com.fiap.techchallange.infrastructure.dto;
 
-import br.com.fiap.techchallange.core.usecase.dto.managementcustomer.InputDataCustomerDTO;
+import br.com.fiap.techchallange.core.usecase.dto.customer.InputDataCustomerDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 

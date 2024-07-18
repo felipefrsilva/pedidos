@@ -3,7 +3,7 @@ package br.com.fiap.techchallange.core.usecase.ordercreation;
 
 import br.com.fiap.techchallange.adapters.gateways.repository.IProductRepository;
 import br.com.fiap.techchallange.core.entity.Product;
-import br.com.fiap.techchallange.core.usecase.dto.ordercreation.OutputDataProductDTO;
+import br.com.fiap.techchallange.core.usecase.dto.product.OutputDataProductDTO;
 import br.com.fiap.techchallange.core.usecase.inputboundary.ordercreation.IProductsDisplayUseCase;
 
 import java.util.ArrayList;

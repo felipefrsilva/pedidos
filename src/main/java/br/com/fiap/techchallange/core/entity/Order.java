@@ -56,6 +56,12 @@ public class Order implements Serializable {
         loadSequenceStatus();
     }
 
+    public Order(String id, int numberOrder, String status) {
+        this.id = id;
+        this.numberOrder = numberOrder;
+        this.status = status;
+    }
+
     private void loadSequenceStatus(){
         sequenceStatus.put(StatusOrder.OPEN.getValue(), 1);
         sequenceStatus.put(StatusOrder.RECEIVED.getValue(), 2);

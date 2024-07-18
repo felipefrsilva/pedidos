@@ -1,8 +1,8 @@
 package br.com.fiap.techchallange.core.usecase.managementcustomer;
 
 import br.com.fiap.techchallange.core.entity.Customer;
-import br.com.fiap.techchallange.core.usecase.dto.managementcustomer.InputDataCustomerDTO;
-import br.com.fiap.techchallange.core.usecase.dto.managementcustomer.OutputDataCustomerDTO;
+import br.com.fiap.techchallange.core.usecase.dto.customer.InputDataCustomerDTO;
+import br.com.fiap.techchallange.core.usecase.dto.customer.OutputDataCustomerDTO;
 import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IGetCustomerUserCase;
 import br.com.fiap.techchallange.adapters.gateways.repository.ICustomerRepository;
 

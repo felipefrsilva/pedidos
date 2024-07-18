@@ -3,7 +3,7 @@ package br.com.fiap.techchallange.core.usecase.ordercreation;
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
 import br.com.fiap.techchallange.core.entity.Order;
 import br.com.fiap.techchallange.core.entity.vo.Item;
-import br.com.fiap.techchallange.core.usecase.dto.ordercreation.InputDataOrderDTO;
+import br.com.fiap.techchallange.core.usecase.dto.order.InputDataOrderDTO;
 import br.com.fiap.techchallange.core.usecase.inputboundary.ordercreation.IFinishOrderSelectionUseCase;
 
 import java.util.HashMap;
