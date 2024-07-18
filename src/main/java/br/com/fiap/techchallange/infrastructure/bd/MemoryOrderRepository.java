@@ -59,11 +59,5 @@ public class MemoryOrderRepository implements IOrderRepository {
 
     @Override
     public Order getByOrderNumber(int number) {
-        return null;
-    }
-
-    @Override
-    public void updateStatusByOrderNumber(int number, String status) {
-        return null;
-    }
-}
+        return new Order();
+    }}

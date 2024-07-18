@@ -5,10 +5,10 @@ import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IChangi
 import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IGetCustomerController;
 import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IRegisterCustomerController;
 import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IRemovalOfCustomerController;
-import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IChangingCustomerUserCase;
-import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IGetCustomerUserCase;
-import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IRegisteringCustomerUserCase;
-import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IRemovalOfCustomerUserCase;
+import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IChangingCustomerUseCase;
+import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IGetCustomerUseCase;
+import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IRegisteringCustomerUseCase;
+import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IRemovalOfCustomerUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,22 +16,22 @@ import org.springframework.context.annotation.Configuration;
 public class CustomerControllerConfig {
 
     @Bean
-    public IGetCustomerController getCustomerController(IGetCustomerUserCase getCustomerUserCase){
+    public IGetCustomerController getCustomerController(IGetCustomerUseCase getCustomerUserCase){
         return new GetCustomerContoller(getCustomerUserCase);
     }
 
     @Bean
-    public IRegisterCustomerController getRegisterCustomerController(IRegisteringCustomerUserCase registerCustomerUserCase){
+    public IRegisterCustomerController getRegisterCustomerController(IRegisteringCustomerUseCase registerCustomerUserCase){
         return new RegisterCustomerController(registerCustomerUserCase);
     }
 
     @Bean
-    public IChangingCustomerController getChangingCustomer(IChangingCustomerUserCase changingCustomerUserCase){
+    public IChangingCustomerController getChangingCustomer(IChangingCustomerUseCase changingCustomerUserCase){
         return new ChangingCustomerController(changingCustomerUserCase);
     }
 
     @Bean
-    public IRemovalOfCustomerController getRemovalCustomerController(IRemovalOfCustomerUserCase removalOfCustomerUserCase){
+    public IRemovalOfCustomerController getRemovalCustomerController(IRemovalOfCustomerUseCase removalOfCustomerUserCase){
         return new RemovalOfCustomerController(removalOfCustomerUserCase);
     }
 }

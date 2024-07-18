@@ -6,6 +6,7 @@ import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.ICustome
 import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.IProductPresenter;
 import br.com.fiap.techchallange.infrastructure.dto.OrderRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/ordercreation")
+@Tag(name = "Order Creation", description = "Endpoints para a criação de pedido do cliente.")
 public class OrderCreation {
 
     IProductsDisplayController productsDisplayController;

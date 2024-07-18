@@ -17,6 +17,6 @@ public record ClientRequestDTO (String cpf, String name, String email){
     }
 
     public ClientRequestDTO(@NotNull InputDataCustomerDTO customerDTO) {
-        this(customerDTO.getCpf(), customerDTO.getName(), customerDTO.getEmail());
+        this(customerDTO.cpf(), customerDTO.name(), customerDTO.email());
     }
 }

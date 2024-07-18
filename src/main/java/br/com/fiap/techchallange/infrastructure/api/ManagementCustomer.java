@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/customers")
 @Tag(name = "2. Service Customer", description = "Endpoints para a Gestão do cadastro do cliente")
 public class ManagementCustomer  {
-    IRegisterCustomerController registerController;
+    IRegisterCustomerController registerCustomerController;
     IGetCustomerController getController;
-    IChangingCustomerController changingController;
-    IRemovalOfCustomerController removeController;
+    IChangingCustomerController changingCustomerController;
+    IRemovalOfCustomerController removeCustomerController;
     ICustomerPresenter customerPresenterJson;
 
     public ManagementCustomer(IRegisterCustomerController registerController,
@@ -31,10 +31,10 @@ public class ManagementCustomer  {
                               IChangingCustomerController changingController,
                               IRemovalOfCustomerController removeController
                               ){
-        this.registerController = registerController;
+        this.registerCustomerController = registerController;
         this.getController = getController;
-        this.changingController = changingController;
-        this.removeController = removeController;
+        this.changingCustomerController = changingController;
+        this.removeCustomerController = removeController;
         this.customerPresenterJson = customerPresenterJson;
     }
 
@@ -42,7 +42,7 @@ public class ManagementCustomer  {
     @PostMapping("/")
     public ResponseEntity<?> registerCustomer(@RequestBody ClientRequestDTO clientDeserializer) throws DataAccessException {
         try {
-            this.registerController.registerCustomer(clientDeserializer.cpf(), clientDeserializer.name(), clientDeserializer.email());
+            this.registerCustomerController.invoke(clientDeserializer.cpf(), clientDeserializer.name(), clientDeserializer.email());
         } catch (DataAccessException e) {
             return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel("CPF já cadastrado na base de dados!"), HttpStatus.NOT_FOUND);
         } catch (IllegalArgumentException e) {
@@ -55,7 +55,7 @@ public class ManagementCustomer  {
     @GetMapping("/{cpf}")
     public ResponseEntity<?> getCustomer(@PathVariable String cpf) throws EmptyResultDataAccessException {
         try {
-            ICustomerPresenter.CustomerResponseModel response = customerPresenterJson.present(this.getController.getCustomer(cpf));
+            ICustomerPresenter.CustomerResponseModel response = customerPresenterJson.present(this.getController.invoke(cpf));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel("Cliente não encontrado na base de dados"), HttpStatus.NOT_FOUND);
@@ -66,7 +66,7 @@ public class ManagementCustomer  {
     @PutMapping("/")
     public ResponseEntity<?> changingCustomer(@RequestBody ClientRequestDTO clientDeserializer) throws DataAccessException {
         try {
-            this.changingController.changingCustomer(clientDeserializer.cpf(), clientDeserializer.name(), clientDeserializer.email());
+            this.changingCustomerController.invoke(clientDeserializer.cpf(), clientDeserializer.name(), clientDeserializer.email());
         } catch (DataAccessException e) {
             return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel("Houve um problema na atualização das informações do cliente"), HttpStatus.NOT_FOUND);
         } catch (IllegalArgumentException e) {
@@ -79,7 +79,7 @@ public class ManagementCustomer  {
     @DeleteMapping("/{cpf}")
     public ResponseEntity<?> removceCustomer(@PathVariable String cpf) throws EmptyResultDataAccessException {
         try {
-            this.removeController.RemoveCustomer(cpf);
+            this.removeCustomerController.invoke(cpf);
             return new ResponseEntity<>("Dados do cliente removido com sucesso.", HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel("Houve um problema na remoção das informações do cliente."), HttpStatus.NOT_FOUND);

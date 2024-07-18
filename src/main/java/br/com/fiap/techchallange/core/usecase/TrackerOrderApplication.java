@@ -21,7 +21,7 @@ public class TrackerOrderApplication {
 
     public void finishPreparation(String orderId) {
         Order order = repositoryOrder.get(orderId);
-        order.updateStatus(StatusOrder.READY);
+        order.updateStatus(StatusOrder.FOODDONE);
         repositoryOrder.update(order);
     }
 

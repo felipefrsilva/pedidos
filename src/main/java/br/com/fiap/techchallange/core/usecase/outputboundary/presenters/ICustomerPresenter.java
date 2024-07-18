@@ -11,9 +11,9 @@ public interface ICustomerPresenter {
         private String email;
 
         public CustomerResponseModel(OutputDataCustomerDTO customerDTO){
-            this.setCpf(customerDTO.getCpf());
-            this.setName(customerDTO.getName());
-            this.setEmail(customerDTO.getEmail());
+            this.setCpf(customerDTO.cpf());
+            this.setName(customerDTO.name());
+            this.setEmail(customerDTO.email());
         }
 
         private void setCpf(String cpf) {

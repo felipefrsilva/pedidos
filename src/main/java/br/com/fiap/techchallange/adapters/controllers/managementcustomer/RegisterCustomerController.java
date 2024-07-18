@@ -1,17 +1,17 @@
 package br.com.fiap.techchallange.adapters.controllers.managementcustomer;
 
 import br.com.fiap.techchallange.core.usecase.dto.customer.InputDataCustomerDTO;
-import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IRegisteringCustomerUserCase;
+import br.com.fiap.techchallange.core.usecase.inputboundary.managementcustomer.IRegisteringCustomerUseCase;
 
 public class RegisterCustomerController implements IRegisterCustomerController {
 
-    IRegisteringCustomerUserCase registeringCustomerUserCase;
+    IRegisteringCustomerUseCase registeringCustomerUserCase;
 
-    public RegisterCustomerController(IRegisteringCustomerUserCase commandUserCase){
+    public RegisterCustomerController(IRegisteringCustomerUseCase commandUserCase){
         this.registeringCustomerUserCase = commandUserCase;
     }
 
-    public void registerCustomer(String cpf, String name, String email) {
+    public void invoke(String cpf, String name, String email) {
         registeringCustomerUserCase.invoke(new InputDataCustomerDTO(cpf, name, email));
     }
 

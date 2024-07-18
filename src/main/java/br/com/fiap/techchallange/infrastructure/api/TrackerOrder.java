@@ -40,24 +40,6 @@ public class TrackerOrder implements ITrackOrder {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "Coloca o pedido no status de preparação do produto")
-    @PutMapping("/preparefood")
-    public ResponseEntity<Map<String, String>> prepareFoodResponse(@RequestBody OrderIdDTO trackerOrder){
-        prepareFood(trackerOrder.getOrderId());
-        Map<String, String> response = new HashMap<>();
-        response.put("status", "Pedido em preparação");
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-    }
-
-    @Operation(summary = "Coloca o pedido no status de preparação finalizada do produto")
-    @PutMapping("/finishpreparation")
-    public ResponseEntity<Map<String, String>> finishpreParationResponse(@RequestBody OrderIdDTO trackerOrder){
-        finishPreparation(trackerOrder.getOrderId());
-        Map<String, String> response = new HashMap<>();
-        response.put("status", "Pedido pronto para entrega");
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-    }
-
     @Operation(summary = "Coloca o pedido no status de finalizado após entregar o produto para o cliente")
     @PutMapping("/deliverFood")
     public ResponseEntity<Map<String, String>> deliverFoodResponse(@RequestBody OrderIdDTO trackerOrder){

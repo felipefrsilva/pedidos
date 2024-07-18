@@ -1,10 +1,10 @@
 package br.com.fiap.techchallange.core.usecase.tracking;
 
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
+import br.com.fiap.techchallange.core.entity.Order;
 import br.com.fiap.techchallange.core.entity.enums.StatusOrder;
-import br.com.fiap.techchallange.core.usecase.inputboundary.tracking.IOrderUpdateStatusUseCase;
 
-public class OrderUpdateStatusUseCase implements IOrderUpdateStatusUseCase {
+public class OrderUpdateStatusUseCase implements IEventListenerOrder {
 
     private final IOrderRepository orderRepository;
 
@@ -13,26 +13,26 @@ public class OrderUpdateStatusUseCase implements IOrderUpdateStatusUseCase {
     }
 
     @Override
-    public void invoke(int number, String eventProcessing) {
-        String status = getStatus(eventProcessing);
-        this.orderRepository.updateStatusByOrderNumber(number, status);
+    public void onEvent(EventOrder eventOrder) {
+        StatusOrder status = getStatus(eventOrder.process());
+        Order order = this.orderRepository.getByOrderNumber(eventOrder.number_order());
+        order.updateStatus(status);
+        this.orderRepository.update(order);
     }
 
-    private String getStatus(String eventProcessing){
+    private StatusOrder getStatus(String eventProcessing){
 
-        String status = "";
+        StatusOrder status;
 
         switch (eventProcessing){
-            case "payment" : status = StatusOrder.RECEIVED.getValue(); break;
-            case "preparationFood" : status = StatusOrder.INPREPARATION.getValue(); break;
-            case "foodDone" : status = StatusOrder.FOODDONE.getValue(); break;
-            case "deliveryFood" : status = StatusOrder.FINISHED.getValue(); break;
+            case "payment" : status = StatusOrder.RECEIVED; break;
+            case "preparationFood" : status = StatusOrder.INPREPARATION; break;
+            case "foodDone" : status = StatusOrder.FOODDONE; break;
+            case "deliveryFood" : status = StatusOrder.FINISHED; break;
             default:
-                throw new RuntimeException("Event dont mapped");
+                throw new RuntimeException("Event don't mapped");
         }
 
         return status;
     }
-
-
 }

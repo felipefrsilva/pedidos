@@ -60,13 +60,15 @@ public class Order implements Serializable {
         this.id = id;
         this.numberOrder = numberOrder;
         this.status = status;
+        this.sequenceStatus = new HashMap<>();
+        loadSequenceStatus();
     }
 
     private void loadSequenceStatus(){
         sequenceStatus.put(StatusOrder.OPEN.getValue(), 1);
         sequenceStatus.put(StatusOrder.RECEIVED.getValue(), 2);
         sequenceStatus.put(StatusOrder.INPREPARATION.getValue(), 3);
-        sequenceStatus.put(StatusOrder.READY.getValue(), 4);
+        sequenceStatus.put(StatusOrder.FOODDONE.getValue(), 4);
         sequenceStatus.put(StatusOrder.FINISHED.getValue(), 5);
     }
 
@@ -127,11 +129,17 @@ public class Order implements Serializable {
             throw new ChangeNotAllowedOrderException("Alteração de status não permitido");
         }
 
-        if(sequenceStatus.get(status) > sequenceStatus.get(statusOrder.getValue())){
+        if(isSequenceViolation(this.status, statusOrder.getValue())){
             throw new ChangeNotAllowedOrderException("Sequencia do status do pedido violado");
         }
 
         this.status = statusOrder.getValue();
+    }
+
+    private boolean isSequenceViolation(String oldStatus, String newStatus){
+        int distance = sequenceStatus.get(newStatus) - sequenceStatus.get(oldStatus);
+
+        return distance != 1;
     }
 
     public void setNumberOrder(Integer numberOrder){
