@@ -36,6 +36,14 @@ services:
     networks:
       - backend
 
+  gateway:
+      build:
+        context: ./gateway
+        dockerfile: ./Dockerfile
+      stop_signal: SIGINT
+      ports:
+        - '5000:5000'
+
 networks:
   backend:
     driver: bridge
