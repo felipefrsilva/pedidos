@@ -13,6 +13,10 @@ public class InputDataOrderDTO {
     private String status;
     private float amount;
 
+    public InputDataOrderDTO(String id) {
+        this.setId(id);
+    }
+
     public InputDataOrderDTO(String id, String description, HashMap<String, Item> items, String status, float amount) {
         this.setId(id);
         this.setDescription(description);

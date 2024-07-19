@@ -2,7 +2,7 @@ package br.com.fiap.techchallange.core.entity;
 
 import br.com.fiap.techchallange.core.entity.enums.StatusOrder;
 import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryPayment;
+//import br.com.fiap.techchallange.infrastructure.factory.FactoryPayment; // Desacoplando o Factory da criação da order
 import br.com.fiap.techchallange.core.entity.vo.Item;
 
 
@@ -23,7 +23,7 @@ public class Order implements Serializable {
         this.id = UUID.randomUUID().toString();
         this.numberOrder = 0;
         this.items = new HashMap<String, Item>();
-        this.payment = FactoryPayment.createPayment(this.id);
+        this.payment = new Payment(this.id);
         this.status = StatusOrder.OPEN.getValue();
         this.amount  = 0;
         this.sequenceStatus = new HashMap<>();
@@ -34,7 +34,7 @@ public class Order implements Serializable {
                  HashMap<String, Item> items){
         this.id = id;
         this.setItems(items);
-        this.payment = FactoryPayment.createPayment(this.id);;
+        this.payment = new Payment(this.id);
         this.status = StatusOrder.OPEN.getValue();
         this.calculateAmount();
         this.sequenceStatus = new HashMap<>();

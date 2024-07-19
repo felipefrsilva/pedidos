@@ -1,12 +1,18 @@
 package br.com.fiap.techchallange.infrastructure.service;
 
-import br.com.fiap.techchallange.adapters.gateways.service.IGatewayPayment;
+import br.com.fiap.techchallange.adapters.gateways.service.IPaymentGateway;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Base64;
+
+import br.com.fiap.techchallange.core.entity.Payment;
+import br.com.fiap.techchallange.core.entity.enums.GatewayPayment;
+import br.com.fiap.techchallange.core.entity.enums.MethodPayment;
+import br.com.fiap.techchallange.core.entity.enums.StatusPayment;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -14,10 +20,23 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-public class GatewayPaymentMock implements IGatewayPayment {
+
+public class PaymentGatewayMock implements IPaymentGateway {
     @Override
-    public String getCodeReading(float value) throws IOException {
-        return generateQRCode(String.valueOf(value),200,200);
+    public Payment initializePayment(String orderId, float value) throws IOException {
+        String qr_code = generateQRCode(String.valueOf(value),200,200);
+        Payment payment = new Payment(
+                "123",
+                orderId,
+                value,
+                GatewayPayment.MERCADOPAGO.getValue(),
+                LocalDateTime.of(1970, 1, 1, 23, 59, 59).toString(),
+                MethodPayment.QRCODE.getValue(),
+                StatusPayment.OPEN.getValue(),
+                qr_code,
+                ""
+        );
+        return payment;
     }
 
     private String generateQRCode(String text, int width, int height) throws IOException {

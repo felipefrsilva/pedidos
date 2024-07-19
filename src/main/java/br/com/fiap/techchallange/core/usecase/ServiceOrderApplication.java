@@ -4,7 +4,7 @@ import br.com.fiap.techchallange.core.entity.Order;
 import br.com.fiap.techchallange.infrastructure.dto.CodeProcessingDTO;
 import br.com.fiap.techchallange.infrastructure.dto.ItemDTO;
 import br.com.fiap.techchallange.infrastructure.dto.OrderDTO;
-import br.com.fiap.techchallange.adapters.gateways.service.IGatewayPayment;
+import br.com.fiap.techchallange.adapters.gateways.service.IPaymentGateway;
 import br.com.fiap.techchallange.adapters.gateways.service.IGenerateNumberOrder;
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
 import br.com.fiap.techchallange.adapters.gateways.repository.IProductRepository;
@@ -20,12 +20,12 @@ public class ServiceOrderApplication {
 
     IOrderRepository repositoryOrder;
     IProductRepository repositoryProduct;
-    IGatewayPayment gatewayPayment;
+    IPaymentGateway gatewayPayment;
     IGenerateNumberOrder generateNumberOrder;
 
     public ServiceOrderApplication(IOrderRepository repositoryOrder,
                                    IProductRepository repositoryProduct,
-                                   IGatewayPayment gatewayPayment,
+                                   IPaymentGateway gatewayPayment,
                                    IGenerateNumberOrder generateNumberOrder){
        this.repositoryOrder = repositoryOrder;
        this.repositoryProduct = repositoryProduct;
@@ -47,7 +47,8 @@ public class ServiceOrderApplication {
 
     public void initializePayment(String idOrder) throws IOException, WriterException {
         Order order = repositoryOrder.get(idOrder);
-        String codePayment = gatewayPayment.getCodeReading(order.getAmount());
+//        String codePayment = gatewayPayment.getCodeReading(order.getAmount());
+        String codePayment = "";
         order.addReadingCodePayment(codePayment);
         repositoryOrder.updatePayment(order);
     }

@@ -1,16 +1,14 @@
 package br.com.fiap.techchallange.infrastructure.api;
 
+import br.com.fiap.techchallange.adapters.controllers.orderpayment.IOrderPaymentController;
+import br.com.fiap.techchallange.core.usecase.dto.orderpayment.OutputDataPaymentDTO;
+import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.IOrderPaymentPresenter;
 import br.com.fiap.techchallange.infrastructure.dto.CodeProcessingDTO;
 import br.com.fiap.techchallange.infrastructure.dto.OrderIdDTO;
-import br.com.fiap.techchallange.infrastructure.http.IPaymentOrder;
-import br.com.fiap.techchallange.core.usecase.ServiceOrderApplication;
 import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
 import br.com.fiap.techchallange.infrastructure.ErrorReturn;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderApplication;
-import com.google.zxing.WriterException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,37 +20,33 @@ import java.util.Map;
 @RestController
 @RequestMapping("/v1/payments")
 @Tag(name = "4. Payment Order", description = "Endpoints para pagamento do pedido.")
-public class PaymentOrder implements IPaymentOrder {
+public class OrderPayment {
+    IOrderPaymentController orderPaymentController;
+    IOrderPaymentPresenter orderPaymentPresenter;
 
-    ServiceOrderApplication serviceOrder;
-    FactoryOrderApplication factory;
-
-    @Autowired
-    public void setFactory(FactoryOrderApplication factory) {
-        this.factory = factory;
-        this.serviceOrder = factory.createOrderApplication();
+    public OrderPayment(IOrderPaymentController orderPaymentController, IOrderPaymentPresenter orderPaymentPresenter) {
+        this.orderPaymentController = orderPaymentController;
+        this.orderPaymentPresenter = orderPaymentPresenter;
     }
 
     @PostMapping("/initialize")
     @Operation(summary = "Inicializa o processo de pagamento obtendo o código de leitura para pagamento")
-    public ResponseEntity<Map<String, String>> finalizeServiceResponse(@RequestBody OrderIdDTO order) {
+    public ResponseEntity<?> finalizeServiceResponse(@RequestBody OrderIdDTO order) {
         try {
-            initializePayment(order.getOrderId());
-        }catch (WriterException | IOException e){
+            OutputDataPaymentDTO outputDataPaymentDTO = orderPaymentController.initializePayment(order.getOrderId());
+            IOrderPaymentPresenter.OrderPaymentResponseModel response = orderPaymentPresenter.present(outputDataPaymentDTO);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (IOException e){
             Map<String, String> response = new HashMap<>();
             response.put("status", "Ocorreu um erro na finalização do pedido. Erro=" + e.toString());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-
-        Map<String, String> response = new HashMap<>();
-        response.put("status", "Código de leitura gerado para pagamento.");
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/processing")
     @Operation(summary = "Registar o pagamento processado pelo Gateway de pagamento")
     public ResponseEntity<Map<String, String>> processingPaymentResponse(@RequestBody CodeProcessingDTO codeProcessing){
-        processingPayment(codeProcessing);
+//        processingPayment(codeProcessing);
         Map<String, String> response = new HashMap<>();
         response.put("status", "Pagamento registrado com sucesso!");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -64,13 +58,4 @@ public class PaymentOrder implements IPaymentOrder {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @Override
-    public void initializePayment(String idOrder) throws IOException, WriterException {
-        serviceOrder.initializePayment(idOrder);
-    }
-
-    @Override
-    public void processingPayment(CodeProcessingDTO codeProcessing) {
-        serviceOrder.processPayment(codeProcessing);
-    }
 }
