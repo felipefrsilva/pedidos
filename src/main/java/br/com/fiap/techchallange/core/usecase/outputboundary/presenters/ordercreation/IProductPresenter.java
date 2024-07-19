@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.core.usecase.outputboundary.presenters;
+package br.com.fiap.techchallange.core.usecase.outputboundary.presenters.ordercreation;
 
 import br.com.fiap.techchallange.core.usecase.dto.product.OutputDataProductDTO;
 

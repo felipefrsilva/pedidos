@@ -1,77 +1,35 @@
 package br.com.fiap.techchallange.infrastructure.api;
 
-import br.com.fiap.techchallange.infrastructure.dto.OrderIdDTO;
-import br.com.fiap.techchallange.infrastructure.dto.TrackerOrderDTO;
-import br.com.fiap.techchallange.infrastructure.http.ITrackOrder;
-import br.com.fiap.techchallange.core.usecase.TrackerOrderApplication;
-import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
-import br.com.fiap.techchallange.infrastructure.ErrorReturn;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryTrackerOrderApplication;
+import br.com.fiap.techchallange.adapters.controllers.tracking.IOrderListingController;
+import br.com.fiap.techchallange.adapters.presenters.viewmodel.OrderViewModel;
+import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.tracking.IOrderListingPresenter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/tracker/orders")
-@Tag(name = "5. Tracker Order", description = "Endpoints de acompanhamento da preparação do produto.")
-public class TrackerOrder implements ITrackOrder {
+@Tag(name = "5. Tracker Order", description = "Endpoints para o rastreamento dos pedidos.")
+public class TrackerOrder {
 
-    TrackerOrderApplication trackerOrder;
-    FactoryTrackerOrderApplication factory;
+    private final IOrderListingPresenter orderListingPresenter;
+    private final IOrderListingController orderListingController;
 
-    @Autowired
-    public void setFactory(FactoryTrackerOrderApplication factory) {
-        this.factory = factory;
-        this.trackerOrder = factory.createTrackerOrder();
+    public TrackerOrder(IOrderListingPresenter orderListingPresenter,
+                        IOrderListingController orderListingController){
+        this.orderListingController = orderListingController;
+        this.orderListingPresenter = orderListingPresenter;
     }
 
-    @Operation(summary = "Consulta o status do pedido na preparação do produto")
-    @GetMapping("/{idOrder}")
-    public ResponseEntity<Map<String, TrackerOrderDTO>> getOrderResponse(@PathVariable String idOrder){
-        TrackerOrderDTO trackerOrder = getTracker(idOrder);
-        Map<String, TrackerOrderDTO> response = new HashMap<>();
-        response.put("trackerOrder", trackerOrder);
+    @Operation(summary = "Busca os pedidos que estão no processo de atendimento")
+    @GetMapping("/list")
+    public ResponseEntity<List<OrderViewModel>> getOrders(){
+        List<OrderViewModel> response = orderListingPresenter.invoke(orderListingController.invoke());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "Coloca o pedido no status de finalizado após entregar o produto para o cliente")
-    @PutMapping("/deliverFood")
-    public ResponseEntity<Map<String, String>> deliverFoodResponse(@RequestBody OrderIdDTO trackerOrder){
-        deliverFood(trackerOrder.getOrderId());
-        Map<String, String> response = new HashMap<>();
-        response.put("status", "Pedido Finalizado");
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-    }
-
-    @ExceptionHandler(ChangeNotAllowedOrderException.class)
-    public ResponseEntity<ErrorReturn> handleChangeNotAllowedOrderException(ChangeNotAllowedOrderException ex) {
-        ErrorReturn error = new ErrorReturn(3256, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-
-    @Override
-    public TrackerOrderDTO getTracker(String orderId) {
-        return this.trackerOrder.getTracker(orderId);
-    }
-
-    @Override
-    public void prepareFood(String orderId) {
-        this.trackerOrder.prepareFood(orderId);
-    }
-
-    @Override
-    public void finishPreparation(String orderId) {
-        this.trackerOrder.finishPreparation(orderId);
-    }
-
-    @Override
-    public void deliverFood(String orderId) {
-        this.trackerOrder.deliverFood(orderId);
-    }
 }

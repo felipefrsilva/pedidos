@@ -1,8 +1,8 @@
 package br.com.fiap.techchallange.core.usecase.orderpreparation;
 
 import br.com.fiap.techchallange.core.usecase.inputboundary.orderpreparation.IFinishingOfFoodPreparationUseCase;
-import br.com.fiap.techchallange.core.usecase.tracking.EventOrder;
-import br.com.fiap.techchallange.core.usecase.tracking.IEventTrigger;
+import br.com.fiap.techchallange.core.usecase.dto.EventOrder;
+import br.com.fiap.techchallange.core.usecase.inputboundary.tracking.IEventTrigger;
 
 public class FinishingOfFoodPreparationUseCase implements IFinishingOfFoodPreparationUseCase {
 

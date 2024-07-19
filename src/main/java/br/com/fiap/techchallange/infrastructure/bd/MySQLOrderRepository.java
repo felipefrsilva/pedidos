@@ -166,7 +166,16 @@ public class MySQLOrderRepository implements IOrderRepository {
         });
     }
 
+    @Override
+    public List<Order> getOrders() {
+        String sql = "SELECT * FROM dbtechchallange.order \n" +
+                "WHERE status IN ('Recebido', 'Em Preparacao', 'Pronto')\n" +
+                "ORDER BY number_order asc;";
 
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        return namedParameterJdbcTemplate.query(sql, params, new OrderRowMapper());
+    }
 
     @Transactional
     @Override
@@ -244,5 +253,16 @@ public class MySQLOrderRepository implements IOrderRepository {
                                     rs.getString("category") );
             }
         });
+    }
+
+    private static class OrderRowMapper implements RowMapper<Order> {
+        @Override
+        public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Order(
+                    rs.getString("id"),
+                    rs.getInt("number_order"),
+                    rs.getString("status")
+            );
+        }
     }
 }

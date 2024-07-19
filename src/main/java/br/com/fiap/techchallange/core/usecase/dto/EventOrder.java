@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.core.usecase.tracking;
+package br.com.fiap.techchallange.core.usecase.dto;
 
 public record EventOrder(int number_order, String process) {
 

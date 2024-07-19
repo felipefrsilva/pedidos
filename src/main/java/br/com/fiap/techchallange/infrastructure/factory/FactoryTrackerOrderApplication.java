@@ -2,7 +2,7 @@ package br.com.fiap.techchallange.infrastructure.factory;
 
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
 import br.com.fiap.techchallange.core.usecase.TrackerOrderApplication;
-import br.com.fiap.techchallange.infrastructure.bd.MemoryOrderRepository;
+import br.com.fiap.techchallange.infrastructure.bd.mock.MemoryOrderRepository;
 import br.com.fiap.techchallange.infrastructure.bd.MySQLOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

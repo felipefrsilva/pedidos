@@ -8,7 +8,13 @@ public class OutputDataOrderDTO {
     private String status;
     private float amount;
 
-    public OutputDataOrderDTO(String id, int number_order, String description, String status, float amount) {
+    public OutputDataOrderDTO(String id, int number_order, String status) {
+        this.setId(id);
+        this.setNumber_order(number_order);
+        this.setStatus(status);
+    }
+
+    public OutputDataOrderDTO(String id, int number_order, String status, float amount) {
         this.setId(id);
         this.setNumber_order(number_order);
         this.setDescription(description);

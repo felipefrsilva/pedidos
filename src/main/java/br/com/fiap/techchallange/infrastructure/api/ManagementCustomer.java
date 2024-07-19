@@ -4,9 +4,11 @@ import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IChangi
 import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IGetCustomerController;
 import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IRegisterCustomerController;
 import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IRemovalOfCustomerController;
+import br.com.fiap.techchallange.adapters.presenters.viewmodel.CustomerViewModel;
+import br.com.fiap.techchallange.adapters.presenters.viewmodel.ErrorViewModel;
 import br.com.fiap.techchallange.infrastructure.dto.ClientRequestDTO;
 
-import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.ICustomerPresenter;
+import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.managementcustomer.ICustomerPresenter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.dao.DataAccessException;
@@ -44,9 +46,9 @@ public class ManagementCustomer  {
         try {
             this.registerCustomerController.invoke(clientDeserializer.cpf(), clientDeserializer.name(), clientDeserializer.email());
         } catch (DataAccessException e) {
-            return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel("CPF já cadastrado na base de dados!"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ErrorViewModel("CPF já cadastrado na base de dados!"), HttpStatus.NOT_FOUND);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel(e.getMessage()), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ErrorViewModel(e.getMessage()), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>( "Cliente cadastrado com sucesso!", HttpStatus.OK);
     }
@@ -55,10 +57,10 @@ public class ManagementCustomer  {
     @GetMapping("/{cpf}")
     public ResponseEntity<?> getCustomer(@PathVariable String cpf) throws EmptyResultDataAccessException {
         try {
-            ICustomerPresenter.CustomerResponseModel response = customerPresenterJson.present(this.getController.invoke(cpf));
+            CustomerViewModel response = customerPresenterJson.invoke(this.getController.invoke(cpf));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
-            return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel("Cliente não encontrado na base de dados"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ErrorViewModel("Cliente não encontrado na base de dados"), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -68,9 +70,9 @@ public class ManagementCustomer  {
         try {
             this.changingCustomerController.invoke(clientDeserializer.cpf(), clientDeserializer.name(), clientDeserializer.email());
         } catch (DataAccessException e) {
-            return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel("Houve um problema na atualização das informações do cliente"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ErrorViewModel("Houve um problema na atualização das informações do cliente"), HttpStatus.NOT_FOUND);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel(e.getMessage()), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ErrorViewModel(e.getMessage()), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>( "Cliente atualizado com sucesso!", HttpStatus.OK);
     }
@@ -82,7 +84,7 @@ public class ManagementCustomer  {
             this.removeCustomerController.invoke(cpf);
             return new ResponseEntity<>("Dados do cliente removido com sucesso.", HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
-            return new ResponseEntity<>(new ICustomerPresenter.ErrorResponseModel("Houve um problema na remoção das informações do cliente."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ErrorViewModel("Houve um problema na remoção das informações do cliente."), HttpStatus.NOT_FOUND);
         }
     }
 

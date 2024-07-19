@@ -4,7 +4,7 @@ import br.com.fiap.techchallange.core.usecase.inputboundary.orderpreparation.IFi
 import br.com.fiap.techchallange.core.usecase.inputboundary.orderpreparation.IFoodPreparationUseCase;
 import br.com.fiap.techchallange.core.usecase.orderpreparation.FinishingOfFoodPreparationUseCase;
 import br.com.fiap.techchallange.core.usecase.orderpreparation.FoodPreparationUseCase;
-import br.com.fiap.techchallange.core.usecase.tracking.IEventTrigger;
+import br.com.fiap.techchallange.core.usecase.inputboundary.tracking.IEventTrigger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

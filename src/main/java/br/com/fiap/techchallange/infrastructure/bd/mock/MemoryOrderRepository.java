@@ -1,10 +1,11 @@
-package br.com.fiap.techchallange.infrastructure.bd;
+package br.com.fiap.techchallange.infrastructure.bd.mock;
 
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
 import br.com.fiap.techchallange.core.entity.Order;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MemoryOrderRepository implements IOrderRepository {
@@ -60,4 +61,10 @@ public class MemoryOrderRepository implements IOrderRepository {
     @Override
     public Order getByOrderNumber(int number) {
         return new Order();
-    }}
+    }
+
+    @Override
+    public List<Order> getOrders() {
+        return List.of();
+    }
+}

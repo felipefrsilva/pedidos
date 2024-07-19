@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.infrastructure.bd;
+package br.com.fiap.techchallange.infrastructure.bd.mock;
 
 import br.com.fiap.techchallange.adapters.gateways.repository.IProductRepository;
 import br.com.fiap.techchallange.core.entity.Product;
