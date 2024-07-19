@@ -1,6 +1,6 @@
 package br.com.fiap.techchallange.infrastructure.api;
 
-import br.com.fiap.techchallange.adapters.controllers.orderpayment.IOrderPaymentController;
+import br.com.fiap.techchallange.adapters.controllers.orderpayment.*;
 import br.com.fiap.techchallange.core.usecase.dto.orderpayment.OutputDataPaymentDTO;
 import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.IOrderPaymentPresenter;
 import br.com.fiap.techchallange.infrastructure.dto.CodeProcessingDTO;
@@ -21,11 +21,26 @@ import java.util.Map;
 @RequestMapping("/v1/payments")
 @Tag(name = "4. Payment Order", description = "Endpoints para pagamento do pedido.")
 public class OrderPayment {
-    IOrderPaymentController orderPaymentController;
+    PaymentInitializeController paymentInitializeController;
+    PaymentUpdateOrderController paymentUpdateOrderController;
+    PaymentCheckStatusController paymentCheckStatusController;
+    PaymentGetReadingCodeController paymentGetReadingCodeController;
+    GetOrderPaymentController getOrderPaymentController;
     IOrderPaymentPresenter orderPaymentPresenter;
 
-    public OrderPayment(IOrderPaymentController orderPaymentController, IOrderPaymentPresenter orderPaymentPresenter) {
-        this.orderPaymentController = orderPaymentController;
+    public OrderPayment(
+            PaymentInitializeController paymentInitializeController,
+            PaymentUpdateOrderController paymentUpdateOrderController,
+            PaymentCheckStatusController paymentCheckStatusController,
+            PaymentGetReadingCodeController paymentGetReadingCodeController,
+            GetOrderPaymentController getOrderPaymentController,
+            IOrderPaymentPresenter orderPaymentPresenter
+    ) {
+        this.paymentInitializeController = paymentInitializeController;
+        this.paymentUpdateOrderController = paymentUpdateOrderController;
+        this.paymentCheckStatusController = paymentCheckStatusController;
+        this.paymentGetReadingCodeController = paymentGetReadingCodeController;
+        this.getOrderPaymentController = getOrderPaymentController;
         this.orderPaymentPresenter = orderPaymentPresenter;
     }
 
@@ -33,7 +48,8 @@ public class OrderPayment {
     @Operation(summary = "Inicializa o processo de pagamento obtendo o código de leitura para pagamento")
     public ResponseEntity<?> finalizeServiceResponse(@RequestBody OrderIdDTO order) {
         try {
-            OutputDataPaymentDTO outputDataPaymentDTO = orderPaymentController.initializePayment(order.getOrderId());
+            paymentInitializeController.initializePayment(order.getOrderId());
+            OutputDataPaymentDTO outputDataPaymentDTO = getOrderPaymentController.getOrderPayment(order.getOrderId());
             IOrderPaymentPresenter.OrderPaymentResponseModel response = orderPaymentPresenter.present(outputDataPaymentDTO);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (IOException e){

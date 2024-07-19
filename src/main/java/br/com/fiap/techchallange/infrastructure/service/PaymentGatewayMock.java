@@ -23,7 +23,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 public class PaymentGatewayMock implements IPaymentGateway {
     @Override
-    public Payment initializePayment(String orderId, float value) throws IOException {
+    public void initializePayment(String orderId, float value) throws IOException {
         String qr_code = generateQRCode(String.valueOf(value),200,200);
         Payment payment = new Payment(
                 "123",
@@ -36,7 +36,28 @@ public class PaymentGatewayMock implements IPaymentGateway {
                 qr_code,
                 ""
         );
+    }
+
+    @Override
+    public Payment getPayment(String orderId) throws IOException {
+        String qr_code = generateQRCode("TESTE",200,200);
+        Payment payment = new Payment(
+                "123",
+                orderId,
+                1.25f,
+                GatewayPayment.MERCADOPAGO.getValue(),
+                LocalDateTime.of(1970, 1, 1, 23, 59, 59).toString(),
+                MethodPayment.QRCODE.getValue(),
+                StatusPayment.OPEN.getValue(),
+                qr_code,
+                ""
+        );
         return payment;
+    }
+
+    @Override
+    public StatusPayment getPaymentStatus(String orderId) {
+        return StatusPayment.OPEN;
     }
 
     private String generateQRCode(String text, int width, int height) throws IOException {

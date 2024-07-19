@@ -2,7 +2,6 @@ package br.com.fiap.techchallange.core.entity;
 
 import br.com.fiap.techchallange.core.entity.enums.StatusOrder;
 import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
-//import br.com.fiap.techchallange.infrastructure.factory.FactoryPayment; // Desacoplando o Factory da criação da order
 import br.com.fiap.techchallange.core.entity.vo.Item;
 
 
@@ -178,6 +177,10 @@ public class Order implements Serializable {
 
     public Payment getPayment(){
         return copyPayment(this.payment);
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public Map<String,Item> getItems(){
