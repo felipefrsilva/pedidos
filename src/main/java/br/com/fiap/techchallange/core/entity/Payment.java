@@ -93,15 +93,25 @@ public class Payment implements Serializable {
         }
     }
 
-    public void addProcessingCode(String processingCode){
+    public void addProcessingCode(String processingCode, StatusPayment statusPayment){
         if (status.equals(StatusPayment.OPEN) && this.readingCode != null){
             this.processingCode = new ProcessingCodePayment(processingCode);
-            this.status = StatusPayment.PAID;
+            this.setStatusPayment(statusPayment);
             this.datePayment = LocalDateTime.now();
         }
         else{
             throw new IllegalArgumentException(
                     "Processing Code cannot be add, data of payment incosistent."
+            );
+        }
+    }
+
+    public void setStatusPayment(StatusPayment statusPayment) {
+        if (status.equals(StatusPayment.OPEN) && !statusPayment.equals(StatusPayment.OPEN)) {
+            this.status = statusPayment;
+        } else {
+            throw new IllegalArgumentException(
+                    "Status só pode ser alterado de 'OPEN' para 'PAID' ou 'PAYMENTDENIED'"
             );
         }
     }

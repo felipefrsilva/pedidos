@@ -1,10 +1,11 @@
 package br.com.fiap.techchallange.core.usecase;
 
 import br.com.fiap.techchallange.core.entity.Order;
+import br.com.fiap.techchallange.core.entity.enums.StatusPayment;
 import br.com.fiap.techchallange.infrastructure.dto.CodeProcessingDTO;
 import br.com.fiap.techchallange.infrastructure.dto.ItemDTO;
 import br.com.fiap.techchallange.infrastructure.dto.OrderDTO;
-import br.com.fiap.techchallange.adapters.gateways.service.IPaymentGateway;
+import br.com.fiap.techchallange.adapters.gateways.service.IPaymentQRCodeGateway;
 import br.com.fiap.techchallange.adapters.gateways.service.IGenerateNumberOrder;
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
 import br.com.fiap.techchallange.adapters.gateways.repository.IProductRepository;
@@ -20,12 +21,12 @@ public class ServiceOrderApplication {
 
     IOrderRepository repositoryOrder;
     IProductRepository repositoryProduct;
-    IPaymentGateway gatewayPayment;
+    IPaymentQRCodeGateway gatewayPayment;
     IGenerateNumberOrder generateNumberOrder;
 
     public ServiceOrderApplication(IOrderRepository repositoryOrder,
                                    IProductRepository repositoryProduct,
-                                   IPaymentGateway gatewayPayment,
+                                   IPaymentQRCodeGateway gatewayPayment,
                                    IGenerateNumberOrder generateNumberOrder){
        this.repositoryOrder = repositoryOrder;
        this.repositoryProduct = repositoryProduct;
@@ -55,7 +56,7 @@ public class ServiceOrderApplication {
 
     public void processPayment(CodeProcessingDTO codePayment){
         Order order = repositoryOrder.get(codePayment.getIdOrder());
-        order.processingPayment(codePayment.getCode());
+        order.processingPayment(codePayment.getCode(), StatusPayment.fromValue(codePayment.getStatusPayment()) );
         order.setNumberOrder(this.generateNumberOrder.generate());
         repositoryOrder.updatePayment(order);
     }

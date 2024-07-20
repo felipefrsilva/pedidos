@@ -23,8 +23,8 @@ public class OrderPaymentControllerConfig {
     }
 
     @Bean
-    PaymentUpdateOrderController getPaymentUpdateOrderController(PaymentUpdateOrderUseCase paymentUpdateOrderUseCase) {
-        return new PaymentUpdateOrderController(paymentUpdateOrderUseCase);
+    PaymentProcessingController getPaymentUpdateOrderController(PaymentProcessingUseCase updateOrderPaymentStatusUseCase) {
+        return new PaymentProcessingController(updateOrderPaymentStatusUseCase);
     }
 
     @Bean

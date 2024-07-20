@@ -1,11 +1,11 @@
 package br.com.fiap.techchallange.infrastructure.factory;
 
 import br.com.fiap.techchallange.core.usecase.ServiceOrderApplication;
-import br.com.fiap.techchallange.adapters.gateways.service.IPaymentGateway;
+import br.com.fiap.techchallange.adapters.gateways.service.IPaymentQRCodeGateway;
 import br.com.fiap.techchallange.adapters.gateways.service.IGenerateNumberOrder;
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
 import br.com.fiap.techchallange.adapters.gateways.repository.IProductRepository;
-import br.com.fiap.techchallange.infrastructure.service.PaymentGatewayMock;
+import br.com.fiap.techchallange.infrastructure.service.PaymentQRCodeGatewayMock;
 import br.com.fiap.techchallange.infrastructure.service.GenerateNumberOrderMock;
 import br.com.fiap.techchallange.infrastructure.bd.MemoryOrderRepository;
 import br.com.fiap.techchallange.infrastructure.bd.MemoryProductRepository;
@@ -65,13 +65,13 @@ public class FactoryOrderApplication {
         return repository;
     }
 
-    private IPaymentGateway getGatewayPayment(){
+    private IPaymentQRCodeGateway getGatewayPayment(){
         int num = 1;
-        IPaymentGateway gatewayPayment = null;
+        IPaymentQRCodeGateway gatewayPayment = null;
 
         switch (num) {
             case 1:
-                gatewayPayment = new PaymentGatewayMock();
+                gatewayPayment = new PaymentQRCodeGatewayMock();
                 break;
             default:
                 System.out.println("Database not configuraded");

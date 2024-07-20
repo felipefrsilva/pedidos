@@ -1,6 +1,7 @@
 package br.com.fiap.techchallange.core.entity;
 
 import br.com.fiap.techchallange.core.entity.enums.StatusOrder;
+import br.com.fiap.techchallange.core.entity.enums.StatusPayment;
 import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
 import br.com.fiap.techchallange.core.entity.vo.Item;
 
@@ -105,9 +106,9 @@ public class Order implements Serializable {
         }
     }
 
-    public void processingPayment(String code){
+    public void processingPayment(String code, StatusPayment statusPayment){
         if (status.equals(StatusOrder.OPEN.getValue())) {
-            payment.addProcessingCode(code);
+            payment.addProcessingCode(code, statusPayment);
             this.status = StatusOrder.RECEIVED.getValue();
         }else{
             throw new ChangeNotAllowedOrderException("Não é permitido adicionar o código de processamento com o pagamento realizado.");
@@ -177,10 +178,6 @@ public class Order implements Serializable {
 
     public Payment getPayment(){
         return copyPayment(this.payment);
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
     }
 
     public Map<String,Item> getItems(){

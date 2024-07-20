@@ -22,7 +22,7 @@ import java.util.Map;
 @Tag(name = "4. Payment Order", description = "Endpoints para pagamento do pedido.")
 public class OrderPayment {
     PaymentInitializeController paymentInitializeController;
-    PaymentUpdateOrderController paymentUpdateOrderController;
+    PaymentProcessingController paymentProcessingController;
     PaymentCheckStatusController paymentCheckStatusController;
     PaymentGetReadingCodeController paymentGetReadingCodeController;
     GetOrderPaymentController getOrderPaymentController;
@@ -30,14 +30,14 @@ public class OrderPayment {
 
     public OrderPayment(
             PaymentInitializeController paymentInitializeController,
-            PaymentUpdateOrderController paymentUpdateOrderController,
+            PaymentProcessingController paymentProcessingController,
             PaymentCheckStatusController paymentCheckStatusController,
             PaymentGetReadingCodeController paymentGetReadingCodeController,
             GetOrderPaymentController getOrderPaymentController,
             IOrderPaymentPresenter orderPaymentPresenter
     ) {
         this.paymentInitializeController = paymentInitializeController;
-        this.paymentUpdateOrderController = paymentUpdateOrderController;
+        this.paymentProcessingController = paymentProcessingController;
         this.paymentCheckStatusController = paymentCheckStatusController;
         this.paymentGetReadingCodeController = paymentGetReadingCodeController;
         this.getOrderPaymentController = getOrderPaymentController;
@@ -59,13 +59,49 @@ public class OrderPayment {
         }
     }
 
+    @Operation(summary = "Obter status do pagamento do pedido")
+    @GetMapping("/{idOrder}/status")
+    public ResponseEntity<Map<String, String>> getOrderPaymentStatus(@PathVariable String idOrder) {
+        try {
+            String paymentStatus = this.paymentCheckStatusController.checkStatus(idOrder);
+            Map<String, String> response = new HashMap<>();
+            response.put("status", paymentStatus);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IOException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "Ocorreu um erro na finalização do pedido. Erro=" + e.toString());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "Obter QRCode para pagamento do pedido")
+    @GetMapping("/{idOrder}/qrcode")
+    public ResponseEntity<?> getOrderPaymentGetReadingCode(@PathVariable String idOrder) {
+        try {
+            OutputDataPaymentDTO outputDataPaymentDTO = getOrderPaymentController.getOrderPayment(idOrder);
+            IOrderPaymentPresenter.OrderPaymentResponseModel response = orderPaymentPresenter.present(outputDataPaymentDTO);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IOException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "Ocorreu um erro na finalização do pedido. Erro=" + e.toString());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
     @PostMapping("/processing")
     @Operation(summary = "Registar o pagamento processado pelo Gateway de pagamento")
     public ResponseEntity<Map<String, String>> processingPaymentResponse(@RequestBody CodeProcessingDTO codeProcessing){
-//        processingPayment(codeProcessing);
-        Map<String, String> response = new HashMap<>();
-        response.put("status", "Pagamento registrado com sucesso!");
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        try {
+            this.paymentProcessingController.processPayment(codeProcessing.getIdOrder(), codeProcessing.getCode(), codeProcessing.getStatusPayment());
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "Pagamento registrado com sucesso!");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (IOException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "Ocorreu um erro na finalização do pedido. Erro=" + e.toString());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ExceptionHandler(ChangeNotAllowedOrderException.class)
