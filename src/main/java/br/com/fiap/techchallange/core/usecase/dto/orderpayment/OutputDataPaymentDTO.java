@@ -118,4 +118,5 @@ public class OutputDataPaymentDTO {
     public void setProcessingCode(String processingCode) {
         this.processingCode = processingCode;
     }
+
 }

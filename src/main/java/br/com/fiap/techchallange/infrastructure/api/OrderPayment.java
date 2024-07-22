@@ -44,15 +44,15 @@ public class OrderPayment {
         this.orderPaymentPresenter = orderPaymentPresenter;
     }
 
-    @PostMapping("/initialize")
+    @PostMapping("{orderId}/initialize")
     @Operation(summary = "Inicializa o processo de pagamento obtendo o código de leitura para pagamento")
-    public ResponseEntity<?> finalizeServiceResponse(@RequestBody OrderIdDTO order) {
+    public ResponseEntity<?> finalizeServiceResponse(@PathVariable String orderId) {
         try {
-            paymentInitializeController.initializePayment(order.getOrderId());
-            OutputDataPaymentDTO outputDataPaymentDTO = getOrderPaymentController.getOrderPayment(order.getOrderId());
+            paymentInitializeController.initializePayment(orderId);
+            OutputDataPaymentDTO outputDataPaymentDTO = getOrderPaymentController.getOrderPayment(orderId);
             IOrderPaymentPresenter.OrderPaymentResponseModel response = orderPaymentPresenter.present(outputDataPaymentDTO);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-        } catch (IOException e){
+        } catch (IOException | IllegalArgumentException e){
             Map<String, String> response = new HashMap<>();
             response.put("status", "Ocorreu um erro na finalização do pedido. Erro=" + e.toString());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -97,7 +97,7 @@ public class OrderPayment {
             Map<String, String> response = new HashMap<>();
             response.put("status", "Pagamento registrado com sucesso!");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             Map<String, String> response = new HashMap<>();
             response.put("status", "Ocorreu um erro na finalização do pedido. Erro=" + e.toString());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

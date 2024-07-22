@@ -55,14 +55,42 @@ public class Payment implements Serializable {
         this.id = id;
         this.setMonetaryValue(value);
         this.gatewayPayment =  GatewayPayment.fromValue(gateway);
-        this.datePayment = getPaymentDate(datePayment);
+        this.datePayment = parseDateTime(datePayment);
         this.setMethod(method);
         this.status = StatusPayment.fromValue(status);
         this.readingCode = new ReadingCodePayment(readingCode);
         this.processingCode = new ProcessingCodePayment(processingCode);
     }
 
-    private LocalDateTime getPaymentDate(String dateTimeString){
+    // public state-changing methods
+
+    public void addReadingCode(String readingCode){
+        if (status.equals(StatusPayment.OPEN)){
+            this.readingCode = new ReadingCodePayment(readingCode);
+            this.setStatusPayment(StatusPayment.PROCESSING);
+        }
+        else{
+            throw new IllegalArgumentException(
+                    "Reading Code cannot be add, status payment different of OPEN."
+            );
+        }
+    }
+
+    public void addProcessingCode(String processingCode, StatusPayment statusPayment){
+        if (status.equals(StatusPayment.PROCESSING) && this.readingCode != null){
+            this.processingCode = new ProcessingCodePayment(processingCode);
+            this.setStatusPayment(statusPayment);
+        }
+        else{
+            throw new IllegalArgumentException(
+                    "Payment cannot be processed, status payment different of PROCESSING or Reading Code is empty."
+            );
+        }
+    }
+
+    // Private methods
+
+    private static LocalDateTime parseDateTime(String dateTimeString){
         String dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ss";
         LocalDateTime localDateTime = null;
         try {
@@ -72,7 +100,7 @@ public class Payment implements Serializable {
                 localDateTime = stringToLocalDateTime(dateTimeString, dateTimeFormat);
             }
         } catch (DateTimeParseException e) {
-            System.err.println("Invalid date time format: " + e.getMessage());
+            System.err.println("Invalid date time format: " + e.getMessage() + " must be in format: " + dateTimeFormat);
         }
         return localDateTime;
     }
@@ -81,44 +109,35 @@ public class Payment implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateTimeFormat);
         return LocalDateTime.parse(dateTimeString, formatter);
     }
-
-    public void addReadingCode(String readingCode){
-        if (status.equals(StatusPayment.OPEN)){
-            this.readingCode = new ReadingCodePayment(readingCode);
+    private void setStatusPayment(StatusPayment statusPayment) {
+        switch (this.status) {
+            case OPEN:
+                if (statusPayment.equals(StatusPayment.PROCESSING)) {
+                    this.status = statusPayment;
+                } else {
+                    throw new IllegalArgumentException(
+                            "Status can only be changed from 'OPEN' to 'PROCESSING'"
+                    );
+                }
+                break;
+            case PROCESSING:
+                if (statusPayment.equals(StatusPayment.PAID) || statusPayment.equals(StatusPayment.PAYMENT_DENIED)) {
+                    this.status = statusPayment;
+                } else {
+                    throw new IllegalArgumentException(
+                            "Status can only be changed from 'PROCESSING' to 'PAID' or 'PAYMENT_DENIED'"
+                    );
+                }
+                break;
+            case PAID:
+                throw new IllegalArgumentException(
+                        "Status cannot be changed, payment already made."
+                );
+            case PAYMENT_DENIED:
+                throw new IllegalArgumentException(
+                        "Status cannot be changed, payment denied."
+                );
         }
-        else{
-            throw new IllegalArgumentException(
-                    "Reading Code cannot be add, status payment different of Open."
-            );
-        }
-    }
-
-    public void addProcessingCode(String processingCode, StatusPayment statusPayment){
-        if (status.equals(StatusPayment.OPEN) && this.readingCode != null){
-            this.processingCode = new ProcessingCodePayment(processingCode);
-            this.setStatusPayment(statusPayment);
-            this.datePayment = LocalDateTime.now();
-        }
-        else{
-            throw new IllegalArgumentException(
-                    "Processing Code cannot be add, data of payment incosistent."
-            );
-        }
-    }
-
-    public void setStatusPayment(StatusPayment statusPayment) {
-        if (status.equals(StatusPayment.OPEN) && !statusPayment.equals(StatusPayment.OPEN)) {
-            this.status = statusPayment;
-        } else {
-            throw new IllegalArgumentException(
-                    "Status só pode ser alterado de 'OPEN' para 'PAID' ou 'PAYMENTDENIED'"
-            );
-        }
-    }
-
-    public void alterValue(float valueMonetary){
-        if(!status.equals(StatusPayment.OPEN))
-            this.setMonetaryValue(valueMonetary);
     }
 
     private void setMethod(String method){
@@ -135,6 +154,8 @@ public class Payment implements Serializable {
     private void setMonetaryValue(float monetaryValue){
        this.monetaryValue = new MonetaryValue(new BigDecimal(monetaryValue));
     }
+
+    // public getters
 
     public String getId() {
         return id;
@@ -161,7 +182,7 @@ public class Payment implements Serializable {
         if(datePayment == null){
             return "";
         }else{
-            return datePayment.toString();
+            return datePayment.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
         }
     }
 

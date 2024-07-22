@@ -12,6 +12,7 @@ public class PaymentGetReadingCodeController {
     }
 
     public String getReadingCode(String idOrder) throws IOException {
+
         return this.paymentGetReadingCodeUseCase.getReadingCode(idOrder);
     }
 }

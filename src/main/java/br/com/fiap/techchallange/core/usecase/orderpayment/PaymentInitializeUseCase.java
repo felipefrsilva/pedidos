@@ -19,6 +19,8 @@ public class PaymentInitializeUseCase implements IPaymentInitializeUseCase {
     @Override
     public void initializePayment(String idOrder) throws IOException {
         Order order = repositoryOrder.get(idOrder);
-        gatewayPayment.initializePayment(order.getId(), order.getAmount());
+        String qr_code = gatewayPayment.initializePayment(order.getId(), order.getAmount());
+        order.addReadingCodePayment(qr_code);
+        repositoryOrder.updatePayment(order);
     }
 }

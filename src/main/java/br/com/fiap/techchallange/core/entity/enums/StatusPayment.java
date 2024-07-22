@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.core.entity.enums;
 
 public enum StatusPayment {
-    OPEN("Aberto"), PAID("Pago"), PAYMENTDENIED("Pagamento Negado");
+    OPEN("OPEN"), PROCESSING("PROCESSING"), PAID("PAID"), PAYMENT_DENIED("PAYMENT_DENIED");
 
     private final String value;
 
