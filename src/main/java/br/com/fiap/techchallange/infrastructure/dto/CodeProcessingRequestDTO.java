@@ -10,10 +10,13 @@ public class CodeProcessingRequestDTO implements Serializable {
     private String idOrder;
     @Schema(name = "code", example = "VMQ4DIQwETXXP4KcIfsozqEK8NiTRhavZgtUJGQ/FCtuc9C", required = true)
     private String code;
+    @Schema(name = "statusPayment", example="PAID", required=true)
+    private String statusPayment;
 
     public CodeProcessingRequestDTO(String idOrder, String code) {
         this.setIdOrder(idOrder);
         this.setCode(code);
+        this.setStatusPayment(statusPayment);
     }
 
     public String getIdOrder() {
@@ -30,5 +33,13 @@ public class CodeProcessingRequestDTO implements Serializable {
 
     private void setCode(String code) {
         this.code = code;
+    }
+
+    public String getStatusPayment() {
+        return statusPayment;
+    }
+
+    public void setStatusPayment(String statusPayment) {
+        this.statusPayment = statusPayment;
     }
 }

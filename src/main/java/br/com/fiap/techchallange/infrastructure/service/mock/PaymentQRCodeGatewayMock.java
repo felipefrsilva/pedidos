@@ -1,6 +1,6 @@
 package br.com.fiap.techchallange.infrastructure.service.mock;
 
-import br.com.fiap.techchallange.adapters.gateways.service.IGatewayPayment;
+import br.com.fiap.techchallange.adapters.gateways.service.IPaymentQRCodeGateway;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -14,10 +14,12 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-public class GatewayPaymentMock implements IGatewayPayment {
+
+public class PaymentQRCodeGatewayMock implements IPaymentQRCodeGateway {
     @Override
-    public String getCodeReading(float value) throws IOException {
-        return generateQRCode(String.valueOf(value),200,200);
+    public String initializePayment(String orderId, float value) throws IOException {
+        String qr_code = generateQRCode(String.valueOf(value),200,200);
+        return qr_code;
     }
 
     private String generateQRCode(String text, int width, int height) throws IOException {
