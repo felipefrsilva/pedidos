@@ -1,6 +1,6 @@
 package br.com.fiap.techchallange.core.usecase.tracking;
 
-import br.com.fiap.techchallange.core.usecase.dto.EventOrder;
+import br.com.fiap.techchallange.core.usecase.dto.order.EventOrder;
 import br.com.fiap.techchallange.core.usecase.inputboundary.tracking.IEventListenerOrder;
 import br.com.fiap.techchallange.core.usecase.inputboundary.tracking.IEventTrigger;
 

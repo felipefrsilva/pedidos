@@ -2,7 +2,6 @@ package br.com.fiap.techchallange.core.entity;
 
 import br.com.fiap.techchallange.core.entity.enums.StatusOrder;
 import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryPayment;
 import br.com.fiap.techchallange.core.entity.vo.Item;
 
 
@@ -13,28 +12,28 @@ public class Order implements Serializable {
 
     String id;
     Integer numberOrder;
-    Map<String,Item> items;
+    List<Item> items;
     String status;
     float amount;
     Payment payment;
     Map<String, Integer> sequenceStatus;
 
-    public Order(){
-        this.id = UUID.randomUUID().toString();
+    public Order(String id){
+        this.id = id;
         this.numberOrder = 0;
-        this.items = new HashMap<String, Item>();
-        this.payment = FactoryPayment.createPayment(this.id);
+        this.items = new ArrayList<Item>();
+        this.payment = new Payment(this.id);
         this.status = StatusOrder.OPEN.getValue();
         this.amount  = 0;
         this.sequenceStatus = new HashMap<>();
         loadSequenceStatus();
     }
 
-    public Order(String id,
-                 HashMap<String, Item> items){
+    public Order(String id, List<Item> items){
         this.id = id;
         this.setItems(items);
-        this.payment = FactoryPayment.createPayment(this.id);;
+        this.numberOrder = 0;
+        this.payment = new Payment(this.id);
         this.status = StatusOrder.OPEN.getValue();
         this.calculateAmount();
         this.sequenceStatus = new HashMap<>();
@@ -43,7 +42,7 @@ public class Order implements Serializable {
 
     public Order(String id,
                  Integer numberOrder,
-                 HashMap<String, Item> items,
+                 List<Item> items,
                  Payment payment,
                  String status){
         this.id = id;
@@ -72,37 +71,10 @@ public class Order implements Serializable {
         sequenceStatus.put(StatusOrder.FINISHED.getValue(), 5);
     }
 
-    public void addProduct(Product product, Integer qtd){
-        if (status.equals(StatusOrder.OPEN.getValue())) {
-            int valueOld = 0;
-
-            if( items.get(product.getSku()) != null){
-                valueOld = items.get(product.getSku()).getQuantity();
-                this.items.remove(product.getSku());
-            }
-
-           Integer qtdAmount = valueOld + qtd;
-            this.items.put(product.getSku(), new Item(product, qtdAmount));
-            this.calculateAmount();
-
-        }else{
-            throw new ChangeNotAllowedOrderException("Não é permitido adicionar produtos com o pagamento realizado.");
-        }
-    }
-
-    public void removeProduct(String sku) {
-        if (status.equals(StatusOrder.OPEN.getValue())) {
-            items.remove(sku);
-            this.calculateAmount();
-        }else{
-            throw new ChangeNotAllowedOrderException("Não é permitido remover produtos com o pagamento realizado.");
-        }
-    }
-
     private void calculateAmount(){
         this.amount = 0;
-        for (Map.Entry<String, Item> item :items.entrySet()) {
-            this.amount += item.getValue().getAmount();
+        for (Item item :items) {
+            this.amount += item.getAmount();
         }
     }
 
@@ -156,19 +128,6 @@ public class Order implements Serializable {
         return this.amount;
     }
 
-    public Map<String, Float> getValueProducts(){
-        Map<String, Float> valueProducts = new HashMap<>();
-
-        for (Map.Entry<String, Item> item :items.entrySet()) {
-            valueProducts.put(item.getValue().getSKU(), item.getValue().getAmount());
-        }
-        return valueProducts;
-    }
-
-    public Integer getQtdProduct(String sku){
-        return items.get(sku).getQuantity();
-    }
-
     public String getCodeReadingPayment() {
         return payment.getReadingCode();
     }
@@ -181,7 +140,7 @@ public class Order implements Serializable {
         return status;
     }
 
-    private void setItems(Map<String,Item> items){
+    private void setItems(List<Item> items){
         this.items = items;
         this.calculateAmount();
     }
@@ -194,25 +153,14 @@ public class Order implements Serializable {
         return copyPayment(this.payment);
     }
 
-    public Map<String,Item> getItems(){
-        Map<String,Item> copyItems = new HashMap<>();
+    public List<Item> getItems(){
+        List<Item> copyItems = new ArrayList<>();
 
-        for (Map.Entry<String, Item> item : items.entrySet()) {
-            copyItems.put(item.getKey(), copyItem(item.getValue()));
+        for (Item item : items) {
+            copyItems.add(new Item(id, item.getSku(), item.getQuantity(), item.getUnitValue()));
         }
 
         return copyItems;
-    }
-
-    public Item getItem(String sku){
-
-        for (Map.Entry<String, Item> item : items.entrySet()) {
-            if(item.getValue().getSKU().equals(sku)){
-                return copyItem(item.getValue());
-            }
-        }
-
-        return null;
     }
 
     private Payment copyPayment(Payment original) {

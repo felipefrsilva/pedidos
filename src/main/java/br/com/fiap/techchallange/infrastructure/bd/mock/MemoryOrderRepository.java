@@ -2,6 +2,7 @@ package br.com.fiap.techchallange.infrastructure.bd.mock;
 
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
 import br.com.fiap.techchallange.core.entity.Order;
+import br.com.fiap.techchallange.core.entity.vo.Item;
 
 
 import java.util.HashMap;
@@ -49,18 +50,13 @@ public class MemoryOrderRepository implements IOrderRepository {
     }
 
     @Override
-    public void addProduct(Order order, String sku, Integer qtd) {
-        orders.put(order.getId(), order);
-    }
+    public void addItem(List<Item> items) {
 
-    @Override
-    public void removeProduct(Order order, String sku) {
-        orders.put(order.getId(), order);
     }
 
     @Override
     public Order getByOrderNumber(int number) {
-        return new Order();
+        return new Order("1245658554785");
     }
 
     @Override

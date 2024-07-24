@@ -6,34 +6,35 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
 
-    Product product;
+    String order_id;
+    String sku;
     Integer quantity;
+    float unitValue;
     float amount;
 
-    public Item(Product product, Integer quantity) {
-        this.setProduct(product);
+    public Item(String order_id, String sku, Integer quantity, float unitValue) {
+
+        this.order_id = order_id;
+        this.sku = sku;
+        this.unitValue = unitValue;
         this.setQuantity(quantity);
         this.setAmount();
     }
 
-    public String getSKU(){
-        return product.getSku();
+    public String getOrder_id() {
+        return order_id;
     }
 
-    public String getProduct() {
-        return product.getName();
-    }
-
-    private void setProduct(Product product) {
-        if(product == null) {
-            throw new IllegalArgumentException("Product not be null");
-        }
-
-        this.product = product;
+    public String getSku() {
+        return sku;
     }
 
     public Integer getQuantity() {
         return quantity;
+    }
+
+    public float getUnitValue(){
+        return this.unitValue;
     }
 
     private void setQuantity(Integer quantity) {
@@ -45,12 +46,16 @@ public class Item implements Serializable {
             this.quantity = quantity;
     }
 
+    private void setSKU(String sku){
+        this.sku = sku;
+    }
+
     public float getAmount() {
         return amount;
     }
 
     private void setAmount() {
-        this.amount = product.getMonetaryValue() * this.quantity ;
+        this.amount = this.unitValue * this.quantity ;
     }
 
 }

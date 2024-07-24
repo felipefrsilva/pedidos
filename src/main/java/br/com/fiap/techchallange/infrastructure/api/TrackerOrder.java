@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/tracker/orders")
-@Tag(name = "5. Tracker Order", description = "Endpoints para o rastreamento dos pedidos.")
+@Tag(name = "6. Tracker Order", description = "Endpoints para o rastreamento dos pedidos.")
 public class TrackerOrder {
 
     private final IOrderListingPresenter orderListingPresenter;

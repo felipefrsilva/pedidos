@@ -1,16 +1,12 @@
 package br.com.fiap.techchallange.infrastructure.api;
 
-import br.com.fiap.techchallange.infrastructure.dto.CodeProcessingDTO;
-import br.com.fiap.techchallange.infrastructure.dto.OrderIdDTO;
-import br.com.fiap.techchallange.infrastructure.http.IPaymentOrder;
-import br.com.fiap.techchallange.core.usecase.ServiceOrderApplication;
+import br.com.fiap.techchallange.adapters.presenters.viewmodel.ErrorViewModel;
+import br.com.fiap.techchallange.infrastructure.dto.CodeProcessingRequestDTO;
+import br.com.fiap.techchallange.infrastructure.dto.OrderIdRequestDTO;
 import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
-import br.com.fiap.techchallange.infrastructure.ErrorReturn;
-import br.com.fiap.techchallange.infrastructure.factory.FactoryOrderApplication;
 import com.google.zxing.WriterException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,21 +17,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/payments")
-@Tag(name = "4. Payment Order", description = "Endpoints para pagamento do pedido.")
-public class PaymentOrder implements IPaymentOrder {
+@Tag(name = "3. Payment Order", description = "Endpoints para pagamento do pedido.")
+public class PaymentOrder {
 
-    ServiceOrderApplication serviceOrder;
-    FactoryOrderApplication factory;
-
-    @Autowired
-    public void setFactory(FactoryOrderApplication factory) {
-        this.factory = factory;
-        this.serviceOrder = factory.createOrderApplication();
-    }
 
     @PostMapping("/initialize")
     @Operation(summary = "Inicializa o processo de pagamento obtendo o código de leitura para pagamento")
-    public ResponseEntity<Map<String, String>> finalizeServiceResponse(@RequestBody OrderIdDTO order) {
+    public ResponseEntity<Map<String, String>> finalizeServiceResponse(@RequestBody OrderIdRequestDTO order) {
         try {
             initializePayment(order.getOrderId());
         }catch (WriterException | IOException e){
@@ -51,7 +39,7 @@ public class PaymentOrder implements IPaymentOrder {
 
     @PostMapping("/processing")
     @Operation(summary = "Registar o pagamento processado pelo Gateway de pagamento")
-    public ResponseEntity<Map<String, String>> processingPaymentResponse(@RequestBody CodeProcessingDTO codeProcessing){
+    public ResponseEntity<Map<String, String>> processingPaymentResponse(@RequestBody CodeProcessingRequestDTO codeProcessing){
         processingPayment(codeProcessing);
         Map<String, String> response = new HashMap<>();
         response.put("status", "Pagamento registrado com sucesso!");
@@ -59,18 +47,17 @@ public class PaymentOrder implements IPaymentOrder {
     }
 
     @ExceptionHandler(ChangeNotAllowedOrderException.class)
-    public ResponseEntity<ErrorReturn> handleChangeNotAllowedOrderException(ChangeNotAllowedOrderException ex) {
-        ErrorReturn error = new ErrorReturn(3256, ex.getMessage());
+    public ResponseEntity<ErrorViewModel> handleChangeNotAllowedOrderException(ChangeNotAllowedOrderException ex) {
+        ErrorViewModel error = new ErrorViewModel(3256, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @Override
     public void initializePayment(String idOrder) throws IOException, WriterException {
-        serviceOrder.initializePayment(idOrder);
+
     }
 
-    @Override
-    public void processingPayment(CodeProcessingDTO codeProcessing) {
-        serviceOrder.processPayment(codeProcessing);
+
+    public void processingPayment(CodeProcessingRequestDTO codeProcessing) {
+
     }
 }

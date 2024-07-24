@@ -15,9 +15,9 @@ public class OrderListingPresenter implements IOrderListingPresenter {
         List<OrderViewModel> ordersView = new ArrayList<>();
 
         for(OutputDataOrderDTO outputDataOrderDTO: ordersDTO){
-            ordersView.add(new OrderViewModel(outputDataOrderDTO.getId(),
-                                              outputDataOrderDTO.getNumber_order(),
-                                              outputDataOrderDTO.getStatus()));
+            ordersView.add(new OrderViewModel(outputDataOrderDTO.id(),
+                                              outputDataOrderDTO.number_order(),
+                                              outputDataOrderDTO.status()));
         }
 
         return ordersView;

@@ -9,8 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +41,7 @@ public class MySQLOrderRepository implements IOrderRepository {
         params.addValue("status", order.getStatus());
         namedParameterJdbcTemplate.update(sql, params);
 
+        addItem(order.getItems());
         createPayment(order.getId(), order.getPayment());
     }
 
@@ -81,18 +84,16 @@ public class MySQLOrderRepository implements IOrderRepository {
 
     @Transactional
     @Override
-    public void addProduct(Order order, String sku, Integer qtd){
+    public void addItem(List<Item> items){
 
-        String sql = "INSERT INTO dbtechchallange.item (order_id, sku, quantity) values (:order_id, :sku, :quantity)";
+        String sql = "INSERT INTO dbtechchallange.item (order_id, sku, quantity, unit_value) values (:order_id, :sku, :quantity, :unitValue)";
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("order_id", order.getId());
-        params.addValue("sku", sku);
-        params.addValue("quantity", qtd);
+        SqlParameterSource[] batch = new SqlParameterSource[items.size()];
+        for (int i = 0; i < items.size(); i++) {
+            batch[i] = new BeanPropertySqlParameterSource(items.get(i));
+        }
 
-        namedParameterJdbcTemplate.update(sql, params);
-
-        this.update(order);
+        namedParameterJdbcTemplate.batchUpdate(sql, batch);
     }
 
     @Transactional
@@ -135,19 +136,6 @@ public class MySQLOrderRepository implements IOrderRepository {
         this.update(order);
     }
 
-    @Transactional
-    @Override
-    public void removeProduct(Order order, String sku) {
-        String sql = "DELETE FROM dbtechchallange.item WHERE order_id = :order_id and sku = :sku";
-
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("order_id", order.getId());
-        params.addValue("sku", sku);
-
-        namedParameterJdbcTemplate.update(sql, params);
-
-        this.update(order);
-    }
 
     @Override
     public Order getByOrderNumber(int order_number) {
@@ -168,9 +156,15 @@ public class MySQLOrderRepository implements IOrderRepository {
 
     @Override
     public List<Order> getOrders() {
-        String sql = "SELECT * FROM dbtechchallange.order \n" +
-                "WHERE status IN ('Recebido', 'Em Preparacao', 'Pronto')\n" +
-                "ORDER BY number_order asc;";
+        String sql = "SELECT * FROM dbtechchallange.order\n" +
+                     "WHERE status IN ('Recebido', 'Em Preparacao', 'Pronto')\n" +
+                     "ORDER BY \n" +
+                     "  CASE \n" +
+                     "    WHEN status = 'Pronto' THEN 1\n" +
+                     "    WHEN status = 'Em Preparacao' THEN 2\n" +
+                     "    WHEN status = 'Recebido' THEN 3    \n" +
+                     "  END,\n" +
+                     "  number_order ASC; ";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
@@ -184,7 +178,7 @@ public class MySQLOrderRepository implements IOrderRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ordemId", ordemId);
 
-        Map<String, Item> items = this.getItems(ordemId);
+        List<Item> items = this.getItems(ordemId);
         Payment payment = this.getPayment(ordemId);
 
         return namedParameterJdbcTemplate.queryForObject(sql, params, new RowMapper<Order>() {
@@ -193,7 +187,7 @@ public class MySQLOrderRepository implements IOrderRepository {
 
                 return new Order(rs.getString("id"),
                         rs.getInt("number_order"),
-                        (HashMap<String, Item>) items,
+                        (List<Item>) items,
                         payment,
                         rs.getString("status"));
             }
@@ -224,16 +218,15 @@ public class MySQLOrderRepository implements IOrderRepository {
         return Objects.requireNonNullElseGet(payment, () -> new Payment(ordemId));
     }
 
-    private Map<String, Item> getItems(String ordemId){
+    private List<Item> getItems(String ordemId){
         String sql = "SELECT * FROM dbtechchallange.item WHERE order_id = :ordemId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ordemId", ordemId);
-        Map<String, Item> items = new HashMap<String, Item>();
+        List<Item> items = new ArrayList<>();
 
         namedParameterJdbcTemplate.query(sql, params, new RowCallbackHandler() {
             public void processRow(@NotNull ResultSet rs) throws SQLException {
-                Item item = new Item(getProduct(rs.getString("sku")), rs.getInt("quantity"));
-                items.put(rs.getString("sku"), item);
+                items.add(new Item(ordemId, rs.getString("sku"), rs.getInt("quantity"), rs.getFloat("unit_value")));
             }
         });
         return items;

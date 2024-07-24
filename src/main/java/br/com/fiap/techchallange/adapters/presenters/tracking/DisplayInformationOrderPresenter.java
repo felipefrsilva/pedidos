@@ -15,8 +15,8 @@ public class DisplayInformationOrderPresenter implements IDisplayInformationOrde
 
     @Override
     public void display(OutputDataOrderDTO orderDTO) {
-        this.displayMonitor.display(new OrderViewModel(orderDTO.getId(),
-                                                       orderDTO.getNumber_order(),
-                                                       orderDTO.getStatus()));
+        this.displayMonitor.display(new OrderViewModel(orderDTO.id(),
+                                                       orderDTO.number_order(),
+                                                       orderDTO.status()));
     }
 }
