@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS dbtechchallange.item (
     `order_id` VARCHAR(255) NOT NULL,
     `sku` VARCHAR(255) NOT NULL,
     `quantity` INT NOT NULL,
+    `unit_value` DECIMAL(10, 0) NOT NULL,
     FOREIGN KEY (`order_id`) REFERENCES `order`(`id`)
 );
 

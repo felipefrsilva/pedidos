@@ -22,3 +22,14 @@ public enum StatusOrder {
         throw new IllegalArgumentException("Valor inválido: " + value);
     }
 }
+
+
+/*
+*
+*
+                OPEN("Aberto"),
+                RECEIVED("Recebido"),
+                INPREPARATION("Em Preparacao"),
+                FOODDONE("Pronto"),
+                FINISHED("Finalizado");
+* */

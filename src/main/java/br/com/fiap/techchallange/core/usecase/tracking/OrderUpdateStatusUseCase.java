@@ -24,7 +24,9 @@ public class OrderUpdateStatusUseCase implements IEventListenerOrder {
     @Override
     public void onEvent(EventOrder eventOrder) {
         StatusOrder status = getStatus(eventOrder.process());
-        Order order = this.orderRepository.getByOrderNumber(eventOrder.number_order());
+        // TODO: Ajustar para buscar pelo id do pedido
+        Order orderA = this.orderRepository.getByOrderNumber(eventOrder.number_order());
+        Order order = this.orderRepository.get(orderA.getId());
         order.updateStatus(status);
         this.orderRepository.update(order);
         displayInformationOrderPresenter.display(new OutputDataOrderDTO(order.getId(),

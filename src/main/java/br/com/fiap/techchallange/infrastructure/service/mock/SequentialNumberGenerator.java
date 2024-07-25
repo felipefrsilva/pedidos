@@ -1,4 +1,4 @@
-package br.com.fiap.techchallange.infrastructure.service;
+package br.com.fiap.techchallange.infrastructure.service.mock;
 
 public class SequentialNumberGenerator {
     private static SequentialNumberGenerator instance;

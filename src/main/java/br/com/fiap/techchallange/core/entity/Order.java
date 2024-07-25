@@ -88,12 +88,7 @@ public class Order implements Serializable {
     }
 
     public void processingPayment(String code, StatusPayment statusPayment){
-        if (status.equals(StatusOrder.OPEN.getValue())) {
-            payment.addProcessingCode(code, statusPayment);
-            this.status = StatusOrder.RECEIVED.getValue();
-        }else{
-            throw new ChangeNotAllowedOrderException("Não é permitido adicionar o código de processamento com o pagamento realizado.");
-        }
+        payment.addProcessingCode(code, statusPayment);
     }
 
     public void updateStatus(StatusOrder statusOrder) {
@@ -116,7 +111,7 @@ public class Order implements Serializable {
     }
 
     public void setNumberOrder(Integer numberOrder){
-        if (status.equals(StatusOrder.RECEIVED.getValue()) && this.numberOrder == 0) {
+        if (status.equals(StatusOrder.OPEN.getValue()) && this.numberOrder == 0) {
             this.numberOrder = numberOrder;
         }
     }

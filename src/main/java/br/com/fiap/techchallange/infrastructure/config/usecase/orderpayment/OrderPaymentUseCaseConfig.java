@@ -1,6 +1,8 @@
 package br.com.fiap.techchallange.infrastructure.config.usecase.orderpayment;
 
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
+import br.com.fiap.techchallange.adapters.gateways.service.IGenerateNumberOrder;
+import br.com.fiap.techchallange.core.usecase.inputboundary.tracking.IEventTrigger;
 import br.com.fiap.techchallange.core.usecase.orderpayment.*;
 import br.com.fiap.techchallange.infrastructure.service.mock.PaymentQRCodeGatewayMock;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +17,8 @@ public class OrderPaymentUseCaseConfig {
     }
 
     @Bean
-    PaymentProcessingUseCase getPaymentProcessingUseCase(IOrderRepository repositoryOrder) {
-        return new PaymentProcessingUseCase(repositoryOrder);
+    PaymentProcessingUseCase getPaymentProcessingUseCase(IOrderRepository repositoryOrder, IEventTrigger trigger, IGenerateNumberOrder generateNumberOrder) {
+        return new PaymentProcessingUseCase(repositoryOrder, trigger, generateNumberOrder);
     }
 
     @Bean

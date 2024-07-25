@@ -3,7 +3,7 @@ package br.com.fiap.techchallange.core.usecase.dto.order;
 public record EventOrder(int number_order, String process) {
 
     public enum TypeEventOrder {
-        PAYMENT("Payment"), PREPARATIONFOOD("preparationFood"), FOODDONE("foodDone"), DELIVERYFOOD("deliveryFood");
+        PAYMENT("payment"), PREPARATIONFOOD("preparationFood"), FOODDONE("foodDone"), DELIVERYFOOD("deliveryFood");
 
         private final String value;
 

@@ -1,7 +1,10 @@
 package br.com.fiap.techchallange.infrastructure.config.gateways.services;
 
 import br.com.fiap.techchallange.adapters.gateways.service.IDisplayMonitor;
+import br.com.fiap.techchallange.adapters.gateways.service.IGenerateNumberOrder;
+import br.com.fiap.techchallange.infrastructure.service.DisplayMonitorConsole;
 import br.com.fiap.techchallange.infrastructure.service.DisplayMonitorWeb;
+import br.com.fiap.techchallange.infrastructure.service.mock.GenerateNumberOrderMock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +13,11 @@ public class ServiceConfig {
 
     @Bean
     public IDisplayMonitor getDisplayMonitor(){
-        return new DisplayMonitorWeb();
+        return new DisplayMonitorConsole();
+    }
+
+    @Bean
+    public IGenerateNumberOrder getGenerateNumberOrder(){
+        return new GenerateNumberOrderMock();
     }
 }
