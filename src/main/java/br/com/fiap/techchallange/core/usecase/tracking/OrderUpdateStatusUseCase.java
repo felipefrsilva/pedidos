@@ -24,9 +24,14 @@ public class OrderUpdateStatusUseCase implements IEventListenerOrder {
     @Override
     public void onEvent(EventOrder eventOrder) {
         StatusOrder status = getStatus(eventOrder.process());
-        // TODO: Ajustar para buscar pelo id do pedido
-        Order orderA = this.orderRepository.getByOrderNumber(eventOrder.number_order());
-        Order order = this.orderRepository.get(orderA.getId());
+        Order order;
+        if (eventOrder.idOrder() != null) {
+            // Quando o idOrder é diferente de null, significa que o evento foi disparado pelo serviço de pagamento
+           order = this.orderRepository.get(eventOrder.idOrder());
+        } else {
+            // Quando o idOrder é igual a null, significa que o evento foi disparado pelos serviços posteriores ao pagamento
+           order = this.orderRepository.getByOrderNumber(eventOrder.number_order());
+        }
         order.updateStatus(status);
         this.orderRepository.update(order);
         displayInformationOrderPresenter.display(new OutputDataOrderDTO(order.getId(),

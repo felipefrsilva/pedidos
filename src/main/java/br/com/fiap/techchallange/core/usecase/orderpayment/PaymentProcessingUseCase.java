@@ -29,6 +29,10 @@ public class PaymentProcessingUseCase implements IPaymentProcessingUseCase {
         repositoryOrder.update(order);
         repositoryOrder.updatePayment(order);
         // order.getNumberOrder() é atualizado antes do evento ser disparado
-        this.trigger.event(new EventOrder(order.getNumberOrder(), EventOrder.TypeEventOrder.PAYMENT.getValue()));
+        this.trigger.event(new EventOrder(
+                order.getNumberOrder(),
+                EventOrder.TypeEventOrder.PAYMENT.getValue(),
+                order.getId()
+            ));
     }
 }

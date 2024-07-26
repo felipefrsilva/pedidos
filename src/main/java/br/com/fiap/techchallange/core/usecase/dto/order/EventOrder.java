@@ -1,6 +1,10 @@
 package br.com.fiap.techchallange.core.usecase.dto.order;
 
-public record EventOrder(int number_order, String process) {
+public record EventOrder(int number_order, String process, String idOrder) {
+
+    public EventOrder(int number_order, String process) {
+        this(number_order, process, null);
+    }
 
     public enum TypeEventOrder {
         PAYMENT("payment"), PREPARATIONFOOD("preparationFood"), FOODDONE("foodDone"), DELIVERYFOOD("deliveryFood");

@@ -93,7 +93,9 @@ public class Order implements Serializable {
 
     public void updateStatus(StatusOrder statusOrder) {
 
-        if(statusOrder.equals(StatusOrder.OPEN) || statusOrder.equals(StatusOrder.RECEIVED)){
+        if(statusOrder.equals(StatusOrder.OPEN)
+                || (statusOrder.equals(StatusOrder.RECEIVED)
+                && !payment.getStatus().equals(StatusPayment.PAID.getValue()))) {
             throw new ChangeNotAllowedOrderException("Alteração de status não permitido");
         }
 

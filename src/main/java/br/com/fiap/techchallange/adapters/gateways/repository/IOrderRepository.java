@@ -14,4 +14,5 @@ public interface IOrderRepository {
     void addItem(List<Item> items);
     Order getByOrderNumber(int number);
     List<Order> getOrders();
+    int getLastNumber();
 }

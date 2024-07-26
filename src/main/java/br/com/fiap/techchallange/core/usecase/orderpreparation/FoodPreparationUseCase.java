@@ -14,6 +14,9 @@ public class FoodPreparationUseCase implements IFoodPreparationUseCase {
 
     @Override
     public void invoke(int numberOrder) {
-        this.trigger.event(new EventOrder(numberOrder, EventOrder.TypeEventOrder.PREPARATIONFOOD.getValue()));
+        this.trigger.event(new EventOrder(
+                numberOrder
+                , EventOrder.TypeEventOrder.PREPARATIONFOOD.getValue()
+        ));
     }
 }

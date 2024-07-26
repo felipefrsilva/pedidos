@@ -143,6 +143,7 @@ public class MySQLOrderRepository implements IOrderRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("order_number", order_number);
 
+
         return namedParameterJdbcTemplate.queryForObject(sql, params, new RowMapper<Order>() {
             @Override
             public Order mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
@@ -171,6 +172,16 @@ public class MySQLOrderRepository implements IOrderRepository {
         return namedParameterJdbcTemplate.query(sql, params, new OrderRowMapper());
     }
 
+    @Override
+    public int getLastNumber() {
+        String sql = "SELECT MAX(number_order) FROM dbtechchallange.order";
+        try {
+            return namedParameterJdbcTemplate.queryForObject(sql, new MapSqlParameterSource(), Integer.class);
+        } catch (NullPointerException e) {
+            return 0;
+        }
+    }
+
     @Transactional
     @Override
     public Order get(String ordemId) {
@@ -195,9 +206,9 @@ public class MySQLOrderRepository implements IOrderRepository {
     }
 
     private Payment getPayment(String ordemId){
-        String sql = "SELECT * FROM dbtechchallange.payment WHERE order_id = :ordemId";
+        String sql = "SELECT * FROM dbtechchallange.payment WHERE order_id = :order_id";
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("ordemId", ordemId);
+        params.addValue("order_id", ordemId);
 
         Payment payment = namedParameterJdbcTemplate.queryForObject(sql, params, new RowMapper<Payment>() {
             @Override
