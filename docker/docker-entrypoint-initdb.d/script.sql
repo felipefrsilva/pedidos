@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS dbtechchallange.item (
     `order_id` VARCHAR(255) NOT NULL,
     `sku` VARCHAR(255) NOT NULL,
     `quantity` INT NOT NULL,
+    `unit_value` DECIMAL(10, 0) NOT NULL,
     FOREIGN KEY (`order_id`) REFERENCES `order`(`id`)
 );
 
@@ -35,7 +36,7 @@ CREATE TABLE IF NOT EXISTS dbtechchallange.product (
     PRIMARY KEY (`sku`)
 );
 
-CREATE TABLE IF NOT EXISTS dbtechchallange.client (
+CREATE TABLE IF NOT EXISTS dbtechchallange.customer (
     `cpf` VARCHAR(20) NOT NULL,
     `name` VARCHAR(100) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
