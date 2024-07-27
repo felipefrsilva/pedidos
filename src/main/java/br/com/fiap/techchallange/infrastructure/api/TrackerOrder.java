@@ -1,7 +1,9 @@
 package br.com.fiap.techchallange.infrastructure.api;
 
 import br.com.fiap.techchallange.adapters.controllers.tracking.IOrderListingController;
+import br.com.fiap.techchallange.adapters.presenters.viewmodel.ErrorViewModel;
 import br.com.fiap.techchallange.adapters.presenters.viewmodel.OrderViewModel;
+import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
 import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.tracking.IOrderListingPresenter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/tracker/orders")
-@Tag(name = "6. Tracker Order", description = "Endpoints para o rastreamento dos pedidos.")
+@Tag(name = "7. Tracker Order", description = "Endpoints para o rastreamento dos pedidos.")
 public class TrackerOrder {
 
     private final IOrderListingPresenter orderListingPresenter;
@@ -30,6 +32,12 @@ public class TrackerOrder {
     public ResponseEntity<List<OrderViewModel>> getOrders(){
         List<OrderViewModel> response = orderListingPresenter.invoke(orderListingController.invoke());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(ChangeNotAllowedOrderException.class)
+    public ResponseEntity<ErrorViewModel> handleChangeNotAllowedOrderException(ChangeNotAllowedOrderException ex) {
+        ErrorViewModel error = new ErrorViewModel(4, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
 }

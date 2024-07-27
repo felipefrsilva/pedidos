@@ -1,12 +1,15 @@
 package br.com.fiap.techchallange.infrastructure.bd;
 
 import br.com.fiap.techchallange.adapters.gateways.repository.IOrderRepository;
+import br.com.fiap.techchallange.adapters.presenters.viewmodel.ErrorViewModel;
 import br.com.fiap.techchallange.core.entity.Order;
 import br.com.fiap.techchallange.core.entity.Payment;
 import br.com.fiap.techchallange.core.entity.Product;
 import br.com.fiap.techchallange.core.entity.vo.Item;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
 
 @Repository

@@ -6,6 +6,7 @@ import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IRegist
 import br.com.fiap.techchallange.adapters.controllers.managementcustomer.IRemovalOfCustomerController;
 import br.com.fiap.techchallange.adapters.presenters.viewmodel.CustomerViewModel;
 import br.com.fiap.techchallange.adapters.presenters.viewmodel.ErrorViewModel;
+import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
 import br.com.fiap.techchallange.infrastructure.dto.ClientRequestDTO;
 
 import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.managementcustomer.ICustomerPresenter;
@@ -86,6 +87,12 @@ public class ManagementCustomer  {
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(new ErrorViewModel(6,"Houve um problema na remoção das informações do cliente."), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @ExceptionHandler(ChangeNotAllowedOrderException.class)
+    public ResponseEntity<ErrorViewModel> handleChangeNotAllowedOrderException(ChangeNotAllowedOrderException ex) {
+        ErrorViewModel error = new ErrorViewModel(4, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
 }

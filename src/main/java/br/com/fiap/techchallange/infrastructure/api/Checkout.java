@@ -4,6 +4,7 @@ import br.com.fiap.techchallange.adapters.controllers.checkout.IFinishOrderSelec
 import br.com.fiap.techchallange.adapters.controllers.checkout.IProductsDisplayController;
 import br.com.fiap.techchallange.adapters.presenters.viewmodel.ErrorViewModel;
 import br.com.fiap.techchallange.adapters.presenters.viewmodel.OrderViewModel;
+import br.com.fiap.techchallange.core.entity.exceptions.ChangeNotAllowedOrderException;
 import br.com.fiap.techchallange.core.usecase.dto.order.InputDataItemDTO;
 import br.com.fiap.techchallange.core.usecase.dto.order.InputDataOrderDTO;
 import br.com.fiap.techchallange.core.usecase.outputboundary.presenters.checkout.IFinishOrderSelectionPresenter;
@@ -12,11 +13,13 @@ import br.com.fiap.techchallange.infrastructure.dto.ItemRequestDTO;
 import br.com.fiap.techchallange.infrastructure.dto.OrderRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,17 +56,25 @@ public class Checkout {
 
     @Operation(summary = "Envia o pedido para cadastro base de dados.")
     @PostMapping("/orders")
-    public ResponseEntity<?> registerOrder(@RequestBody OrderRequestDTO orderRequest) throws EmptyResultDataAccessException {
+    public ResponseEntity<?> registerOrder(@RequestBody OrderRequestDTO orderRequest) throws EmptyResultDataAccessException, DuplicateKeyException {
         try {
             List<InputDataItemDTO> itemsInput = new ArrayList<>();
-            for(ItemRequestDTO item: orderRequest.items()){
+            for(ItemRequestDTO item: orderRequest.getItems()){
                 itemsInput.add(new InputDataItemDTO(item.sku(), item.amount(), item.quantity()));
             }
 
-            OrderViewModel response = this.finishOrderSelectionPresenter.invoke(this.finishOfOrderSelectionController.invoke(new InputDataOrderDTO(orderRequest.id(), itemsInput)));
+            OrderViewModel response = this.finishOrderSelectionPresenter.invoke(this.finishOfOrderSelectionController.invoke(new InputDataOrderDTO(orderRequest.getId(), itemsInput)));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(new ErrorViewModel(2,"Ocorreu um problema ao registrar a order de serviço"), HttpStatus.BAD_REQUEST);
+        } catch (DuplicateKeyException e) {
+            return new ResponseEntity<>(new ErrorViewModel(3,"Este order id já existe no banco"), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @ExceptionHandler(ChangeNotAllowedOrderException.class)
+    public ResponseEntity<ErrorViewModel> handleChangeNotAllowedOrderException(ChangeNotAllowedOrderException ex) {
+        ErrorViewModel error = new ErrorViewModel(4, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }

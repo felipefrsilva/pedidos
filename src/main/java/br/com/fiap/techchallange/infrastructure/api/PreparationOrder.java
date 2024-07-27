@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/orderpreparation")
-@Tag(name = "4. Order Preparation", description = "Endpoints para preparação do pedido.")
+@Tag(name = "5. Order Preparation", description = "Endpoints para preparação do pedido.")
 public class PreparationOrder {
 
     private final IFoodPreparationController prepareFood;

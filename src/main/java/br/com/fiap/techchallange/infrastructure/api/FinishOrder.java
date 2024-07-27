@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/finishorder")
-@Tag(name = "5. Finish Order", description = "Endpoints para encerrar o atendimento do pedido")
+@Tag(name = "6. Finish Order", description = "Endpoints para encerrar o atendimento do pedido")
 public class FinishOrder{
 
     private final IDeliveryOfProductsController deliveryOfProductsController;
