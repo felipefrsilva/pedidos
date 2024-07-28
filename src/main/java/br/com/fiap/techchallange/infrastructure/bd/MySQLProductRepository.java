@@ -93,7 +93,7 @@ public class MySQLProductRepository implements IProductRepository {
     @Override
     public void createProduct(Product product) {
         String sql = "" +
-                " INSERT IGNORE INTO dbtechchallange.product (sku, name, description, price, category)" +
+                " INSERT INTO dbtechchallange.product (sku, name, description, price, category)" +
                 " VALUES (:sku, :name, :description, :price, :category)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("sku", product.getSku());

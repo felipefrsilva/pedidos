@@ -45,6 +45,7 @@ public class Checkout {
 
     @Operation(summary = "Busca os produtos para a exibição ao cliente.")
     @GetMapping("/products")
+    // Este endpoint é duplicado com o /v1/checkout/products, no entanto são contextos diferentes (apresentação do checkout vs gestão de produtos)
     public ResponseEntity<?> getProducts() throws EmptyResultDataAccessException {
         try {
             List<IProductPresenter.ProductResponseModel> response = productPresenter.present(this.productsDisplayController.getProducts());
