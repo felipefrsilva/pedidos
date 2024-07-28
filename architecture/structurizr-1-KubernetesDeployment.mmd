@@ -1,0 +1,105 @@
+graph TB
+  linkStyle default fill:#ffffff
+
+  subgraph diagram ["Gerenciamento \nde \nPedidos - Deployment - Produção"]
+    style diagram fill:#ffffff,stroke:#ffffff
+
+    subgraph 52 [Totem Atendimento Cliente]
+      style 52 fill:#ffffff,stroke:#888888,color:#000000
+
+      subgraph 53 [Sistema Operacional]
+        style 53 fill:#ffffff,stroke:#888888,color:#000000
+
+        54["<div style='font-weight: bold'>Aplicação Web \nCliente</div><div style='font-size: 70%; margin-top: 0px'>[Container: Html, CSS e Javascript]</div><div style='font-size: 80%; margin-top:10px'>Aplicação onde os clientes<br />realizam os pedidos</div>"]
+        style 54 fill:#438dd5,stroke:#2e6295,color:#ffffff
+      end
+
+    end
+
+    subgraph 55 [Monitor de Atendimento]
+      style 55 fill:#ffffff,stroke:#888888,color:#000000
+
+      subgraph 56 [Sistema Operacional]
+        style 56 fill:#ffffff,stroke:#888888,color:#000000
+
+        57["<div style='font-weight: bold'>Aplicação Web Atendentes</div><div style='font-size: 70%; margin-top: 0px'>[Container: Html, CSS e javascript]</div><div style='font-size: 80%; margin-top:10px'>Aplicação onde visualizam e<br />gerenciam os pedidos</div>"]
+        style 57 fill:#438dd5,stroke:#2e6295,color:#ffffff
+      end
+
+    end
+
+    subgraph 58 [Monitor de Visualização]
+      style 58 fill:#ffffff,stroke:#888888,color:#000000
+
+      subgraph 59 [Sistema Operacional]
+        style 59 fill:#ffffff,stroke:#888888,color:#000000
+
+        60["<div style='font-weight: bold'>Monitor \nde \nVisualização</div><div style='font-size: 70%; margin-top: 0px'>[Container: Spring Framework]</div><div style='font-size: 80%; margin-top:10px'>Monitor de acompanhamento dos<br />pedidos</div>"]
+        style 60 fill:#438dd5,stroke:#2e6295,color:#ffffff
+      end
+
+    end
+
+    subgraph 61 [System External]
+      style 61 fill:#ffffff,stroke:#888888,color:#000000
+
+      62("<div style='font-weight: bold'>Mercado Pago</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div>")
+      style 62 fill:#ffffff,stroke:#b2b2b2,color:#000000
+    end
+
+    subgraph 63 [DockerHub Imagens]
+      style 63 fill:#ffffff,stroke:#888888,color:#000000
+
+      64("<div style='font-weight: bold'>Registry images</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div>")
+      style 64 fill:#ffffff,stroke:#b2b2b2,color:#000000
+    end
+
+    subgraph 65 [Kubernetes]
+      style 65 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+
+      66("<div style='font-weight: bold'>Ingress</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div><div style='font-size: 80%; margin-top:10px'>Interface de entrada do<br />Kubernetes</div>")
+      style 66 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+      67("<div style='font-weight: bold'>Egress</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div><div style='font-size: 80%; margin-top:10px'>Interface de saída do<br />Kubernetes</div>")
+      style 67 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+      subgraph 68 [Namespace: default]
+        style 68 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+
+        69("<div style='font-weight: bold'>ConfigMap</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div>")
+        style 69 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+        70("<div style='font-weight: bold'>Secrets</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div>")
+        style 70 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+        71("<div style='font-weight: bold'>Persistence Volume</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div>")
+        style 71 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+        72("<div style='font-weight: bold'>Persistence Volume Claim</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div>")
+        style 72 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+        73("<div style='font-weight: bold'>Service Aplicação \nPedidos</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div><div style='font-size: 80%; margin-top:10px'>Service DNS Aplication</div>")
+        style 73 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+        74("<div style='font-weight: bold'>Service Banco de Dados \nPedidos</div><div style='font-size: 70%; margin-top: 0px'>[Infrastructure Node]</div><div style='font-size: 80%; margin-top:10px'>Service DNS Banco de Dados</div>")
+        style 74 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+        subgraph 75 [Pod2: Gerenciador de Pedidos]
+          style 75 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+
+          76["<div style='font-weight: bold'>Gerenciado \nde \nPedidos</div><div style='font-size: 70%; margin-top: 0px'>[Container: Spring Framework]</div><div style='font-size: 80%; margin-top:10px'>Aplicação de gestão dos<br />Pedidos</div>"]
+          style 76 fill:#438dd5,stroke:#2e6295,color:#ffffff
+        end
+
+        subgraph 80 [Pod1: Gerenciador de Pedidos]
+          style 80 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+
+          81["<div style='font-weight: bold'>Gerenciado \nde \nPedidos</div><div style='font-size: 70%; margin-top: 0px'>[Container: Spring Framework]</div><div style='font-size: 80%; margin-top:10px'>Aplicação de gestão dos<br />Pedidos</div>"]
+          style 81 fill:#438dd5,stroke:#2e6295,color:#ffffff
+        end
+
+        subgraph 85 [Pod: Banco de Dados MySQL]
+          style 85 fill:#ffffff,stroke:#3d6fdd,color:#3d6fdd
+
+          86[("<div style='font-weight: bold'>Banco de Dados de Pedidos</div><div style='font-size: 70%; margin-top: 0px'>[Container: MySQL]</div><div style='font-size: 80%; margin-top:10px'>Banco de dados dos Pedidos<br />Gerados</div>")]
+          style 86 fill:#438dd5,stroke:#2e6295,color:#ffffff
+        end
+
+      end
+
+    end
+
+    66-. "<div>Forwards requests to</div><div style='font-size: 70%'>[HTTPS]</div>" .->73
+  end

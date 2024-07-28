@@ -1,0 +1,68 @@
+graph TB
+  linkStyle default fill:#ffffff
+
+  subgraph diagram ["Gerenciamento \nde \nPedidos - Gerenciado \nde \nPedidos - Components"]
+    style diagram fill:#ffffff,stroke:#ffffff
+
+    14["<div style='font-weight: bold'>Aplicação Web \nCliente</div><div style='font-size: 70%; margin-top: 0px'>[Container: Html, CSS e Javascript]</div><div style='font-size: 80%; margin-top:10px'>Aplicação onde os clientes<br />realizam os pedidos</div>"]
+    style 14 fill:#438dd5,stroke:#2e6295,color:#ffffff
+    15["<div style='font-weight: bold'>Aplicação Web Atendentes</div><div style='font-size: 70%; margin-top: 0px'>[Container: Html, CSS e javascript]</div><div style='font-size: 80%; margin-top:10px'>Aplicação onde visualizam e<br />gerenciam os pedidos</div>"]
+    style 15 fill:#438dd5,stroke:#2e6295,color:#ffffff
+    16["<div style='font-weight: bold'>Aplicação Web Administrador</div><div style='font-size: 70%; margin-top: 0px'>[Container: Html, CSS e javascript]</div><div style='font-size: 80%; margin-top:10px'>Aplicação onde os<br />administradores realizam<br />manutenção</div>"]
+    style 16 fill:#438dd5,stroke:#2e6295,color:#ffffff
+    17[("<div style='font-weight: bold'>Banco de Dados de Pedidos</div><div style='font-size: 70%; margin-top: 0px'>[Container: MySQL]</div><div style='font-size: 80%; margin-top:10px'>Banco de dados dos Pedidos<br />Gerados</div>")]
+    style 17 fill:#438dd5,stroke:#2e6295,color:#ffffff
+    18["<div style='font-weight: bold'>Monitor \nde \nVisualização</div><div style='font-size: 70%; margin-top: 0px'>[Container: Spring Framework]</div><div style='font-size: 80%; margin-top:10px'>Monitor de acompanhamento dos<br />pedidos</div>"]
+    style 18 fill:#438dd5,stroke:#2e6295,color:#ffffff
+    19("<div style='font-weight: bold'>Mercado Pago</div><div style='font-size: 70%; margin-top: 0px'>[Software System]</div><div style='font-size: 80%; margin-top:10px'>Sistema responsável pelo<br />processamento do pagamento</div>")
+    style 19 fill:#999999,stroke:#6b6b6b,color:#ffffff
+
+    subgraph 6 [Gerenciado \nde \nPedidos]
+      style 6 fill:#ffffff,stroke:#2e6295,color:#2e6295
+
+      subgraph group1 [Adapters]
+        style group1 fill:#ffffff,stroke:#cccccc,color:#cccccc,stroke-dasharray:5
+
+        7["<div style='font-weight: bold'>Controller</div><div style='font-size: 70%; margin-top: 0px'>[Component]</div><div style='font-size: 80%; margin-top:10px'>Componente responsável pela<br />validação e formatação dos<br />dados de entradas</div>"]
+        style 7 fill:#85bbf0,stroke:#5d82a8,color:#000000
+        8["<div style='font-weight: bold'>Presenter</div><div style='font-size: 70%; margin-top: 0px'>[Component]</div><div style='font-size: 80%; margin-top:10px'>Componente responsável pela<br />formatação dos dados de saída</div>"]
+        style 8 fill:#85bbf0,stroke:#5d82a8,color:#000000
+        9["<div style='font-weight: bold'>Gateway</div><div style='font-size: 70%; margin-top: 0px'>[Component]</div><div style='font-size: 80%; margin-top:10px'>Componente responsável pela<br />comunicação com componentes<br />externos</div>"]
+        style 9 fill:#85bbf0,stroke:#5d82a8,color:#000000
+      end
+
+      subgraph group2 [core]
+        style group2 fill:#ffffff,stroke:#cccccc,color:#cccccc,stroke-dasharray:5
+
+        10["<div style='font-weight: bold'>Use Case</div><div style='font-size: 70%; margin-top: 0px'>[Component]</div><div style='font-size: 80%; margin-top:10px'>Componente responsável pela<br />Lógica de Negócio</div>"]
+        style 10 fill:#85bbf0,stroke:#5d82a8,color:#000000
+        11["<div style='font-weight: bold'>Entity</div><div style='font-size: 70%; margin-top: 0px'>[Component]</div><div style='font-size: 80%; margin-top:10px'>Componente responsável pela<br />Regra de Negócio</div>"]
+        style 11 fill:#85bbf0,stroke:#5d82a8,color:#000000
+      end
+
+      subgraph group3 [infrastructure]
+        style group3 fill:#ffffff,stroke:#cccccc,color:#cccccc,stroke-dasharray:5
+
+        12["<div style='font-weight: bold'>Frameworks</div><div style='font-size: 70%; margin-top: 0px'>[Component]</div><div style='font-size: 80%; margin-top:10px'>Componente responsável por<br />interagir com o ambiente<br />externo</div>"]
+        style 12 fill:#85bbf0,stroke:#5d82a8,color:#000000
+        13["<div style='font-weight: bold'>Drivers</div><div style='font-size: 70%; margin-top: 0px'>[Component]</div><div style='font-size: 80%; margin-top:10px'>Componente responsável pelas<br />configurações das tecnologias<br />utilizadas</div>"]
+        style 13 fill:#85bbf0,stroke:#5d82a8,color:#000000
+      end
+
+    end
+
+    14-. "<div>Envio das ordens dos clientes<br />e solicita QR CODE</div><div style='font-size: 70%'>[http/json]</div>" .->12
+    15-. "<div>Envia notificações de<br />atendimento</div><div style='font-size: 70%'>[http/json]</div>" .->12
+    19-. "<div>Envia código de processamento</div><div style='font-size: 70%'>[http/json]</div>" .->12
+    16-. "<div>Envia os comandos para gestão<br />e administração do sistema</div><div style='font-size: 70%'></div>" .->12
+    12-. "<div>uses</div><div style='font-size: 70%'></div>" .->7
+    7-. "<div>uses</div><div style='font-size: 70%'></div>" .->10
+    8-. "<div>uses</div><div style='font-size: 70%'></div>" .->12
+    10-. "<div>uses</div><div style='font-size: 70%'></div>" .->11
+    10-. "<div>uses</div><div style='font-size: 70%'></div>" .->8
+    10-. "<div>uses</div><div style='font-size: 70%'></div>" .->9
+    9-. "<div>uses</div><div style='font-size: 70%'></div>" .->13
+    13-. "<div>CRUD</div><div style='font-size: 70%'>[TCP/IP]</div>" .->17
+    12-. "<div>Solicita código de leitura</div><div style='font-size: 70%'></div>" .->19
+    12-. "<div>Envia Atualização de Status<br />do pedido</div><div style='font-size: 70%'></div>" .->18
+  end
