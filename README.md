@@ -73,12 +73,13 @@ localhost:8080/swagger-ui.html
 - Tracker Order - Api para acompanhamento os pedidos registrados.
 
 <h3>Ordem de execução dos endpoints referentes a jornada do pedido:</h3>
-1. /v1/checout/orders: Criação da ordem de pedido.
-2. /v1/payments/{orderId}/initialize: Inicialização do processo de pagamento.
-3. /v1/payments/processing: Api para sinalização de conclusão do pagamento pelo gateway.
-4. /v1/orderpreparation/preparefood/{number_order}: Mudança de status do pedido para "Em preparação".
-5. /v1/orderpreparation/finishfoodpreparation/{number_order}: Mudança de status do pedido para "Pronto".
-6. /v1/finishorder/{number_order}: Encerramento do pedido.
+
+  1. **/v1/checout/orders:** Criação da ordem de pedido.  
+  2. **/v1/payments/{orderId}/initialize:** Inicialização do processo de pagamento.  
+  3. **/v1/payments/processing:** Api para sinalização de conclusão do pagamento pelo gateway.  
+  4. **/v1/orderpreparation/preparefood/{number_order}:** Mudança de status do pedido para "Em preparação".  
+  5. **/v1/orderpreparation/finishfoodpreparation/{number_order}:** Mudança de status do pedido para "Pronto".  
+  6. **/v1/finishorder/{number_order}:** Encerramento do pedido.  
 
 <h3>Requisitos</h3>
 Acesse os requisitos do negócio (situação problema) através deste <a href="https://miro.com/app/board/uXjVMK9tIRA=/?share_link_id=369503759541">link</a>(MIRO).
