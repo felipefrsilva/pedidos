@@ -1,6 +1,6 @@
 package br.com.fiap.techchallange.adapters.controllers.managementproduct;
 
-import br.com.fiap.techchallange.core.usecase.managementproduct.IRemoveProductUseCase;
+import br.com.fiap.techchallange.core.usecase.inputboundary.managementproduct.IRemoveProductUseCase;
 
 public class RemoveProductController implements IRemoveProductController {
     IRemoveProductUseCase removeProductUseCase;

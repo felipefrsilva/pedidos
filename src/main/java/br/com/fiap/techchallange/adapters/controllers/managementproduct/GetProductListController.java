@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.adapters.controllers.managementproduct;
 
 import br.com.fiap.techchallange.core.usecase.dto.product.OutputDataProductDTO;
-import br.com.fiap.techchallange.core.usecase.managementproduct.IGetProductListUseCase;
+import br.com.fiap.techchallange.core.usecase.inputboundary.managementproduct.IGetProductListUseCase;
 
 import java.util.List;
 

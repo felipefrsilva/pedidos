@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.infrastructure.config.controller.managementproduct;
 
 import br.com.fiap.techchallange.adapters.controllers.managementproduct.*;
-import br.com.fiap.techchallange.core.usecase.managementproduct.*;
+import br.com.fiap.techchallange.core.usecase.inputboundary.managementproduct.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -1,7 +1,7 @@
 package br.com.fiap.techchallange.adapters.controllers.managementproduct;
 
 import br.com.fiap.techchallange.core.usecase.dto.product.InputDataProductDTO;
-import br.com.fiap.techchallange.core.usecase.managementproduct.IUpdateProductUseCase;
+import br.com.fiap.techchallange.core.usecase.inputboundary.managementproduct.IUpdateProductUseCase;
 
 public class UpdateProductController implements IUpdateProductController {
     IUpdateProductUseCase updateProductUseCase;
