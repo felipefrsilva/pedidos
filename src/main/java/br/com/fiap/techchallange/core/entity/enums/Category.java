@@ -19,6 +19,7 @@ public enum Category {
                 return status;
             }
         }
-        throw new IllegalArgumentException("Valor inválido para campo de Category: " + value + "Esperado: " + Meal + " " + Sides + " " + Drink + " " + Dessert);
+        throw new IllegalArgumentException("Valor inválido para campo de Category: " + value + "Esperado: " +
+                Meal.getValue() + " " + Sides.getValue() + " " + Drink.getValue() + " " + Dessert.getValue());
     }
 }
