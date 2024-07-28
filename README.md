@@ -57,10 +57,10 @@ localhost:8080/swagger-ui.html
 ```
 <h3>Diagramas de arquitetura</h3>
 
-- [Contexto de Negócio](felipefrsilva/pedidos/architecture/structurizr-1-SystemContext-001.mmd): Diagrama do contexto de negócio onde o sistema irá existir.
-- [Camadas do Sistema](felipefrsilva/pedidos/architecture/structurizr-1-Component-001.mmd): Visão de alto nível da arquitetura do código.
-- [Integração dos Componentes](felipefrsilva/pedidos/architecture/structurizr-1-Container-001.mmd): Idealizando as integraçãoes dcom sistemas de front.
-- [Deployment do Kubernetes](felipefrsilva/pedidos/architecture/structurizr-1-KubernetesDeployment.mmd): Componentes do Deployment de Kubernetes.
+- [Contexto de Negócio](https://github.com/felipefrsilva/pedidos/blob/mermaid-docs/architecture/structurizr-1-SystemContext-001.mmd): Diagrama do contexto de negócio onde o sistema irá existir.
+- [Camadas do Sistema](https://github.com/felipefrsilva/pedidos/blob/mermaid-docs/architecture/structurizr-1-Component-001.mmd): Visão de alto nível da arquitetura do código.
+- [Integração dos Componentes](https://github.com/felipefrsilva/pedidos/blob/mermaid-docs/architecture/structurizr-1-Container-001.mmd): Idealizando as integraçãoes dcom sistemas de front.
+- [Deployment do Kubernetes](https://github.com/felipefrsilva/pedidos/blob/mermaid-docs/architecture/structurizr-1-KubernetesDeployment.mmd): Componentes do Deployment de Kubernetes.
 
 <h3>Descrição dos contextos das APis:</h3>
 
