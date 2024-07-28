@@ -1,0 +1,47 @@
+graph TB
+  linkStyle default fill:#ffffff
+
+  subgraph diagram ["Gerenciamento \nde \nPedidos - Containers"]
+    style diagram fill:#ffffff,stroke:#ffffff
+
+    1["<div style='font-weight: bold'>Cliente</div><div style='font-size: 70%; margin-top: 0px'>[Person]</div><div style='font-size: 80%; margin-top:10px'>Cliente monta seu pedido</div>"]
+    style 1 fill:#999999,stroke:#6b6b6b,color:#ffffff
+    2["<div style='font-weight: bold'>Administrador</div><div style='font-size: 70%; margin-top: 0px'>[Person]</div><div style='font-size: 80%; margin-top:10px'>Administrador do sistema</div>"]
+    style 2 fill:#08427b,stroke:#052e56,color:#ffffff
+    3["<div style='font-weight: bold'>Atendente Balcão</div><div style='font-size: 70%; margin-top: 0px'>[Person]</div><div style='font-size: 80%; margin-top:10px'>Atendente que interagem com o<br />cliente</div>"]
+    style 3 fill:#08427b,stroke:#052e56,color:#ffffff
+    4["<div style='font-weight: bold'>Atendente Cozinha</div><div style='font-size: 70%; margin-top: 0px'>[Person]</div><div style='font-size: 80%; margin-top:10px'>Atendente responsável pela<br />preparação do pedido</div>"]
+    style 4 fill:#08427b,stroke:#052e56,color:#ffffff
+    19("<div style='font-weight: bold'>Mercado Pago</div><div style='font-size: 70%; margin-top: 0px'>[Software System]</div><div style='font-size: 80%; margin-top:10px'>Sistema responsável pelo<br />processamento do pagamento</div>")
+    style 19 fill:#999999,stroke:#6b6b6b,color:#ffffff
+
+    subgraph 5 [Gerenciamento \nde \nPedidos]
+      style 5 fill:#ffffff,stroke:#0b4884,color:#0b4884
+
+      14["<div style='font-weight: bold'>Aplicação Web \nCliente</div><div style='font-size: 70%; margin-top: 0px'>[Container: Html, CSS e Javascript]</div><div style='font-size: 80%; margin-top:10px'>Aplicação onde os clientes<br />realizam os pedidos</div>"]
+      style 14 fill:#438dd5,stroke:#2e6295,color:#ffffff
+      15["<div style='font-weight: bold'>Aplicação Web Atendentes</div><div style='font-size: 70%; margin-top: 0px'>[Container: Html, CSS e javascript]</div><div style='font-size: 80%; margin-top:10px'>Aplicação onde visualizam e<br />gerenciam os pedidos</div>"]
+      style 15 fill:#438dd5,stroke:#2e6295,color:#ffffff
+      16["<div style='font-weight: bold'>Aplicação Web Administrador</div><div style='font-size: 70%; margin-top: 0px'>[Container: Html, CSS e javascript]</div><div style='font-size: 80%; margin-top:10px'>Aplicação onde os<br />administradores realizam<br />manutenção</div>"]
+      style 16 fill:#438dd5,stroke:#2e6295,color:#ffffff
+      17[("<div style='font-weight: bold'>Banco de Dados de Pedidos</div><div style='font-size: 70%; margin-top: 0px'>[Container: MySQL]</div><div style='font-size: 80%; margin-top:10px'>Banco de dados dos Pedidos<br />Gerados</div>")]
+      style 17 fill:#438dd5,stroke:#2e6295,color:#ffffff
+      18["<div style='font-weight: bold'>Monitor \nde \nVisualização</div><div style='font-size: 70%; margin-top: 0px'>[Container: Spring Framework]</div><div style='font-size: 80%; margin-top:10px'>Monitor de acompanhamento dos<br />pedidos</div>"]
+      style 18 fill:#438dd5,stroke:#2e6295,color:#ffffff
+      6["<div style='font-weight: bold'>Gerenciado \nde \nPedidos</div><div style='font-size: 70%; margin-top: 0px'>[Container: Spring Framework]</div><div style='font-size: 80%; margin-top:10px'>Aplicação de gestão dos<br />Pedidos</div>"]
+      style 6 fill:#438dd5,stroke:#2e6295,color:#ffffff
+    end
+
+    1-. "<div>Realizar Pagamento do Pedido</div><div style='font-size: 70%'></div>" .->19
+    1-. "<div>Escolha dos pedidos e leitura<br />do QR Code</div><div style='font-size: 70%'></div>" .->14
+    4-. "<div>Notificação de inicio e<br />término da preparação do<br />produto</div><div style='font-size: 70%'></div>" .->15
+    3-. "<div>Notificação de entrega do<br />produto ao cliente</div><div style='font-size: 70%'></div>" .->15
+    14-. "<div>Envio dos pedidos realizados<br />pelo o cliente</div><div style='font-size: 70%'>[http/json]</div>" .->6
+    15-. "<div>Envia notificações de<br />atendimento</div><div style='font-size: 70%'></div>" .->6
+    6-. "<div>Envia Atualização de Status<br />do pedido</div><div style='font-size: 70%'>[http/json]</div>" .->18
+    6-. "<div>Armazenamento e atualização<br />dos pedidos</div><div style='font-size: 70%'>[http/json]</div>" .->17
+    6-. "<div>Solicitação do QR Code</div><div style='font-size: 70%'>[http/json]</div>" .->19
+    19-. "<div>Envio código de processamento<br />do pagamento</div><div style='font-size: 70%'>[http/json]</div>" .->6
+    2-. "<div>Gestão e administração do<br />sistema</div><div style='font-size: 70%'></div>" .->16
+    16-. "<div>Comandos para administração</div><div style='font-size: 70%'></div>" .->6
+  end
