@@ -24,11 +24,6 @@
 Configurações locais e APIs prontas para uso.
 
 <h3>Pré requisitos para o projeto:</h3>
-TODO: Atualizar pré requisitos para kubernetes
-- [Java](https://github.com/)
-- [Spring](https://github.com/)
-- [Docker](https://github.com/)
-- [Git](https://github.com)
 
 <h3>Instalação</h3>
 
@@ -38,8 +33,36 @@ Como clonar o nosso projeto:
 git clone git@github.com:felipefrsilva/pedidos.git
 ```
 
+Instalar:
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download)
+
+- Dentro do diretório do Kubernetes rodar os seguintes comandos:
+  ```bash
+  kubectl apply -f secrets.yaml
+  ```
+  ```bash
+  kubectl apply -f mysql-pv.yaml
+  ```
+  ```bash
+  kubectl apply -f mysql-pvc.yaml
+  ```
+  ```bash
+  kubectl apply -f mysql-configmap.yaml
+  ```
+  ```bash
+  kubectl apply -f mysql-service.yaml
+  ```
+   ```bash
+  kubectl apply -f mysql-pod.yaml
+  ```
+   ```bash
+  kubectl apply -f java-app-deployment.yaml
+  ```
+    ```bash
+  kubectl apply -f java-service.yaml
+  ```
+
 Para rodar o projeto, verfique as versões do Docker e Docker Compose >= :
-TODO: Atualizar instruções de execução
 - Docker version 26.1.3
 - Docker Compose version v2.27.0
 
