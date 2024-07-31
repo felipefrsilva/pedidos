@@ -62,15 +62,6 @@ Instalar:
   kubectl apply -f java-service.yaml
   ```
 
-Para rodar o projeto, verfique as versões do Docker e Docker Compose >= :
-- Docker version 26.1.3
-- Docker Compose version v2.27.0
-
-```bash
-cd docker
-docker compose up -d
-```
-
 Após finalizar o processo de configuração e a subida do container, acesse o endereço abaixo para visualizar a documentação da API.
 <h3>Swagger</h3>
 A documentação da API disponível em:
@@ -80,10 +71,15 @@ localhost:8080/swagger-ui.html
 ```
 <h3>Diagramas de arquitetura</h3>
 
-- [Contexto de Negócio](https://github.com/felipefrsilva/pedidos/blob/mermaid-docs/architecture/structurizr-1-SystemContext-001.mmd): Diagrama do contexto de negócio onde o sistema irá existir.
-- [Camadas do Sistema](https://github.com/felipefrsilva/pedidos/blob/mermaid-docs/architecture/structurizr-1-Component-001.mmd): Visão de alto nível da arquitetura do código.
-- [Integração dos Componentes](https://github.com/felipefrsilva/pedidos/blob/mermaid-docs/architecture/structurizr-1-Container-001.mmd): Idealizando as integraçãoes dcom sistemas de front.
-- [Deployment do Kubernetes](https://github.com/felipefrsilva/pedidos/blob/mermaid-docs/architecture/structurizr-1-KubernetesDeployment.mmd): Componentes do Deployment de Kubernetes.
+
+<h4>Contexto de Negócio</h4>
+<img src="https://raw.githubusercontent.com/felipefrsilva/pedidos/main/architecture/img/structurizr-1-SystemContext-001.png" max-width="800px"/><br>
+<h4>Arquitetura de Solução</h4>
+<img src="https://raw.githubusercontent.com/felipefrsilva/pedidos/main/architecture/img/structurizr-1-Container-001.png" max-width="800px"/><br>
+<h4>Arquitetura de Software</h4>
+<img src="https://raw.githubusercontent.com/felipefrsilva/pedidos/main/architecture/img/structurizr-1-Component-001.png" max-width="800px"/><br>
+<h4>Infraestrutura</h4>
+<img src="https://raw.githubusercontent.com/felipefrsilva/pedidos/main/architecture/img/structurizr-1-KubernetesDeployment.png" max-width="800px"/><br>
 
 <h3>Descrição dos contextos das APis:</h3>
 
@@ -95,7 +91,7 @@ localhost:8080/swagger-ui.html
 - FinishOrder - Api de encerramento do pedido.
 - Tracker Order - Api para acompanhamento os pedidos registrados.
 
-<h3>Ordem de execução dos endpoints referentes a jornada do pedido:</h3>
+<h4>Ordem de execução dos endpoints referentes a criação de pedido:</h4>
 
   1. **/v1/checout/orders:** Criação da ordem de pedido.  
   2. **/v1/payments/{orderId}/initialize:** Inicialização do processo de pagamento.  
