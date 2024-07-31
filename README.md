@@ -69,6 +69,11 @@ A documentação da API disponível em:
 ```bash
 localhost:8080/swagger-ui.html
 ```
+
+<h3>Vídeo apresentando a arquitetura</h3>
+
+[Link para vídeo no google drive]("https://drive.google.com/file/d/1q8gjqeH7Du3mRi7gwdYMhWSiB1r8YOwx/view?usp=drive_link")
+
 <h3>Diagramas de arquitetura</h3>
 
 
