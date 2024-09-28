@@ -19,10 +19,7 @@ spec:
             - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: jdbc-datasource-url
+              value: jdbc:mysql://techchallenge-rds.cxpyffj2ittu.us-east-1.rds.amazonaws.com:3306/dbtechchallange
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -35,7 +32,7 @@ spec:
                   key: mysql-password
             - name: SPRING_PROFILES_ACTIVE
               value: prd
-          command: ["dockerize", "-wait", "tcp://mysql-service:3306", "-timeout", "90s", "java", "-jar", "/workspace/app.jar"]
+          command: ["dockerize", "-wait", "tcp://techchallenge-rds.cxpyffj2ittu.us-east-1.rds.amazonaws.com:3306", "-timeout", "90s", "java", "-jar", "/workspace/app.jar"]
           resources:
             requests:
               memory: "256Mi"
